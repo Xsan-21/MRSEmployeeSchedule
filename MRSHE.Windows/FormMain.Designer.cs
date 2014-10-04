@@ -30,8 +30,11 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.MenuStripInFormMain = new System.Windows.Forms.MenuStrip();
-            this.archivoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.verToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemView = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemFeedBack = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
             this.LabelMessageInFormMain = new System.Windows.Forms.Label();
             this.TableLayoutPanelInFormMain = new System.Windows.Forms.TableLayoutPanel();
             this.ButtonShowScheduleForm = new System.Windows.Forms.Button();
@@ -83,6 +86,51 @@
             this.label13 = new System.Windows.Forms.Label();
             this.petitionDatePicker = new System.Windows.Forms.DateTimePicker();
             this.horarioDisponibleTxt = new System.Windows.Forms.TextBox();
+            this.TabPageEmployeeSchedule = new System.Windows.Forms.TabPage();
+            this.ButtonSaveInTabPageSchedule = new System.Windows.Forms.Button();
+            this.linkLabel7 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel6 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.LabelTotalHoursInSeventhDayInTabPageSchedule = new System.Windows.Forms.Label();
+            this.textBox11 = new System.Windows.Forms.TextBox();
+            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.LabelSeventhDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
+            this.LabelTotalHoursInSixthDayInTabPageSchedule = new System.Windows.Forms.Label();
+            this.textBox9 = new System.Windows.Forms.TextBox();
+            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.LabelSixthDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
+            this.LabelTotalHoursInFifthDayInTabPageSchedule = new System.Windows.Forms.Label();
+            this.textBox7 = new System.Windows.Forms.TextBox();
+            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.LabelFifthDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
+            this.LabelTotalHoursInFourthDayInTabPageSchedule = new System.Windows.Forms.Label();
+            this.textBox5 = new System.Windows.Forms.TextBox();
+            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.LabelFourthDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
+            this.LabelTotalHoursInThirdDayInTabPageSchedule = new System.Windows.Forms.Label();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.LabelThirdDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
+            this.LabelTotalHoursInSecondDayInTabPageSchedule = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.LabelSecondDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
+            this.LabelTotalHoursInFirstDayInTabPageSchedule = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.TextBoxSecondTurnDay1InTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.TextBoxFirstTurnDay1InTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.LabelFirstDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.ComboBoxSelectEmployeeInTabPageSchedule = new System.Windows.Forms.ComboBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.ToolStripMenuItemPrintSchedule = new System.Windows.Forms.ToolStripMenuItem();
+            this.peticionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripInFormMain.SuspendLayout();
             this.TableLayoutPanelInFormMain.SuspendLayout();
             this.PanelWithWeekAndPositionComboBoxes.SuspendLayout();
@@ -91,30 +139,63 @@
             this.TabPageEmployeeInformation.SuspendLayout();
             this.TabPageEmployeeAvailability.SuspendLayout();
             this.TabPageEmployeePetition.SuspendLayout();
+            this.TabPageEmployeeSchedule.SuspendLayout();
             this.SuspendLayout();
             // 
             // MenuStripInFormMain
             // 
             this.MenuStripInFormMain.BackColor = System.Drawing.Color.White;
             this.MenuStripInFormMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.archivoToolStripMenuItem,
-            this.verToolStripMenuItem});
+            this.ToolStripMenuItemFile,
+            this.ToolStripMenuItemView,
+            this.ToolStripMenuItemHelp});
             this.MenuStripInFormMain.Location = new System.Drawing.Point(0, 0);
             this.MenuStripInFormMain.Name = "MenuStripInFormMain";
-            this.MenuStripInFormMain.Size = new System.Drawing.Size(1631, 40);
+            this.MenuStripInFormMain.Size = new System.Drawing.Size(1631, 42);
             this.MenuStripInFormMain.TabIndex = 0;
             // 
-            // archivoToolStripMenuItem
+            // ToolStripMenuItemFile
             // 
-            this.archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            this.archivoToolStripMenuItem.Size = new System.Drawing.Size(107, 36);
-            this.archivoToolStripMenuItem.Text = "&Archivo";
+            this.ToolStripMenuItemFile.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemPrintSchedule,
+            this.ToolStripMenuItemExit});
+            this.ToolStripMenuItemFile.Name = "ToolStripMenuItemFile";
+            this.ToolStripMenuItemFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.ToolStripMenuItemFile.Size = new System.Drawing.Size(107, 38);
+            this.ToolStripMenuItemFile.Text = "&Archivo";
             // 
-            // verToolStripMenuItem
+            // ToolStripMenuItemView
             // 
-            this.verToolStripMenuItem.Name = "verToolStripMenuItem";
-            this.verToolStripMenuItem.Size = new System.Drawing.Size(63, 36);
-            this.verToolStripMenuItem.Text = "&Ver";
+            this.ToolStripMenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.peticionesToolStripMenuItem});
+            this.ToolStripMenuItemView.Name = "ToolStripMenuItemView";
+            this.ToolStripMenuItemView.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.ToolStripMenuItemView.Size = new System.Drawing.Size(63, 38);
+            this.ToolStripMenuItemView.Text = "&Ver";
+            // 
+            // ToolStripMenuItemHelp
+            // 
+            this.ToolStripMenuItemHelp.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.ToolStripMenuItemFeedBack,
+            this.ToolStripMenuItemAbout});
+            this.ToolStripMenuItemHelp.Name = "ToolStripMenuItemHelp";
+            this.ToolStripMenuItemHelp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(94, 38);
+            this.ToolStripMenuItemHelp.Text = "A&yuda";
+            // 
+            // ToolStripMenuItemFeedBack
+            // 
+            this.ToolStripMenuItemFeedBack.Name = "ToolStripMenuItemFeedBack";
+            this.ToolStripMenuItemFeedBack.Size = new System.Drawing.Size(310, 36);
+            this.ToolStripMenuItemFeedBack.Text = "FeedBack";
+            this.ToolStripMenuItemFeedBack.Click += new System.EventHandler(this.ToolStripMenuItemFeedBack_Click);
+            // 
+            // ToolStripMenuItemAbout
+            // 
+            this.ToolStripMenuItemAbout.Name = "ToolStripMenuItemAbout";
+            this.ToolStripMenuItemAbout.Size = new System.Drawing.Size(310, 36);
+            this.ToolStripMenuItemAbout.Text = "Acerca del programa";
+            this.ToolStripMenuItemAbout.Click += new System.EventHandler(this.ToolStripMenuItemAcercaDelPrograma_Click);
             // 
             // LabelMessageInFormMain
             // 
@@ -139,7 +220,7 @@
             this.TableLayoutPanelInFormMain.Controls.Add(this.ButtonShowAddEmployeeTabPage, 0, 1);
             this.TableLayoutPanelInFormMain.Controls.Add(this.ButtonShowWeekScheduleTabPage, 0, 0);
             this.TableLayoutPanelInFormMain.Dock = System.Windows.Forms.DockStyle.Left;
-            this.TableLayoutPanelInFormMain.Location = new System.Drawing.Point(0, 40);
+            this.TableLayoutPanelInFormMain.Location = new System.Drawing.Point(0, 42);
             this.TableLayoutPanelInFormMain.Name = "TableLayoutPanelInFormMain";
             this.TableLayoutPanelInFormMain.RowCount = 5;
             this.TableLayoutPanelInFormMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -147,7 +228,7 @@
             this.TableLayoutPanelInFormMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.TableLayoutPanelInFormMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.TableLayoutPanelInFormMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TableLayoutPanelInFormMain.Size = new System.Drawing.Size(386, 760);
+            this.TableLayoutPanelInFormMain.Size = new System.Drawing.Size(386, 758);
             this.TableLayoutPanelInFormMain.TabIndex = 2;
             // 
             // ButtonShowScheduleForm
@@ -155,9 +236,9 @@
             this.ButtonShowScheduleForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ButtonShowScheduleForm.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonShowScheduleForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonShowScheduleForm.Location = new System.Drawing.Point(3, 611);
+            this.ButtonShowScheduleForm.Location = new System.Drawing.Point(3, 607);
             this.ButtonShowScheduleForm.Name = "ButtonShowScheduleForm";
-            this.ButtonShowScheduleForm.Size = new System.Drawing.Size(380, 146);
+            this.ButtonShowScheduleForm.Size = new System.Drawing.Size(380, 148);
             this.ButtonShowScheduleForm.TabIndex = 5;
             this.ButtonShowScheduleForm.Tag = "Crear o Manejar Horarios";
             this.ButtonShowScheduleForm.Text = "Crear o Manejar Horarios";
@@ -169,9 +250,9 @@
             this.ButtonShowCreatePetitionTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ButtonShowCreatePetitionTabPage.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonShowCreatePetitionTabPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonShowCreatePetitionTabPage.Location = new System.Drawing.Point(3, 459);
+            this.ButtonShowCreatePetitionTabPage.Location = new System.Drawing.Point(3, 456);
             this.ButtonShowCreatePetitionTabPage.Name = "ButtonShowCreatePetitionTabPage";
-            this.ButtonShowCreatePetitionTabPage.Size = new System.Drawing.Size(380, 146);
+            this.ButtonShowCreatePetitionTabPage.Size = new System.Drawing.Size(380, 145);
             this.ButtonShowCreatePetitionTabPage.TabIndex = 4;
             this.ButtonShowCreatePetitionTabPage.Tag = "Peticiones";
             this.ButtonShowCreatePetitionTabPage.Text = "Peticiones";
@@ -183,9 +264,9 @@
             this.ButtonShowAvailabilityTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ButtonShowAvailabilityTabPage.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonShowAvailabilityTabPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonShowAvailabilityTabPage.Location = new System.Drawing.Point(3, 307);
+            this.ButtonShowAvailabilityTabPage.Location = new System.Drawing.Point(3, 305);
             this.ButtonShowAvailabilityTabPage.Name = "ButtonShowAvailabilityTabPage";
-            this.ButtonShowAvailabilityTabPage.Size = new System.Drawing.Size(380, 146);
+            this.ButtonShowAvailabilityTabPage.Size = new System.Drawing.Size(380, 145);
             this.ButtonShowAvailabilityTabPage.TabIndex = 3;
             this.ButtonShowAvailabilityTabPage.Tag = "Disponibilidad";
             this.ButtonShowAvailabilityTabPage.Text = "Disponibilidad";
@@ -197,9 +278,9 @@
             this.ButtonShowAddEmployeeTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ButtonShowAddEmployeeTabPage.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonShowAddEmployeeTabPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonShowAddEmployeeTabPage.Location = new System.Drawing.Point(3, 155);
+            this.ButtonShowAddEmployeeTabPage.Location = new System.Drawing.Point(3, 154);
             this.ButtonShowAddEmployeeTabPage.Name = "ButtonShowAddEmployeeTabPage";
-            this.ButtonShowAddEmployeeTabPage.Size = new System.Drawing.Size(380, 146);
+            this.ButtonShowAddEmployeeTabPage.Size = new System.Drawing.Size(380, 145);
             this.ButtonShowAddEmployeeTabPage.TabIndex = 2;
             this.ButtonShowAddEmployeeTabPage.Tag = "Información de Empleados";
             this.ButtonShowAddEmployeeTabPage.Text = "Información de Empleados";
@@ -213,7 +294,7 @@
             this.ButtonShowWeekScheduleTabPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonShowWeekScheduleTabPage.Location = new System.Drawing.Point(3, 3);
             this.ButtonShowWeekScheduleTabPage.Name = "ButtonShowWeekScheduleTabPage";
-            this.ButtonShowWeekScheduleTabPage.Size = new System.Drawing.Size(380, 146);
+            this.ButtonShowWeekScheduleTabPage.Size = new System.Drawing.Size(380, 145);
             this.ButtonShowWeekScheduleTabPage.TabIndex = 1;
             this.ButtonShowWeekScheduleTabPage.Tag = "Ver Semana de Trabajo";
             this.ButtonShowWeekScheduleTabPage.Text = "Ver Semana de Trabajo";
@@ -225,7 +306,7 @@
             this.PanelWithWeekAndPositionComboBoxes.Controls.Add(this.ComboBoxPositionSelectorInFormMain);
             this.PanelWithWeekAndPositionComboBoxes.Controls.Add(this.ComboBoxWeekSelectorInFormMain);
             this.PanelWithWeekAndPositionComboBoxes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelWithWeekAndPositionComboBoxes.Location = new System.Drawing.Point(386, 40);
+            this.PanelWithWeekAndPositionComboBoxes.Location = new System.Drawing.Point(386, 42);
             this.PanelWithWeekAndPositionComboBoxes.Name = "PanelWithWeekAndPositionComboBoxes";
             this.PanelWithWeekAndPositionComboBoxes.Size = new System.Drawing.Size(1245, 101);
             this.PanelWithWeekAndPositionComboBoxes.TabIndex = 3;
@@ -234,7 +315,7 @@
             // 
             this.ComboBoxPositionSelectorInFormMain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.ComboBoxPositionSelectorInFormMain.FormattingEnabled = true;
-            this.ComboBoxPositionSelectorInFormMain.Location = new System.Drawing.Point(705, 26);
+            this.ComboBoxPositionSelectorInFormMain.Location = new System.Drawing.Point(676, 26);
             this.ComboBoxPositionSelectorInFormMain.Name = "ComboBoxPositionSelectorInFormMain";
             this.ComboBoxPositionSelectorInFormMain.Size = new System.Drawing.Size(528, 33);
             this.ComboBoxPositionSelectorInFormMain.TabIndex = 1;
@@ -256,9 +337,9 @@
             this.PanelWithTabControlInFormMain.AutoSize = true;
             this.PanelWithTabControlInFormMain.Controls.Add(this.TapControlInFormMain);
             this.PanelWithTabControlInFormMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelWithTabControlInFormMain.Location = new System.Drawing.Point(386, 141);
+            this.PanelWithTabControlInFormMain.Location = new System.Drawing.Point(386, 143);
             this.PanelWithTabControlInFormMain.Name = "PanelWithTabControlInFormMain";
-            this.PanelWithTabControlInFormMain.Size = new System.Drawing.Size(1245, 659);
+            this.PanelWithTabControlInFormMain.Size = new System.Drawing.Size(1245, 657);
             this.PanelWithTabControlInFormMain.TabIndex = 4;
             // 
             // TapControlInFormMain
@@ -267,11 +348,12 @@
             this.TapControlInFormMain.Controls.Add(this.TabPageEmployeeInformation);
             this.TapControlInFormMain.Controls.Add(this.TabPageEmployeeAvailability);
             this.TapControlInFormMain.Controls.Add(this.TabPageEmployeePetition);
+            this.TapControlInFormMain.Controls.Add(this.TabPageEmployeeSchedule);
             this.TapControlInFormMain.Dock = System.Windows.Forms.DockStyle.Fill;
             this.TapControlInFormMain.Location = new System.Drawing.Point(0, 0);
             this.TapControlInFormMain.Name = "TapControlInFormMain";
             this.TapControlInFormMain.SelectedIndex = 0;
-            this.TapControlInFormMain.Size = new System.Drawing.Size(1245, 659);
+            this.TapControlInFormMain.Size = new System.Drawing.Size(1245, 657);
             this.TapControlInFormMain.TabIndex = 0;
             this.TapControlInFormMain.TabStop = false;
             // 
@@ -301,7 +383,7 @@
             this.TabPageEmployeeInformation.Location = new System.Drawing.Point(4, 34);
             this.TabPageEmployeeInformation.Name = "TabPageEmployeeInformation";
             this.TabPageEmployeeInformation.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageEmployeeInformation.Size = new System.Drawing.Size(1237, 621);
+            this.TabPageEmployeeInformation.Size = new System.Drawing.Size(1237, 619);
             this.TabPageEmployeeInformation.TabIndex = 1;
             this.TabPageEmployeeInformation.UseVisualStyleBackColor = true;
             // 
@@ -312,7 +394,7 @@
             this.ListBoxEmployeesInEmployeeTabPage.ItemHeight = 25;
             this.ListBoxEmployeesInEmployeeTabPage.Location = new System.Drawing.Point(842, 3);
             this.ListBoxEmployeesInEmployeeTabPage.Name = "ListBoxEmployeesInEmployeeTabPage";
-            this.ListBoxEmployeesInEmployeeTabPage.Size = new System.Drawing.Size(392, 615);
+            this.ListBoxEmployeesInEmployeeTabPage.Size = new System.Drawing.Size(392, 613);
             this.ListBoxEmployeesInEmployeeTabPage.TabIndex = 11;
             this.ListBoxEmployeesInEmployeeTabPage.TabStop = false;
             // 
@@ -793,6 +875,488 @@
             this.horarioDisponibleTxt.TabIndex = 4;
             this.horarioDisponibleTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
+            // TabPageEmployeeSchedule
+            // 
+            this.TabPageEmployeeSchedule.Controls.Add(this.ButtonSaveInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel7);
+            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel6);
+            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel5);
+            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel4);
+            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel3);
+            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel2);
+            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel1);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInSeventhDayInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox11);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox12);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelSeventhDayOfWeekInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInSixthDayInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox9);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox10);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelSixthDayOfWeekInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInFifthDayInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox7);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox8);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelFifthDayOfWeekInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInFourthDayInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox5);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox6);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelFourthDayOfWeekInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInThirdDayInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox3);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox4);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelThirdDayOfWeekInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInSecondDayInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox1);
+            this.TabPageEmployeeSchedule.Controls.Add(this.textBox2);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelSecondDayOfWeekInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInFirstDayInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.label4);
+            this.TabPageEmployeeSchedule.Controls.Add(this.label7);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxSecondTurnDay1InTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxFirstTurnDay1InTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelFirstDayOfWeekInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.label2);
+            this.TabPageEmployeeSchedule.Controls.Add(this.ComboBoxSelectEmployeeInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Location = new System.Drawing.Point(4, 34);
+            this.TabPageEmployeeSchedule.Name = "TabPageEmployeeSchedule";
+            this.TabPageEmployeeSchedule.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPageEmployeeSchedule.Size = new System.Drawing.Size(1237, 621);
+            this.TabPageEmployeeSchedule.TabIndex = 4;
+            this.TabPageEmployeeSchedule.Tag = "";
+            this.TabPageEmployeeSchedule.UseVisualStyleBackColor = true;
+            // 
+            // ButtonSaveInTabPageSchedule
+            // 
+            this.ButtonSaveInTabPageSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonSaveInTabPageSchedule.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
+            this.ButtonSaveInTabPageSchedule.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+            this.ButtonSaveInTabPageSchedule.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.ButtonSaveInTabPageSchedule.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.ButtonSaveInTabPageSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSaveInTabPageSchedule.Location = new System.Drawing.Point(971, 530);
+            this.ButtonSaveInTabPageSchedule.Name = "ButtonSaveInTabPageSchedule";
+            this.ButtonSaveInTabPageSchedule.Size = new System.Drawing.Size(250, 75);
+            this.ButtonSaveInTabPageSchedule.TabIndex = 297;
+            this.ButtonSaveInTabPageSchedule.Text = "Guardar";
+            this.ButtonSaveInTabPageSchedule.UseVisualStyleBackColor = true;
+            // 
+            // linkLabel7
+            // 
+            this.linkLabel7.AutoSize = true;
+            this.linkLabel7.LinkColor = System.Drawing.Color.Red;
+            this.linkLabel7.Location = new System.Drawing.Point(30, 477);
+            this.linkLabel7.Name = "linkLabel7";
+            this.linkLabel7.Size = new System.Drawing.Size(243, 25);
+            this.linkLabel7.TabIndex = 304;
+            this.linkLabel7.TabStop = true;
+            this.linkLabel7.Text = "No puede hacer el turno";
+            this.linkLabel7.Visible = false;
+            // 
+            // linkLabel6
+            // 
+            this.linkLabel6.AutoSize = true;
+            this.linkLabel6.LinkColor = System.Drawing.Color.Red;
+            this.linkLabel6.Location = new System.Drawing.Point(30, 425);
+            this.linkLabel6.Name = "linkLabel6";
+            this.linkLabel6.Size = new System.Drawing.Size(243, 25);
+            this.linkLabel6.TabIndex = 303;
+            this.linkLabel6.TabStop = true;
+            this.linkLabel6.Text = "No puede hacer el turno";
+            this.linkLabel6.Visible = false;
+            // 
+            // linkLabel5
+            // 
+            this.linkLabel5.AutoSize = true;
+            this.linkLabel5.LinkColor = System.Drawing.Color.Red;
+            this.linkLabel5.Location = new System.Drawing.Point(30, 375);
+            this.linkLabel5.Name = "linkLabel5";
+            this.linkLabel5.Size = new System.Drawing.Size(243, 25);
+            this.linkLabel5.TabIndex = 302;
+            this.linkLabel5.TabStop = true;
+            this.linkLabel5.Text = "No puede hacer el turno";
+            this.linkLabel5.Visible = false;
+            // 
+            // linkLabel4
+            // 
+            this.linkLabel4.AutoSize = true;
+            this.linkLabel4.LinkColor = System.Drawing.Color.Red;
+            this.linkLabel4.Location = new System.Drawing.Point(30, 324);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(243, 25);
+            this.linkLabel4.TabIndex = 301;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "No puede hacer el turno";
+            this.linkLabel4.Visible = false;
+            // 
+            // linkLabel3
+            // 
+            this.linkLabel3.AutoSize = true;
+            this.linkLabel3.LinkColor = System.Drawing.Color.Red;
+            this.linkLabel3.Location = new System.Drawing.Point(30, 273);
+            this.linkLabel3.Name = "linkLabel3";
+            this.linkLabel3.Size = new System.Drawing.Size(243, 25);
+            this.linkLabel3.TabIndex = 300;
+            this.linkLabel3.TabStop = true;
+            this.linkLabel3.Text = "No puede hacer el turno";
+            this.linkLabel3.Visible = false;
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.LinkColor = System.Drawing.Color.Red;
+            this.linkLabel2.Location = new System.Drawing.Point(30, 223);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(243, 25);
+            this.linkLabel2.TabIndex = 299;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "No puede hacer el turno";
+            this.linkLabel2.Visible = false;
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.LinkColor = System.Drawing.Color.Red;
+            this.linkLabel1.Location = new System.Drawing.Point(30, 173);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(243, 25);
+            this.linkLabel1.TabIndex = 298;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "No puede hacer el turno";
+            this.linkLabel1.Visible = false;
+            // 
+            // LabelTotalHoursInSeventhDayInTabPageSchedule
+            // 
+            this.LabelTotalHoursInSeventhDayInTabPageSchedule.AutoSize = true;
+            this.LabelTotalHoursInSeventhDayInTabPageSchedule.Location = new System.Drawing.Point(920, 477);
+            this.LabelTotalHoursInSeventhDayInTabPageSchedule.Name = "LabelTotalHoursInSeventhDayInTabPageSchedule";
+            this.LabelTotalHoursInSeventhDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInSeventhDayInTabPageSchedule.TabIndex = 297;
+            this.LabelTotalHoursInSeventhDayInTabPageSchedule.Text = "horas";
+            // 
+            // textBox11
+            // 
+            this.textBox11.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox11.ForeColor = System.Drawing.Color.Black;
+            this.textBox11.Location = new System.Drawing.Point(684, 474);
+            this.textBox11.Name = "textBox11";
+            this.textBox11.Size = new System.Drawing.Size(205, 31);
+            this.textBox11.TabIndex = 296;
+            this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox12
+            // 
+            this.textBox12.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox12.ForeColor = System.Drawing.Color.Black;
+            this.textBox12.Location = new System.Drawing.Point(447, 474);
+            this.textBox12.Name = "textBox12";
+            this.textBox12.Size = new System.Drawing.Size(205, 31);
+            this.textBox12.TabIndex = 295;
+            this.textBox12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // LabelSeventhDayOfWeekInTabPageSchedule
+            // 
+            this.LabelSeventhDayOfWeekInTabPageSchedule.AutoSize = true;
+            this.LabelSeventhDayOfWeekInTabPageSchedule.Location = new System.Drawing.Point(294, 477);
+            this.LabelSeventhDayOfWeekInTabPageSchedule.Name = "LabelSeventhDayOfWeekInTabPageSchedule";
+            this.LabelSeventhDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
+            this.LabelSeventhDayOfWeekInTabPageSchedule.TabIndex = 294;
+            this.LabelSeventhDayOfWeekInTabPageSchedule.Text = "day 1";
+            // 
+            // LabelTotalHoursInSixthDayInTabPageSchedule
+            // 
+            this.LabelTotalHoursInSixthDayInTabPageSchedule.AutoSize = true;
+            this.LabelTotalHoursInSixthDayInTabPageSchedule.Location = new System.Drawing.Point(920, 425);
+            this.LabelTotalHoursInSixthDayInTabPageSchedule.Name = "LabelTotalHoursInSixthDayInTabPageSchedule";
+            this.LabelTotalHoursInSixthDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInSixthDayInTabPageSchedule.TabIndex = 293;
+            this.LabelTotalHoursInSixthDayInTabPageSchedule.Text = "horas";
+            // 
+            // textBox9
+            // 
+            this.textBox9.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox9.ForeColor = System.Drawing.Color.Black;
+            this.textBox9.Location = new System.Drawing.Point(684, 422);
+            this.textBox9.Name = "textBox9";
+            this.textBox9.Size = new System.Drawing.Size(205, 31);
+            this.textBox9.TabIndex = 292;
+            this.textBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox10
+            // 
+            this.textBox10.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox10.ForeColor = System.Drawing.Color.Black;
+            this.textBox10.Location = new System.Drawing.Point(447, 422);
+            this.textBox10.Name = "textBox10";
+            this.textBox10.Size = new System.Drawing.Size(205, 31);
+            this.textBox10.TabIndex = 291;
+            this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // LabelSixthDayOfWeekInTabPageSchedule
+            // 
+            this.LabelSixthDayOfWeekInTabPageSchedule.AutoSize = true;
+            this.LabelSixthDayOfWeekInTabPageSchedule.Location = new System.Drawing.Point(294, 425);
+            this.LabelSixthDayOfWeekInTabPageSchedule.Name = "LabelSixthDayOfWeekInTabPageSchedule";
+            this.LabelSixthDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
+            this.LabelSixthDayOfWeekInTabPageSchedule.TabIndex = 290;
+            this.LabelSixthDayOfWeekInTabPageSchedule.Text = "day 1";
+            // 
+            // LabelTotalHoursInFifthDayInTabPageSchedule
+            // 
+            this.LabelTotalHoursInFifthDayInTabPageSchedule.AutoSize = true;
+            this.LabelTotalHoursInFifthDayInTabPageSchedule.Location = new System.Drawing.Point(920, 375);
+            this.LabelTotalHoursInFifthDayInTabPageSchedule.Name = "LabelTotalHoursInFifthDayInTabPageSchedule";
+            this.LabelTotalHoursInFifthDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInFifthDayInTabPageSchedule.TabIndex = 289;
+            this.LabelTotalHoursInFifthDayInTabPageSchedule.Text = "horas";
+            // 
+            // textBox7
+            // 
+            this.textBox7.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox7.ForeColor = System.Drawing.Color.Black;
+            this.textBox7.Location = new System.Drawing.Point(684, 372);
+            this.textBox7.Name = "textBox7";
+            this.textBox7.Size = new System.Drawing.Size(205, 31);
+            this.textBox7.TabIndex = 288;
+            this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox8
+            // 
+            this.textBox8.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox8.ForeColor = System.Drawing.Color.Black;
+            this.textBox8.Location = new System.Drawing.Point(447, 372);
+            this.textBox8.Name = "textBox8";
+            this.textBox8.Size = new System.Drawing.Size(205, 31);
+            this.textBox8.TabIndex = 287;
+            this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // LabelFifthDayOfWeekInTabPageSchedule
+            // 
+            this.LabelFifthDayOfWeekInTabPageSchedule.AutoSize = true;
+            this.LabelFifthDayOfWeekInTabPageSchedule.Location = new System.Drawing.Point(294, 375);
+            this.LabelFifthDayOfWeekInTabPageSchedule.Name = "LabelFifthDayOfWeekInTabPageSchedule";
+            this.LabelFifthDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
+            this.LabelFifthDayOfWeekInTabPageSchedule.TabIndex = 286;
+            this.LabelFifthDayOfWeekInTabPageSchedule.Text = "day 1";
+            // 
+            // LabelTotalHoursInFourthDayInTabPageSchedule
+            // 
+            this.LabelTotalHoursInFourthDayInTabPageSchedule.AutoSize = true;
+            this.LabelTotalHoursInFourthDayInTabPageSchedule.Location = new System.Drawing.Point(920, 324);
+            this.LabelTotalHoursInFourthDayInTabPageSchedule.Name = "LabelTotalHoursInFourthDayInTabPageSchedule";
+            this.LabelTotalHoursInFourthDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInFourthDayInTabPageSchedule.TabIndex = 285;
+            this.LabelTotalHoursInFourthDayInTabPageSchedule.Text = "horas";
+            // 
+            // textBox5
+            // 
+            this.textBox5.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox5.ForeColor = System.Drawing.Color.Black;
+            this.textBox5.Location = new System.Drawing.Point(684, 321);
+            this.textBox5.Name = "textBox5";
+            this.textBox5.Size = new System.Drawing.Size(205, 31);
+            this.textBox5.TabIndex = 284;
+            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox6
+            // 
+            this.textBox6.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox6.ForeColor = System.Drawing.Color.Black;
+            this.textBox6.Location = new System.Drawing.Point(447, 321);
+            this.textBox6.Name = "textBox6";
+            this.textBox6.Size = new System.Drawing.Size(205, 31);
+            this.textBox6.TabIndex = 283;
+            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // LabelFourthDayOfWeekInTabPageSchedule
+            // 
+            this.LabelFourthDayOfWeekInTabPageSchedule.AutoSize = true;
+            this.LabelFourthDayOfWeekInTabPageSchedule.Location = new System.Drawing.Point(294, 324);
+            this.LabelFourthDayOfWeekInTabPageSchedule.Name = "LabelFourthDayOfWeekInTabPageSchedule";
+            this.LabelFourthDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
+            this.LabelFourthDayOfWeekInTabPageSchedule.TabIndex = 282;
+            this.LabelFourthDayOfWeekInTabPageSchedule.Text = "day 1";
+            // 
+            // LabelTotalHoursInThirdDayInTabPageSchedule
+            // 
+            this.LabelTotalHoursInThirdDayInTabPageSchedule.AutoSize = true;
+            this.LabelTotalHoursInThirdDayInTabPageSchedule.Location = new System.Drawing.Point(920, 273);
+            this.LabelTotalHoursInThirdDayInTabPageSchedule.Name = "LabelTotalHoursInThirdDayInTabPageSchedule";
+            this.LabelTotalHoursInThirdDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInThirdDayInTabPageSchedule.TabIndex = 281;
+            this.LabelTotalHoursInThirdDayInTabPageSchedule.Text = "horas";
+            // 
+            // textBox3
+            // 
+            this.textBox3.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox3.ForeColor = System.Drawing.Color.Black;
+            this.textBox3.Location = new System.Drawing.Point(684, 270);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(205, 31);
+            this.textBox3.TabIndex = 280;
+            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox4
+            // 
+            this.textBox4.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox4.ForeColor = System.Drawing.Color.Black;
+            this.textBox4.Location = new System.Drawing.Point(447, 270);
+            this.textBox4.Name = "textBox4";
+            this.textBox4.Size = new System.Drawing.Size(205, 31);
+            this.textBox4.TabIndex = 279;
+            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // LabelThirdDayOfWeekInTabPageSchedule
+            // 
+            this.LabelThirdDayOfWeekInTabPageSchedule.AutoSize = true;
+            this.LabelThirdDayOfWeekInTabPageSchedule.Location = new System.Drawing.Point(294, 273);
+            this.LabelThirdDayOfWeekInTabPageSchedule.Name = "LabelThirdDayOfWeekInTabPageSchedule";
+            this.LabelThirdDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
+            this.LabelThirdDayOfWeekInTabPageSchedule.TabIndex = 278;
+            this.LabelThirdDayOfWeekInTabPageSchedule.Text = "day 1";
+            // 
+            // LabelTotalHoursInSecondDayInTabPageSchedule
+            // 
+            this.LabelTotalHoursInSecondDayInTabPageSchedule.AutoSize = true;
+            this.LabelTotalHoursInSecondDayInTabPageSchedule.Location = new System.Drawing.Point(920, 223);
+            this.LabelTotalHoursInSecondDayInTabPageSchedule.Name = "LabelTotalHoursInSecondDayInTabPageSchedule";
+            this.LabelTotalHoursInSecondDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInSecondDayInTabPageSchedule.TabIndex = 277;
+            this.LabelTotalHoursInSecondDayInTabPageSchedule.Text = "horas";
+            // 
+            // textBox1
+            // 
+            this.textBox1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox1.ForeColor = System.Drawing.Color.Black;
+            this.textBox1.Location = new System.Drawing.Point(684, 220);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(205, 31);
+            this.textBox1.TabIndex = 276;
+            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // textBox2
+            // 
+            this.textBox2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.textBox2.ForeColor = System.Drawing.Color.Black;
+            this.textBox2.Location = new System.Drawing.Point(447, 220);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(205, 31);
+            this.textBox2.TabIndex = 275;
+            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // LabelSecondDayOfWeekInTabPageSchedule
+            // 
+            this.LabelSecondDayOfWeekInTabPageSchedule.AutoSize = true;
+            this.LabelSecondDayOfWeekInTabPageSchedule.Location = new System.Drawing.Point(294, 223);
+            this.LabelSecondDayOfWeekInTabPageSchedule.Name = "LabelSecondDayOfWeekInTabPageSchedule";
+            this.LabelSecondDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
+            this.LabelSecondDayOfWeekInTabPageSchedule.TabIndex = 274;
+            this.LabelSecondDayOfWeekInTabPageSchedule.Text = "day 1";
+            // 
+            // LabelTotalHoursInFirstDayInTabPageSchedule
+            // 
+            this.LabelTotalHoursInFirstDayInTabPageSchedule.AutoSize = true;
+            this.LabelTotalHoursInFirstDayInTabPageSchedule.Location = new System.Drawing.Point(920, 173);
+            this.LabelTotalHoursInFirstDayInTabPageSchedule.Name = "LabelTotalHoursInFirstDayInTabPageSchedule";
+            this.LabelTotalHoursInFirstDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInFirstDayInTabPageSchedule.TabIndex = 273;
+            this.LabelTotalHoursInFirstDayInTabPageSchedule.Text = "horas";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(712, 113);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(153, 25);
+            this.label4.TabIndex = 270;
+            this.label4.Text = "Segundo turno";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(485, 113);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(129, 25);
+            this.label7.TabIndex = 269;
+            this.label7.Text = "Primer turno";
+            // 
+            // TextBoxSecondTurnDay1InTabPageSchedule
+            // 
+            this.TextBoxSecondTurnDay1InTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.TextBoxSecondTurnDay1InTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxSecondTurnDay1InTabPageSchedule.Location = new System.Drawing.Point(684, 170);
+            this.TextBoxSecondTurnDay1InTabPageSchedule.Name = "TextBoxSecondTurnDay1InTabPageSchedule";
+            this.TextBoxSecondTurnDay1InTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxSecondTurnDay1InTabPageSchedule.TabIndex = 268;
+            this.TextBoxSecondTurnDay1InTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // TextBoxFirstTurnDay1InTabPageSchedule
+            // 
+            this.TextBoxFirstTurnDay1InTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
+            this.TextBoxFirstTurnDay1InTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxFirstTurnDay1InTabPageSchedule.Location = new System.Drawing.Point(447, 170);
+            this.TextBoxFirstTurnDay1InTabPageSchedule.Name = "TextBoxFirstTurnDay1InTabPageSchedule";
+            this.TextBoxFirstTurnDay1InTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxFirstTurnDay1InTabPageSchedule.TabIndex = 267;
+            this.TextBoxFirstTurnDay1InTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // LabelFirstDayOfWeekInTabPageSchedule
+            // 
+            this.LabelFirstDayOfWeekInTabPageSchedule.AutoSize = true;
+            this.LabelFirstDayOfWeekInTabPageSchedule.Location = new System.Drawing.Point(294, 173);
+            this.LabelFirstDayOfWeekInTabPageSchedule.Name = "LabelFirstDayOfWeekInTabPageSchedule";
+            this.LabelFirstDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
+            this.LabelFirstDayOfWeekInTabPageSchedule.TabIndex = 266;
+            this.LabelFirstDayOfWeekInTabPageSchedule.Text = "day 1";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(39, 34);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(218, 25);
+            this.label2.TabIndex = 30;
+            this.label2.Text = "Seleccione empleado";
+            // 
+            // ComboBoxSelectEmployeeInTabPageSchedule
+            // 
+            this.ComboBoxSelectEmployeeInTabPageSchedule.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.ComboBoxSelectEmployeeInTabPageSchedule.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
+            this.ComboBoxSelectEmployeeInTabPageSchedule.FormattingEnabled = true;
+            this.ComboBoxSelectEmployeeInTabPageSchedule.Location = new System.Drawing.Point(263, 31);
+            this.ComboBoxSelectEmployeeInTabPageSchedule.Name = "ComboBoxSelectEmployeeInTabPageSchedule";
+            this.ComboBoxSelectEmployeeInTabPageSchedule.Size = new System.Drawing.Size(368, 33);
+            this.ComboBoxSelectEmployeeInTabPageSchedule.TabIndex = 29;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(1333, 9);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(0, 25);
+            this.label1.TabIndex = 5;
+            // 
+            // ToolStripMenuItemPrintSchedule
+            // 
+            this.ToolStripMenuItemPrintSchedule.Name = "ToolStripMenuItemPrintSchedule";
+            this.ToolStripMenuItemPrintSchedule.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.ToolStripMenuItemPrintSchedule.Size = new System.Drawing.Size(254, 36);
+            this.ToolStripMenuItemPrintSchedule.Text = "&Imprimir";
+            // 
+            // peticionesToolStripMenuItem
+            // 
+            this.peticionesToolStripMenuItem.Name = "peticionesToolStripMenuItem";
+            this.peticionesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.peticionesToolStripMenuItem.Size = new System.Drawing.Size(279, 36);
+            this.peticionesToolStripMenuItem.Text = "&Peticiones";
+            // 
+            // ToolStripMenuItemExit
+            // 
+            this.ToolStripMenuItemExit.Name = "ToolStripMenuItemExit";
+            this.ToolStripMenuItemExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(254, 36);
+            this.ToolStripMenuItemExit.Text = "&Salir";
+            this.ToolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -800,6 +1364,7 @@
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(1631, 841);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.PanelWithTabControlInFormMain);
             this.Controls.Add(this.PanelWithWeekAndPositionComboBoxes);
             this.Controls.Add(this.TableLayoutPanelInFormMain);
@@ -825,6 +1390,8 @@
             this.TabPageEmployeeAvailability.PerformLayout();
             this.TabPageEmployeePetition.ResumeLayout(false);
             this.TabPageEmployeePetition.PerformLayout();
+            this.TabPageEmployeeSchedule.ResumeLayout(false);
+            this.TabPageEmployeeSchedule.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -833,8 +1400,8 @@
         #endregion
 
         private System.Windows.Forms.MenuStrip MenuStripInFormMain;
-        private System.Windows.Forms.ToolStripMenuItem archivoToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem verToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemFile;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemView;
         private System.Windows.Forms.Label LabelMessageInFormMain;
         private System.Windows.Forms.TableLayoutPanel TableLayoutPanelInFormMain;
         private System.Windows.Forms.Button ButtonShowScheduleForm;
@@ -886,6 +1453,54 @@
         private System.Windows.Forms.DateTimePicker petitionDatePicker;
         private System.Windows.Forms.TextBox horarioDisponibleTxt;
         private System.Windows.Forms.Button ButtonSaveInTabPagePetition;
+        private System.Windows.Forms.TabPage TabPageEmployeeSchedule;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemHelp;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemFeedBack;
+        private System.Windows.Forms.Label LabelTotalHoursInFirstDayInTabPageSchedule;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox TextBoxSecondTurnDay1InTabPageSchedule;
+        private System.Windows.Forms.TextBox TextBoxFirstTurnDay1InTabPageSchedule;
+        private System.Windows.Forms.Label LabelFirstDayOfWeekInTabPageSchedule;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox ComboBoxSelectEmployeeInTabPageSchedule;
+        private System.Windows.Forms.Label LabelTotalHoursInSeventhDayInTabPageSchedule;
+        private System.Windows.Forms.TextBox textBox11;
+        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.Label LabelSeventhDayOfWeekInTabPageSchedule;
+        private System.Windows.Forms.Label LabelTotalHoursInSixthDayInTabPageSchedule;
+        private System.Windows.Forms.TextBox textBox9;
+        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.Label LabelSixthDayOfWeekInTabPageSchedule;
+        private System.Windows.Forms.Label LabelTotalHoursInFifthDayInTabPageSchedule;
+        private System.Windows.Forms.TextBox textBox7;
+        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.Label LabelFifthDayOfWeekInTabPageSchedule;
+        private System.Windows.Forms.Label LabelTotalHoursInFourthDayInTabPageSchedule;
+        private System.Windows.Forms.TextBox textBox5;
+        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.Label LabelFourthDayOfWeekInTabPageSchedule;
+        private System.Windows.Forms.Label LabelTotalHoursInThirdDayInTabPageSchedule;
+        private System.Windows.Forms.TextBox textBox3;
+        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.Label LabelThirdDayOfWeekInTabPageSchedule;
+        private System.Windows.Forms.Label LabelTotalHoursInSecondDayInTabPageSchedule;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.Label LabelSecondDayOfWeekInTabPageSchedule;
+        private System.Windows.Forms.LinkLabel linkLabel1;
+        private System.Windows.Forms.LinkLabel linkLabel7;
+        private System.Windows.Forms.LinkLabel linkLabel6;
+        private System.Windows.Forms.LinkLabel linkLabel5;
+        private System.Windows.Forms.LinkLabel linkLabel4;
+        private System.Windows.Forms.LinkLabel linkLabel3;
+        private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.Button ButtonSaveInTabPageSchedule;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemAbout;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPrintSchedule;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemExit;
+        private System.Windows.Forms.ToolStripMenuItem peticionesToolStripMenuItem;
     }
 }
 

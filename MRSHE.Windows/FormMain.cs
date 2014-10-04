@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using MRSES.Core.Entities;
 using MRSES.Core.Shared;
+using MRSES.Windows.Forms;
 
 namespace MRSES.Windows
 {
@@ -72,8 +73,10 @@ namespace MRSES.Windows
                 case "Peticiones":
                     TapControlInFormMain.SelectedIndex = 3;
                     break;
+                case "Crear o Manejar Horarios":
+                    TapControlInFormMain.SelectedIndex = 4;
+                    break;
                 default:
-                    AlertUser.Message("Coming soon!");
                     break;
             }
         }
@@ -88,12 +91,7 @@ namespace MRSES.Windows
 
         void SetDefaultTextIndicatorIfTextBoxIsEmpty(object sender, EventArgs e)
         {
-            var textbox = sender as TextBox;
-            if (textbox.Text == "" || textbox.Text == "\b")
-            {
-                textbox.Text = textbox.Tag.ToString();
-                textbox.ForeColor = Color.Gray;
-            }                               
+            StringFunctions.SetDefaultTextIndicatorIfTextBoxIsEmpty(sender as TextBox, e);                               
         }
 
         #endregion           
@@ -102,9 +100,7 @@ namespace MRSES.Windows
 
         void SetCursorToTheStartOfTextBox(object sender, EventArgs e)
         {
-            var textBox = sender as TextBox;
-            if (textBox.Text == textBox.Tag.ToString())
-                textBox.SelectionStart = 0;
+            StringFunctions.SetCursorToTheStartOfTextBox(sender as TextBox, e);
         }
 
         #endregion       
@@ -113,31 +109,29 @@ namespace MRSES.Windows
 
         void RemoveDefaultTextIndicatorFromTextBox(object sender, KeyPressEventArgs e)
         {
-            var textbox = sender as TextBox;
-
-
-            if (textbox.Text == textbox.Tag.ToString())
-                textbox.Text = e.KeyChar.ToString();
-            else
-                textbox.ForeColor = Color.Black;
-
-            // Workaround
-            //============================================================================================
-            // for any reason when the user press a key the character is written two times in the text box.
-            // This code removes the first duplicated character.
-            if (textbox.TextLength == 2)
-            {
-                // do to the problem this is always true, the above condition is used 
-                // for remove the duplicated character in the beginning of text.
-                if (textbox.Text[0] == textbox.Text[1])
-                {
-                    textbox.Text = textbox.Text.Remove(0, 1);
-                    textbox.SelectionStart = 1;
-                }
-            }                                                                                             
+            StringFunctions.RemoveDefaultTextIndicatorFromTextBox(sender as TextBox, e);                                                                                             
         }
 
         #endregion
+
+        #region ToolStrip Menu
+
+        private void ToolStripMenuItemAcercaDelPrograma_Click(object sender, EventArgs e)
+        {
+            new FormAbout().ShowDialog();
+        }
+
+        private void ToolStripMenuItemExit_Click(object sender, EventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void ToolStripMenuItemFeedBack_Click(object sender, EventArgs e)
+        {
+            new FormFeedBack().ShowDialog();
+        }
+        
+        #endregion     
 
         #endregion
     }
