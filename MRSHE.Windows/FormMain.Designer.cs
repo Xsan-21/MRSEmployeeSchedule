@@ -31,7 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.MenuStripInFormMain = new System.Windows.Forms.MenuStrip();
             this.ToolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemPrintSchedule = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemView = new System.Windows.Forms.ToolStripMenuItem();
+            this.ToolStripMenuItemPetitions = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemFeedBack = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
@@ -128,9 +131,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.ComboBoxSelectEmployeeInTabPageSchedule = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ToolStripMenuItemPrintSchedule = new System.Windows.Forms.ToolStripMenuItem();
-            this.peticionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
             this.MenuStripInFormMain.SuspendLayout();
             this.TableLayoutPanelInFormMain.SuspendLayout();
             this.PanelWithWeekAndPositionComboBoxes.SuspendLayout();
@@ -164,14 +164,37 @@
             this.ToolStripMenuItemFile.Size = new System.Drawing.Size(107, 38);
             this.ToolStripMenuItemFile.Text = "&Archivo";
             // 
+            // ToolStripMenuItemPrintSchedule
+            // 
+            this.ToolStripMenuItemPrintSchedule.Name = "ToolStripMenuItemPrintSchedule";
+            this.ToolStripMenuItemPrintSchedule.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
+            this.ToolStripMenuItemPrintSchedule.Size = new System.Drawing.Size(254, 36);
+            this.ToolStripMenuItemPrintSchedule.Text = "&Imprimir";
+            // 
+            // ToolStripMenuItemExit
+            // 
+            this.ToolStripMenuItemExit.Name = "ToolStripMenuItemExit";
+            this.ToolStripMenuItemExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(254, 36);
+            this.ToolStripMenuItemExit.Text = "&Salir";
+            this.ToolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
+            // 
             // ToolStripMenuItemView
             // 
             this.ToolStripMenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.peticionesToolStripMenuItem});
+            this.ToolStripMenuItemPetitions});
             this.ToolStripMenuItemView.Name = "ToolStripMenuItemView";
             this.ToolStripMenuItemView.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
             this.ToolStripMenuItemView.Size = new System.Drawing.Size(63, 38);
             this.ToolStripMenuItemView.Text = "&Ver";
+            // 
+            // ToolStripMenuItemPetitions
+            // 
+            this.ToolStripMenuItemPetitions.Name = "ToolStripMenuItemPetitions";
+            this.ToolStripMenuItemPetitions.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
+            this.ToolStripMenuItemPetitions.Size = new System.Drawing.Size(279, 36);
+            this.ToolStripMenuItemPetitions.Text = "&Peticiones";
+            this.ToolStripMenuItemPetitions.Click += new System.EventHandler(this.ToolStripMenuItemPetitions_Click);
             // 
             // ToolStripMenuItemHelp
             // 
@@ -362,7 +385,7 @@
             this.TapPageViewWeekSchedule.Location = new System.Drawing.Point(4, 34);
             this.TapPageViewWeekSchedule.Name = "TapPageViewWeekSchedule";
             this.TapPageViewWeekSchedule.Padding = new System.Windows.Forms.Padding(3);
-            this.TapPageViewWeekSchedule.Size = new System.Drawing.Size(1237, 621);
+            this.TapPageViewWeekSchedule.Size = new System.Drawing.Size(1237, 619);
             this.TapPageViewWeekSchedule.TabIndex = 0;
             this.TapPageViewWeekSchedule.UseVisualStyleBackColor = true;
             // 
@@ -569,7 +592,7 @@
             this.TabPageEmployeeAvailability.Location = new System.Drawing.Point(4, 34);
             this.TabPageEmployeeAvailability.Name = "TabPageEmployeeAvailability";
             this.TabPageEmployeeAvailability.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageEmployeeAvailability.Size = new System.Drawing.Size(1237, 621);
+            this.TabPageEmployeeAvailability.Size = new System.Drawing.Size(1237, 619);
             this.TabPageEmployeeAvailability.TabIndex = 2;
             this.TabPageEmployeeAvailability.UseVisualStyleBackColor = true;
             // 
@@ -754,7 +777,7 @@
             this.TabPageEmployeePetition.Location = new System.Drawing.Point(4, 34);
             this.TabPageEmployeePetition.Name = "TabPageEmployeePetition";
             this.TabPageEmployeePetition.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageEmployeePetition.Size = new System.Drawing.Size(1237, 621);
+            this.TabPageEmployeePetition.Size = new System.Drawing.Size(1237, 619);
             this.TabPageEmployeePetition.TabIndex = 3;
             this.TabPageEmployeePetition.UseVisualStyleBackColor = true;
             // 
@@ -920,7 +943,7 @@
             this.TabPageEmployeeSchedule.Location = new System.Drawing.Point(4, 34);
             this.TabPageEmployeeSchedule.Name = "TabPageEmployeeSchedule";
             this.TabPageEmployeeSchedule.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageEmployeeSchedule.Size = new System.Drawing.Size(1237, 621);
+            this.TabPageEmployeeSchedule.Size = new System.Drawing.Size(1237, 619);
             this.TabPageEmployeeSchedule.TabIndex = 4;
             this.TabPageEmployeeSchedule.Tag = "";
             this.TabPageEmployeeSchedule.UseVisualStyleBackColor = true;
@@ -1335,28 +1358,6 @@
             this.label1.Size = new System.Drawing.Size(0, 25);
             this.label1.TabIndex = 5;
             // 
-            // ToolStripMenuItemPrintSchedule
-            // 
-            this.ToolStripMenuItemPrintSchedule.Name = "ToolStripMenuItemPrintSchedule";
-            this.ToolStripMenuItemPrintSchedule.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.ToolStripMenuItemPrintSchedule.Size = new System.Drawing.Size(254, 36);
-            this.ToolStripMenuItemPrintSchedule.Text = "&Imprimir";
-            // 
-            // peticionesToolStripMenuItem
-            // 
-            this.peticionesToolStripMenuItem.Name = "peticionesToolStripMenuItem";
-            this.peticionesToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.peticionesToolStripMenuItem.Size = new System.Drawing.Size(279, 36);
-            this.peticionesToolStripMenuItem.Text = "&Peticiones";
-            // 
-            // ToolStripMenuItemExit
-            // 
-            this.ToolStripMenuItemExit.Name = "ToolStripMenuItemExit";
-            this.ToolStripMenuItemExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(254, 36);
-            this.ToolStripMenuItemExit.Text = "&Salir";
-            this.ToolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1500,7 +1501,7 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemAbout;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPrintSchedule;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemExit;
-        private System.Windows.Forms.ToolStripMenuItem peticionesToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPetitions;
     }
 }
 

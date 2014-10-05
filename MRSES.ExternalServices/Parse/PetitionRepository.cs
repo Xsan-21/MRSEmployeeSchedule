@@ -11,7 +11,7 @@ using NodaTime;
 
 namespace MRSES.ExternalServices.Parse
 {
-    class PetitionRepository : IDisposable, IPetitionRepository
+    public class PetitionRepository : IDisposable, IPetitionRepository
     {
         #region Variables
 

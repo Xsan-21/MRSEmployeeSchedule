@@ -7,7 +7,7 @@ using Parse;
 
 namespace MRSES.ExternalServices.Parse
 {
-    class EmployeeRepository : IEmployeeRepository, System.IDisposable
+    public class EmployeeRepository : IEmployeeRepository, System.IDisposable
     {
         #region Fields
 

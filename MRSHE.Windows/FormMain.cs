@@ -16,6 +16,8 @@ namespace MRSES.Windows
     public partial class FormMain : Form
     {
         #region Variables
+
+        FormPetitions _formPetitions = new FormPetitions();
         #endregion
 
         #region Properties
@@ -51,11 +53,6 @@ namespace MRSES.Windows
         #region Events
 
         #region Button clicks
-
-        private void ButtonSyncSchedule_Click(object sender, EventArgs e)
-        {
-            
-        }
 
         void ShowTabPageAccordingToClickedButton(object sender, EventArgs e)
         {
@@ -130,9 +127,14 @@ namespace MRSES.Windows
         {
             new FormFeedBack().ShowDialog();
         }
+
+        private void ToolStripMenuItemPetitions_Click(object sender, EventArgs e)
+        {
+            _formPetitions.Show();
+        }
         
         #endregion     
-
+        
         #endregion
     }
 }

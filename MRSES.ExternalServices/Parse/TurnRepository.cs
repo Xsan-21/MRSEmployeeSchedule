@@ -10,7 +10,7 @@ using NodaTime;
 
 namespace MRSES.ExternalServices.Parse
 {
-    class TurnRepository : ITurnRepository
+    public class TurnRepository : ITurnRepository
     {
         #region Fields
         EmployeeRepository _employeeRepository;

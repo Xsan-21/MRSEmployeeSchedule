@@ -5,7 +5,7 @@ using Parse;
 
 namespace MRSES.ExternalServices.Parse
 {
-    class AvailabilityRepository : System.IDisposable, IAvailabilityRepository, IDatabase
+    public class AvailabilityRepository : System.IDisposable, IAvailabilityRepository, IDatabase
     {
         #region Fields
 
