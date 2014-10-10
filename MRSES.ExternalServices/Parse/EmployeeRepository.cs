@@ -36,8 +36,7 @@ namespace MRSES.ExternalServices.Parse
 
         public EmployeeRepository(IEmployee employee)
         {
-            Employee = employee;
-            
+            Employee = employee;            
         }
 
         #endregion          
@@ -102,7 +101,7 @@ namespace MRSES.ExternalServices.Parse
             ValidateEmployee();
             var query = from n in ParseObject.GetQuery("Employees")
                         where n.Get<string>("store") == Employee.Store
-                        where n.Get<int>("Id") == Employee.ID
+                        where n.Get<string>("Id") == Employee.ID
                         select n;
 
             return await query.FirstOrDefaultAsync() == null ? false : true;
@@ -148,7 +147,7 @@ namespace MRSES.ExternalServices.Parse
         {
             var query = from employees in ParseObject.GetQuery("Employees")
                         where employees.Get<string>("store") == Configuration.StoreLocation
-                        where employees.Get<int>("Id") == employee.ID && 
+                        where employees.Get<string>("Id") == employee.ID && 
                         employees.Get<string>("name") == employee.Name
                         select employees;
 
@@ -225,7 +224,7 @@ namespace MRSES.ExternalServices.Parse
                 {
                     Department = employee.Get<string>("department"),
                     Store = employee.Get<string>("store"),
-                    ID = employee.Get<int>("Id"),
+                    ID = employee.Get<string>("Id"),
                     Name = employee.Get<string>("name"),
                     IsStudent = employee.Get<bool>("student"),
                     JobType = employee.Get<string>("jobType"),
@@ -249,7 +248,7 @@ namespace MRSES.ExternalServices.Parse
         {
             if (Employee == null)
                 RaiseException("No se ha especificado empleado");
-            else if (Employee.ID == 0)
+            else if (Employee.ID == "")
                 RaiseException("Valor 0 como ID no es válido");
         }
 
@@ -257,8 +256,8 @@ namespace MRSES.ExternalServices.Parse
         {
             if (employee == null)
                 RaiseStaticException("No se ha especificado empleado");
-            else if (employee.ID == 0)
-                RaiseStaticException("Valor 0 como ID no es válido");
+            else if (employee.ID == "")
+                RaiseStaticException("Valor en blanco como ID no es válido");
         }
 
         public void Dispose()

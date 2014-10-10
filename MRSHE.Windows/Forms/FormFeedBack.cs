@@ -20,14 +20,21 @@ namespace MRSES.Windows.Forms
         public FormFeedBack()
         {
             InitializeComponent();
-
-            TextBoxUserFeedbackInFormFeedBack.Click += (sender, e) => { StringFunctions.SetCursorToTheStartOfTextBox(sender as TextBox, e); };
-            TextBoxUserFeedbackInFormFeedBack.TextChanged += (sender, e) => 
-            { 
-                StringFunctions.SetDefaultTextIndicatorIfTextBoxIsEmpty(sender as TextBox, e);
+            TextBoxUserFeedbackInFormFeedBack.TextChanged += async (sender, e) => 
+            {
+                await StringFunctions.ChangeTextColorAsync(sender as TextBox);
                 DisableButtonSendFeedBackIfTextBoxFeedBackHasInvalidText();
             };
-            TextBoxUserFeedbackInFormFeedBack.KeyPress += (sender, e) => { StringFunctions.RemoveDefaultTextIndicatorFromTextBox(sender as TextBox, e); };
+
+            TextBoxUserFeedbackInFormFeedBack.Enter += async (sender, e) =>
+            {
+                await StringFunctions.RemoveDefaultTextIndicatorAsync(sender as TextBox);                
+            };
+
+            TextBoxUserFeedbackInFormFeedBack.Leave += async (sender, e) =>
+            {
+                await StringFunctions.SetDefaultTextIndicatorInTextBoxAsync(sender as TextBox);
+            }; 
         }
 
         private async void ButtonSendFeedbackInFormFeedBack_Click(object sender, EventArgs e)

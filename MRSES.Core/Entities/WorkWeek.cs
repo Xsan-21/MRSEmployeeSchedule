@@ -6,7 +6,7 @@ namespace MRSES.Core.Entities
 {
     public struct WorkWeek
     {
-        public static IEnumerable<LocalDate> GetNextFourWeeksFrom(LocalDate fromWeek)
+        public static IEnumerable<LocalDate> GetCurrentAndNextThreeWeeksFrom(LocalDate fromWeek)
         {
             for (int i = 0; i < 4; i++)
             {

@@ -7,11 +7,12 @@ namespace MRSES.Core.Shared
 {
     public struct ComboBoxFunctions
     {
-        static public List<LocalDate> FillWeekSelectorComboBox()
-        {           
-            var week =  WorkWeek.CurrentWeek();
-            var weeksGenerated = WorkWeek.GetNextFourWeeksFrom(week);
-            return weeksGenerated.ToList();            
+        static public IEnumerable<string> GetCurrentAndNextThreeWeeks()
+        { 
+            foreach (var week in WorkWeek.GetCurrentAndNextThreeWeeksFrom(WorkWeek.CurrentWeek()))
+            {
+                yield return week.ToString();
+            }            
         }
 
         // TODO put here the employee fill for comboboxes

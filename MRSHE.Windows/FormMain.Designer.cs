@@ -131,6 +131,8 @@
             this.label2 = new System.Windows.Forms.Label();
             this.ComboBoxSelectEmployeeInTabPageSchedule = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.MenuStripInFormMain.SuspendLayout();
             this.TableLayoutPanelInFormMain.SuspendLayout();
             this.PanelWithWeekAndPositionComboBoxes.SuspendLayout();
@@ -151,7 +153,7 @@
             this.ToolStripMenuItemHelp});
             this.MenuStripInFormMain.Location = new System.Drawing.Point(0, 0);
             this.MenuStripInFormMain.Name = "MenuStripInFormMain";
-            this.MenuStripInFormMain.Size = new System.Drawing.Size(1631, 42);
+            this.MenuStripInFormMain.Size = new System.Drawing.Size(1631, 40);
             this.MenuStripInFormMain.TabIndex = 0;
             // 
             // ToolStripMenuItemFile
@@ -161,21 +163,21 @@
             this.ToolStripMenuItemExit});
             this.ToolStripMenuItemFile.Name = "ToolStripMenuItemFile";
             this.ToolStripMenuItemFile.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
-            this.ToolStripMenuItemFile.Size = new System.Drawing.Size(107, 38);
+            this.ToolStripMenuItemFile.Size = new System.Drawing.Size(107, 36);
             this.ToolStripMenuItemFile.Text = "&Archivo";
             // 
             // ToolStripMenuItemPrintSchedule
             // 
             this.ToolStripMenuItemPrintSchedule.Name = "ToolStripMenuItemPrintSchedule";
             this.ToolStripMenuItemPrintSchedule.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
-            this.ToolStripMenuItemPrintSchedule.Size = new System.Drawing.Size(254, 36);
-            this.ToolStripMenuItemPrintSchedule.Text = "&Imprimir";
+            this.ToolStripMenuItemPrintSchedule.Size = new System.Drawing.Size(347, 36);
+            this.ToolStripMenuItemPrintSchedule.Text = "&Imprimir horarios";
             // 
             // ToolStripMenuItemExit
             // 
             this.ToolStripMenuItemExit.Name = "ToolStripMenuItemExit";
             this.ToolStripMenuItemExit.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
-            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(254, 36);
+            this.ToolStripMenuItemExit.Size = new System.Drawing.Size(347, 36);
             this.ToolStripMenuItemExit.Text = "&Salir";
             this.ToolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
             // 
@@ -185,7 +187,7 @@
             this.ToolStripMenuItemPetitions});
             this.ToolStripMenuItemView.Name = "ToolStripMenuItemView";
             this.ToolStripMenuItemView.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.ToolStripMenuItemView.Size = new System.Drawing.Size(63, 38);
+            this.ToolStripMenuItemView.Size = new System.Drawing.Size(63, 36);
             this.ToolStripMenuItemView.Text = "&Ver";
             // 
             // ToolStripMenuItemPetitions
@@ -203,7 +205,7 @@
             this.ToolStripMenuItemAbout});
             this.ToolStripMenuItemHelp.Name = "ToolStripMenuItemHelp";
             this.ToolStripMenuItemHelp.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(94, 38);
+            this.ToolStripMenuItemHelp.Size = new System.Drawing.Size(94, 36);
             this.ToolStripMenuItemHelp.Text = "A&yuda";
             // 
             // ToolStripMenuItemFeedBack
@@ -243,7 +245,7 @@
             this.TableLayoutPanelInFormMain.Controls.Add(this.ButtonShowAddEmployeeTabPage, 0, 1);
             this.TableLayoutPanelInFormMain.Controls.Add(this.ButtonShowWeekScheduleTabPage, 0, 0);
             this.TableLayoutPanelInFormMain.Dock = System.Windows.Forms.DockStyle.Left;
-            this.TableLayoutPanelInFormMain.Location = new System.Drawing.Point(0, 42);
+            this.TableLayoutPanelInFormMain.Location = new System.Drawing.Point(0, 40);
             this.TableLayoutPanelInFormMain.Name = "TableLayoutPanelInFormMain";
             this.TableLayoutPanelInFormMain.RowCount = 5;
             this.TableLayoutPanelInFormMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
@@ -251,7 +253,7 @@
             this.TableLayoutPanelInFormMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.TableLayoutPanelInFormMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
             this.TableLayoutPanelInFormMain.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.TableLayoutPanelInFormMain.Size = new System.Drawing.Size(386, 758);
+            this.TableLayoutPanelInFormMain.Size = new System.Drawing.Size(386, 760);
             this.TableLayoutPanelInFormMain.TabIndex = 2;
             // 
             // ButtonShowScheduleForm
@@ -259,9 +261,9 @@
             this.ButtonShowScheduleForm.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ButtonShowScheduleForm.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonShowScheduleForm.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonShowScheduleForm.Location = new System.Drawing.Point(3, 607);
+            this.ButtonShowScheduleForm.Location = new System.Drawing.Point(3, 611);
             this.ButtonShowScheduleForm.Name = "ButtonShowScheduleForm";
-            this.ButtonShowScheduleForm.Size = new System.Drawing.Size(380, 148);
+            this.ButtonShowScheduleForm.Size = new System.Drawing.Size(380, 146);
             this.ButtonShowScheduleForm.TabIndex = 5;
             this.ButtonShowScheduleForm.Tag = "Crear o Manejar Horarios";
             this.ButtonShowScheduleForm.Text = "Crear o Manejar Horarios";
@@ -273,9 +275,9 @@
             this.ButtonShowCreatePetitionTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ButtonShowCreatePetitionTabPage.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonShowCreatePetitionTabPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonShowCreatePetitionTabPage.Location = new System.Drawing.Point(3, 456);
+            this.ButtonShowCreatePetitionTabPage.Location = new System.Drawing.Point(3, 459);
             this.ButtonShowCreatePetitionTabPage.Name = "ButtonShowCreatePetitionTabPage";
-            this.ButtonShowCreatePetitionTabPage.Size = new System.Drawing.Size(380, 145);
+            this.ButtonShowCreatePetitionTabPage.Size = new System.Drawing.Size(380, 146);
             this.ButtonShowCreatePetitionTabPage.TabIndex = 4;
             this.ButtonShowCreatePetitionTabPage.Tag = "Peticiones";
             this.ButtonShowCreatePetitionTabPage.Text = "Peticiones";
@@ -287,9 +289,9 @@
             this.ButtonShowAvailabilityTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ButtonShowAvailabilityTabPage.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonShowAvailabilityTabPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonShowAvailabilityTabPage.Location = new System.Drawing.Point(3, 305);
+            this.ButtonShowAvailabilityTabPage.Location = new System.Drawing.Point(3, 307);
             this.ButtonShowAvailabilityTabPage.Name = "ButtonShowAvailabilityTabPage";
-            this.ButtonShowAvailabilityTabPage.Size = new System.Drawing.Size(380, 145);
+            this.ButtonShowAvailabilityTabPage.Size = new System.Drawing.Size(380, 146);
             this.ButtonShowAvailabilityTabPage.TabIndex = 3;
             this.ButtonShowAvailabilityTabPage.Tag = "Disponibilidad";
             this.ButtonShowAvailabilityTabPage.Text = "Disponibilidad";
@@ -301,9 +303,9 @@
             this.ButtonShowAddEmployeeTabPage.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ButtonShowAddEmployeeTabPage.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonShowAddEmployeeTabPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonShowAddEmployeeTabPage.Location = new System.Drawing.Point(3, 154);
+            this.ButtonShowAddEmployeeTabPage.Location = new System.Drawing.Point(3, 155);
             this.ButtonShowAddEmployeeTabPage.Name = "ButtonShowAddEmployeeTabPage";
-            this.ButtonShowAddEmployeeTabPage.Size = new System.Drawing.Size(380, 145);
+            this.ButtonShowAddEmployeeTabPage.Size = new System.Drawing.Size(380, 146);
             this.ButtonShowAddEmployeeTabPage.TabIndex = 2;
             this.ButtonShowAddEmployeeTabPage.Tag = "Información de Empleados";
             this.ButtonShowAddEmployeeTabPage.Text = "Información de Empleados";
@@ -317,7 +319,7 @@
             this.ButtonShowWeekScheduleTabPage.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonShowWeekScheduleTabPage.Location = new System.Drawing.Point(3, 3);
             this.ButtonShowWeekScheduleTabPage.Name = "ButtonShowWeekScheduleTabPage";
-            this.ButtonShowWeekScheduleTabPage.Size = new System.Drawing.Size(380, 145);
+            this.ButtonShowWeekScheduleTabPage.Size = new System.Drawing.Size(380, 146);
             this.ButtonShowWeekScheduleTabPage.TabIndex = 1;
             this.ButtonShowWeekScheduleTabPage.Tag = "Ver Semana de Trabajo";
             this.ButtonShowWeekScheduleTabPage.Text = "Ver Semana de Trabajo";
@@ -326,10 +328,12 @@
             // 
             // PanelWithWeekAndPositionComboBoxes
             // 
+            this.PanelWithWeekAndPositionComboBoxes.Controls.Add(this.label9);
+            this.PanelWithWeekAndPositionComboBoxes.Controls.Add(this.label8);
             this.PanelWithWeekAndPositionComboBoxes.Controls.Add(this.ComboBoxPositionSelectorInFormMain);
             this.PanelWithWeekAndPositionComboBoxes.Controls.Add(this.ComboBoxWeekSelectorInFormMain);
             this.PanelWithWeekAndPositionComboBoxes.Dock = System.Windows.Forms.DockStyle.Top;
-            this.PanelWithWeekAndPositionComboBoxes.Location = new System.Drawing.Point(386, 42);
+            this.PanelWithWeekAndPositionComboBoxes.Location = new System.Drawing.Point(386, 40);
             this.PanelWithWeekAndPositionComboBoxes.Name = "PanelWithWeekAndPositionComboBoxes";
             this.PanelWithWeekAndPositionComboBoxes.Size = new System.Drawing.Size(1245, 101);
             this.PanelWithWeekAndPositionComboBoxes.TabIndex = 3;
@@ -337,19 +341,23 @@
             // ComboBoxPositionSelectorInFormMain
             // 
             this.ComboBoxPositionSelectorInFormMain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.ComboBoxPositionSelectorInFormMain.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxPositionSelectorInFormMain.FormattingEnabled = true;
-            this.ComboBoxPositionSelectorInFormMain.Location = new System.Drawing.Point(676, 26);
+            this.ComboBoxPositionSelectorInFormMain.Location = new System.Drawing.Point(676, 44);
             this.ComboBoxPositionSelectorInFormMain.Name = "ComboBoxPositionSelectorInFormMain";
             this.ComboBoxPositionSelectorInFormMain.Size = new System.Drawing.Size(528, 33);
+            this.ComboBoxPositionSelectorInFormMain.Sorted = true;
             this.ComboBoxPositionSelectorInFormMain.TabIndex = 1;
             this.ComboBoxPositionSelectorInFormMain.TabStop = false;
+            this.ComboBoxPositionSelectorInFormMain.SelectedValueChanged += new System.EventHandler(this.ComboBoxPositionSelectorInFormMainValueChanged);
             // 
             // ComboBoxWeekSelectorInFormMain
             // 
             this.ComboBoxWeekSelectorInFormMain.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.ComboBoxWeekSelectorInFormMain.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxWeekSelectorInFormMain.FormattingEnabled = true;
-            this.ComboBoxWeekSelectorInFormMain.Location = new System.Drawing.Point(24, 26);
+            this.ComboBoxWeekSelectorInFormMain.Location = new System.Drawing.Point(24, 44);
             this.ComboBoxWeekSelectorInFormMain.Name = "ComboBoxWeekSelectorInFormMain";
             this.ComboBoxWeekSelectorInFormMain.Size = new System.Drawing.Size(528, 33);
             this.ComboBoxWeekSelectorInFormMain.TabIndex = 0;
@@ -360,9 +368,9 @@
             this.PanelWithTabControlInFormMain.AutoSize = true;
             this.PanelWithTabControlInFormMain.Controls.Add(this.TapControlInFormMain);
             this.PanelWithTabControlInFormMain.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.PanelWithTabControlInFormMain.Location = new System.Drawing.Point(386, 143);
+            this.PanelWithTabControlInFormMain.Location = new System.Drawing.Point(386, 141);
             this.PanelWithTabControlInFormMain.Name = "PanelWithTabControlInFormMain";
-            this.PanelWithTabControlInFormMain.Size = new System.Drawing.Size(1245, 657);
+            this.PanelWithTabControlInFormMain.Size = new System.Drawing.Size(1245, 659);
             this.PanelWithTabControlInFormMain.TabIndex = 4;
             // 
             // TapControlInFormMain
@@ -376,7 +384,7 @@
             this.TapControlInFormMain.Location = new System.Drawing.Point(0, 0);
             this.TapControlInFormMain.Name = "TapControlInFormMain";
             this.TapControlInFormMain.SelectedIndex = 0;
-            this.TapControlInFormMain.Size = new System.Drawing.Size(1245, 657);
+            this.TapControlInFormMain.Size = new System.Drawing.Size(1245, 659);
             this.TapControlInFormMain.TabIndex = 0;
             this.TapControlInFormMain.TabStop = false;
             // 
@@ -385,7 +393,7 @@
             this.TapPageViewWeekSchedule.Location = new System.Drawing.Point(4, 34);
             this.TapPageViewWeekSchedule.Name = "TapPageViewWeekSchedule";
             this.TapPageViewWeekSchedule.Padding = new System.Windows.Forms.Padding(3);
-            this.TapPageViewWeekSchedule.Size = new System.Drawing.Size(1237, 619);
+            this.TapPageViewWeekSchedule.Size = new System.Drawing.Size(1237, 621);
             this.TapPageViewWeekSchedule.TabIndex = 0;
             this.TapPageViewWeekSchedule.UseVisualStyleBackColor = true;
             // 
@@ -406,7 +414,7 @@
             this.TabPageEmployeeInformation.Location = new System.Drawing.Point(4, 34);
             this.TabPageEmployeeInformation.Name = "TabPageEmployeeInformation";
             this.TabPageEmployeeInformation.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageEmployeeInformation.Size = new System.Drawing.Size(1237, 619);
+            this.TabPageEmployeeInformation.Size = new System.Drawing.Size(1237, 621);
             this.TabPageEmployeeInformation.TabIndex = 1;
             this.TabPageEmployeeInformation.UseVisualStyleBackColor = true;
             // 
@@ -417,9 +425,11 @@
             this.ListBoxEmployeesInEmployeeTabPage.ItemHeight = 25;
             this.ListBoxEmployeesInEmployeeTabPage.Location = new System.Drawing.Point(842, 3);
             this.ListBoxEmployeesInEmployeeTabPage.Name = "ListBoxEmployeesInEmployeeTabPage";
-            this.ListBoxEmployeesInEmployeeTabPage.Size = new System.Drawing.Size(392, 613);
+            this.ListBoxEmployeesInEmployeeTabPage.Size = new System.Drawing.Size(392, 615);
+            this.ListBoxEmployeesInEmployeeTabPage.Sorted = true;
             this.ListBoxEmployeesInEmployeeTabPage.TabIndex = 11;
             this.ListBoxEmployeesInEmployeeTabPage.TabStop = false;
+            this.ListBoxEmployeesInEmployeeTabPage.SelectedIndexChanged += new System.EventHandler(this.ListBoxEmployeesInEmployeeTabPageSelectedIndex);
             // 
             // TextBoxSearchEmployeeFilterInTabPageEmployeeInformation
             // 
@@ -433,9 +443,9 @@
             this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.TabIndex = 0;
             this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Tag = "Buscar empleado";
             this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Text = "Buscar empleado";
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
+            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
+            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
             // 
             // ButtonDeleteInTabPageEmployeeInformation
             // 
@@ -450,6 +460,7 @@
             this.ButtonDeleteInTabPageEmployeeInformation.TabIndex = 10;
             this.ButtonDeleteInTabPageEmployeeInformation.Text = "Borrar";
             this.ButtonDeleteInTabPageEmployeeInformation.UseVisualStyleBackColor = true;
+            this.ButtonDeleteInTabPageEmployeeInformation.Click += new System.EventHandler(this.ButtonDeleteInTabPageEmployeeInformation_Click);
             // 
             // ButtonSaveInTabPageEmployeeInformation
             // 
@@ -464,6 +475,7 @@
             this.ButtonSaveInTabPageEmployeeInformation.TabIndex = 9;
             this.ButtonSaveInTabPageEmployeeInformation.Text = "Guardar";
             this.ButtonSaveInTabPageEmployeeInformation.UseVisualStyleBackColor = true;
+            this.ButtonSaveInTabPageEmployeeInformation.Click += new System.EventHandler(this.ButtonSaveInTabPageEmployeeInformation_Click);
             // 
             // CheckBoxIsFulltimeInTabPageEmployeeInformation
             // 
@@ -501,15 +513,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 206);
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 315);
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Name = "TextBoxEmployeeDepartmentInTabPageEmployeeInformation";
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Size = new System.Drawing.Size(300, 31);
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.TabIndex = 2;
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Tag = "ID de empleado";
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Text = "ID de empleado";
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.TabIndex = 4;
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Tag = "Departamento";
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Text = "Departamento";
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
             // 
             // TextBoxEmployeePhoneNumberInTabPageEmployeeInformation
             // 
@@ -517,15 +529,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 261);
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 369);
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Name = "TextBoxEmployeePhoneNumberInTabPageEmployeeInformation";
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Size = new System.Drawing.Size(300, 31);
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.TabIndex = 3;
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Tag = "Departamento";
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text = "Departamento";
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.TabIndex = 5;
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Tag = "Número de teléfono";
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text = "Número de teléfono";
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
             // 
             // TextBoxEmployeeIDInTabPageEmployeeInformation
             // 
@@ -533,15 +545,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextBoxEmployeeIDInTabPageEmployeeInformation.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 317);
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 204);
             this.TextBoxEmployeeIDInTabPageEmployeeInformation.Name = "TextBoxEmployeeIDInTabPageEmployeeInformation";
             this.TextBoxEmployeeIDInTabPageEmployeeInformation.Size = new System.Drawing.Size(300, 31);
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.TabIndex = 4;
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Tag = "Posición";
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Text = "Posición";
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.TabIndex = 2;
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Tag = "ID de empleado";
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Text = "ID de empleado";
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
             // 
             // TextBoxEmployeePositionInTabPageEmployeeInformation
             // 
@@ -549,15 +561,15 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 375);
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 257);
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.Name = "TextBoxEmployeePositionInTabPageEmployeeInformation";
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.Size = new System.Drawing.Size(300, 31);
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.TabIndex = 5;
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Tag = "Número de teléfono";
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Text = "Número de teléfono";
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.TabIndex = 3;
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Tag = "Posición";
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Text = "Posición";
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
             // 
             // TextBoxEmployeeNameInTabPageEmployeeInformation
             // 
@@ -571,9 +583,9 @@
             this.TextBoxEmployeeNameInTabPageEmployeeInformation.TabIndex = 1;
             this.TextBoxEmployeeNameInTabPageEmployeeInformation.Tag = "Nombre de empleado";
             this.TextBoxEmployeeNameInTabPageEmployeeInformation.Text = "Nombre de empleado";
-            this.TextBoxEmployeeNameInTabPageEmployeeInformation.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxEmployeeNameInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxEmployeeNameInTabPageEmployeeInformation.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
+            this.TextBoxEmployeeNameInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
+            this.TextBoxEmployeeNameInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeeNameInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
             // 
             // TabPageEmployeeAvailability
             // 
@@ -592,7 +604,7 @@
             this.TabPageEmployeeAvailability.Location = new System.Drawing.Point(4, 34);
             this.TabPageEmployeeAvailability.Name = "TabPageEmployeeAvailability";
             this.TabPageEmployeeAvailability.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageEmployeeAvailability.Size = new System.Drawing.Size(1237, 619);
+            this.TabPageEmployeeAvailability.Size = new System.Drawing.Size(1237, 621);
             this.TabPageEmployeeAvailability.TabIndex = 2;
             this.TabPageEmployeeAvailability.UseVisualStyleBackColor = true;
             // 
@@ -622,9 +634,6 @@
             this.TextBoxSaturdayInTabPageAvailability.Tag = "sábado";
             this.TextBoxSaturdayInTabPageAvailability.Text = "sábado";
             this.TextBoxSaturdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxSaturdayInTabPageAvailability.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxSaturdayInTabPageAvailability.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxSaturdayInTabPageAvailability.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
             // 
             // TextBoxFridayInTabPageAvailability
             // 
@@ -638,9 +647,6 @@
             this.TextBoxFridayInTabPageAvailability.Tag = "viernes";
             this.TextBoxFridayInTabPageAvailability.Text = "viernes";
             this.TextBoxFridayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxFridayInTabPageAvailability.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxFridayInTabPageAvailability.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxFridayInTabPageAvailability.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
             // 
             // TextBoxThursdayInTabPageAvailability
             // 
@@ -654,9 +660,6 @@
             this.TextBoxThursdayInTabPageAvailability.Tag = "jueves";
             this.TextBoxThursdayInTabPageAvailability.Text = "jueves";
             this.TextBoxThursdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxThursdayInTabPageAvailability.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxThursdayInTabPageAvailability.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxThursdayInTabPageAvailability.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
             // 
             // TextBoxWednesdayInTabPageAvailability
             // 
@@ -670,9 +673,6 @@
             this.TextBoxWednesdayInTabPageAvailability.Tag = "miércoles";
             this.TextBoxWednesdayInTabPageAvailability.Text = "miércoles";
             this.TextBoxWednesdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxWednesdayInTabPageAvailability.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxWednesdayInTabPageAvailability.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxWednesdayInTabPageAvailability.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
             // 
             // TextBoxTuesdayInTabPageAvailability
             // 
@@ -686,9 +686,6 @@
             this.TextBoxTuesdayInTabPageAvailability.Tag = "martes";
             this.TextBoxTuesdayInTabPageAvailability.Text = "martes";
             this.TextBoxTuesdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxTuesdayInTabPageAvailability.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxTuesdayInTabPageAvailability.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxTuesdayInTabPageAvailability.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
             // 
             // TextBoxMondayInTabPageAvailability
             // 
@@ -702,9 +699,6 @@
             this.TextBoxMondayInTabPageAvailability.Tag = "lunes";
             this.TextBoxMondayInTabPageAvailability.Text = "lunes";
             this.TextBoxMondayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxMondayInTabPageAvailability.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxMondayInTabPageAvailability.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxMondayInTabPageAvailability.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
             // 
             // TextBoxSundayInTabPageAvailability
             // 
@@ -718,9 +712,6 @@
             this.TextBoxSundayInTabPageAvailability.Tag = "domingo";
             this.TextBoxSundayInTabPageAvailability.Text = "domingo";
             this.TextBoxSundayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxSundayInTabPageAvailability.Click += new System.EventHandler(this.SetCursorToTheStartOfTextBox);
-            this.TextBoxSundayInTabPageAvailability.TextChanged += new System.EventHandler(this.SetDefaultTextIndicatorIfTextBoxIsEmpty);
-            this.TextBoxSundayInTabPageAvailability.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.RemoveDefaultTextIndicatorFromTextBox);
             // 
             // label6
             // 
@@ -777,7 +768,7 @@
             this.TabPageEmployeePetition.Location = new System.Drawing.Point(4, 34);
             this.TabPageEmployeePetition.Name = "TabPageEmployeePetition";
             this.TabPageEmployeePetition.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageEmployeePetition.Size = new System.Drawing.Size(1237, 619);
+            this.TabPageEmployeePetition.Size = new System.Drawing.Size(1237, 621);
             this.TabPageEmployeePetition.TabIndex = 3;
             this.TabPageEmployeePetition.UseVisualStyleBackColor = true;
             // 
@@ -943,7 +934,7 @@
             this.TabPageEmployeeSchedule.Location = new System.Drawing.Point(4, 34);
             this.TabPageEmployeeSchedule.Name = "TabPageEmployeeSchedule";
             this.TabPageEmployeeSchedule.Padding = new System.Windows.Forms.Padding(3);
-            this.TabPageEmployeeSchedule.Size = new System.Drawing.Size(1237, 619);
+            this.TabPageEmployeeSchedule.Size = new System.Drawing.Size(1237, 621);
             this.TabPageEmployeeSchedule.TabIndex = 4;
             this.TabPageEmployeeSchedule.Tag = "";
             this.TabPageEmployeeSchedule.UseVisualStyleBackColor = true;
@@ -956,7 +947,7 @@
             this.ButtonSaveInTabPageSchedule.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.ButtonSaveInTabPageSchedule.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.ButtonSaveInTabPageSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSaveInTabPageSchedule.Location = new System.Drawing.Point(971, 530);
+            this.ButtonSaveInTabPageSchedule.Location = new System.Drawing.Point(971, 532);
             this.ButtonSaveInTabPageSchedule.Name = "ButtonSaveInTabPageSchedule";
             this.ButtonSaveInTabPageSchedule.Size = new System.Drawing.Size(250, 75);
             this.ButtonSaveInTabPageSchedule.TabIndex = 297;
@@ -1083,7 +1074,7 @@
             this.LabelSeventhDayOfWeekInTabPageSchedule.Name = "LabelSeventhDayOfWeekInTabPageSchedule";
             this.LabelSeventhDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
             this.LabelSeventhDayOfWeekInTabPageSchedule.TabIndex = 294;
-            this.LabelSeventhDayOfWeekInTabPageSchedule.Text = "day 1";
+            this.LabelSeventhDayOfWeekInTabPageSchedule.Text = "day 7";
             // 
             // LabelTotalHoursInSixthDayInTabPageSchedule
             // 
@@ -1121,7 +1112,7 @@
             this.LabelSixthDayOfWeekInTabPageSchedule.Name = "LabelSixthDayOfWeekInTabPageSchedule";
             this.LabelSixthDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
             this.LabelSixthDayOfWeekInTabPageSchedule.TabIndex = 290;
-            this.LabelSixthDayOfWeekInTabPageSchedule.Text = "day 1";
+            this.LabelSixthDayOfWeekInTabPageSchedule.Text = "day 6";
             // 
             // LabelTotalHoursInFifthDayInTabPageSchedule
             // 
@@ -1159,7 +1150,7 @@
             this.LabelFifthDayOfWeekInTabPageSchedule.Name = "LabelFifthDayOfWeekInTabPageSchedule";
             this.LabelFifthDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
             this.LabelFifthDayOfWeekInTabPageSchedule.TabIndex = 286;
-            this.LabelFifthDayOfWeekInTabPageSchedule.Text = "day 1";
+            this.LabelFifthDayOfWeekInTabPageSchedule.Text = "day 5";
             // 
             // LabelTotalHoursInFourthDayInTabPageSchedule
             // 
@@ -1197,7 +1188,7 @@
             this.LabelFourthDayOfWeekInTabPageSchedule.Name = "LabelFourthDayOfWeekInTabPageSchedule";
             this.LabelFourthDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
             this.LabelFourthDayOfWeekInTabPageSchedule.TabIndex = 282;
-            this.LabelFourthDayOfWeekInTabPageSchedule.Text = "day 1";
+            this.LabelFourthDayOfWeekInTabPageSchedule.Text = "day 4";
             // 
             // LabelTotalHoursInThirdDayInTabPageSchedule
             // 
@@ -1235,7 +1226,7 @@
             this.LabelThirdDayOfWeekInTabPageSchedule.Name = "LabelThirdDayOfWeekInTabPageSchedule";
             this.LabelThirdDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
             this.LabelThirdDayOfWeekInTabPageSchedule.TabIndex = 278;
-            this.LabelThirdDayOfWeekInTabPageSchedule.Text = "day 1";
+            this.LabelThirdDayOfWeekInTabPageSchedule.Text = "day 3";
             // 
             // LabelTotalHoursInSecondDayInTabPageSchedule
             // 
@@ -1273,7 +1264,7 @@
             this.LabelSecondDayOfWeekInTabPageSchedule.Name = "LabelSecondDayOfWeekInTabPageSchedule";
             this.LabelSecondDayOfWeekInTabPageSchedule.Size = new System.Drawing.Size(65, 25);
             this.LabelSecondDayOfWeekInTabPageSchedule.TabIndex = 274;
-            this.LabelSecondDayOfWeekInTabPageSchedule.Text = "day 1";
+            this.LabelSecondDayOfWeekInTabPageSchedule.Text = "day 2";
             // 
             // LabelTotalHoursInFirstDayInTabPageSchedule
             // 
@@ -1358,6 +1349,24 @@
             this.label1.Size = new System.Drawing.Size(0, 25);
             this.label1.TabIndex = 5;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(190, 3);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(200, 25);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Seleccione semana";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(869, 3);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(204, 25);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Seleccione posición";
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1383,6 +1392,7 @@
             this.MenuStripInFormMain.PerformLayout();
             this.TableLayoutPanelInFormMain.ResumeLayout(false);
             this.PanelWithWeekAndPositionComboBoxes.ResumeLayout(false);
+            this.PanelWithWeekAndPositionComboBoxes.PerformLayout();
             this.PanelWithTabControlInFormMain.ResumeLayout(false);
             this.TapControlInFormMain.ResumeLayout(false);
             this.TabPageEmployeeInformation.ResumeLayout(false);
@@ -1502,6 +1512,8 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPrintSchedule;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemExit;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPetitions;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label label8;
     }
 }
 

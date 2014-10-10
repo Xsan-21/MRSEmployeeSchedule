@@ -3,7 +3,7 @@
     public interface IEmployee
     {
         string Name { get; set; }
-        int ID { get; set; }
+        string ID { get; set; }
         string PhoneNumber { get; set; }
         string Position { get; set; }
         string JobType { get; set; }
@@ -16,8 +16,7 @@
     {
         #region VARIABLES AND PROPERTIES
 
-        string _name, _phone, _position, _jobType, _department, _store;
-        int _id;
+        string _name, _phone, _position, _jobType, _department, _store, _id;
         bool _isStudent;
 
         public string Name
@@ -25,7 +24,7 @@
             get { return _name; }
             set { _name = value; }
         }
-        public int ID
+        public string ID
         {
             get { return _id; }
             set { _id = value; }
@@ -66,7 +65,7 @@
         #region CONSTRUCTORS
 
         public Employee() { }
-        public Employee(string name, int id, string phone, string position, string jobType, string department, bool isStudent, string store)
+        public Employee(string name, string id, string phone, string position, string jobType, string department, bool isStudent, string store)
         {
             Name = name;
             ID = id;

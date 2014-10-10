@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using MRSES.Core.Entities;
 using MRSES.Core.Shared;
 using MRSES.Windows.Forms;
+using MRSES.ExternalServices.Postgres;
 
 namespace MRSES.Windows
 {
@@ -17,12 +18,12 @@ namespace MRSES.Windows
     {
         #region Variables
 
-        FormPetitions _formPetitions = new FormPetitions();
+        FormPetitions formPetitions = new FormPetitions();
+        EmployeeRepository employeeRepository = new EmployeeRepository();
+
         #endregion
 
         #region Properties
-
-        string CurrentActiveTextBoxDefaultText { get; set; }
 
         #endregion
 
@@ -34,14 +35,29 @@ namespace MRSES.Windows
             this.Width = 850; this.Height = 500; 
         }
 
-        private void FormMain_Load(object sender, EventArgs e)
+        private async void FormMain_Load(object sender, EventArgs e)
         {
-
+            await FillPositionComboBoxAsync();
+            FillWeekSelectorComboBox();
         } 
 
         #endregion
 
         #region Methods
+
+        async Task FillPositionComboBoxAsync()
+        {
+            var positions = await employeeRepository.GetPositionsAsync();
+            ComboBoxPositionSelectorInFormMain.Items.AddRange(positions.ToArray());
+        }
+
+        void FillWeekSelectorComboBox()
+        {
+            foreach (var week in ComboBoxFunctions.GetCurrentAndNextThreeWeeks())
+            {
+                ComboBoxWeekSelectorInFormMain.Items.Add(week); 
+            }
+        }
 
         public void ShowMessageInLabelMessageOfFormMain(string message)
         {
@@ -84,29 +100,21 @@ namespace MRSES.Windows
         
         #endregion
 
-        #region Textbox text changes
+        #region Textbox events
 
-        void SetDefaultTextIndicatorIfTextBoxIsEmpty(object sender, EventArgs e)
+        async void RemoveDefaultTextIndicatorInTextBoxAsync(object sender, EventArgs e)
         {
-            StringFunctions.SetDefaultTextIndicatorIfTextBoxIsEmpty(sender as TextBox, e);                               
+            await StringFunctions.RemoveDefaultTextIndicatorAsync(sender as TextBox);                                        
         }
 
-        #endregion           
-
-        #region Textbox click
-
-        void SetCursorToTheStartOfTextBox(object sender, EventArgs e)
+        async void SetDefaultTextIndicatorInTextBoxAsync(object sender, EventArgs e)
         {
-            StringFunctions.SetCursorToTheStartOfTextBox(sender as TextBox, e);
+            await StringFunctions.SetDefaultTextIndicatorInTextBoxAsync(sender as TextBox);
         }
 
-        #endregion       
-
-        #region Textbox key press      
-
-        void RemoveDefaultTextIndicatorFromTextBox(object sender, KeyPressEventArgs e)
+        async void ChangeColorOfTextAsync(object sender, EventArgs e)
         {
-            StringFunctions.RemoveDefaultTextIndicatorFromTextBox(sender as TextBox, e);                                                                                             
+            await StringFunctions.ChangeTextColorAsync(sender as TextBox);
         }
 
         #endregion
@@ -130,11 +138,131 @@ namespace MRSES.Windows
 
         private void ToolStripMenuItemPetitions_Click(object sender, EventArgs e)
         {
-            _formPetitions.Show();
+            formPetitions.Show();
         }
         
         #endregion     
         
         #endregion
+
+        #region TabPage Employee Information
+        
+        #region Events
+        
+        async void ComboBoxPositionSelectorInFormMainValueChanged(object sender, EventArgs e)
+        {
+            await FillListBoxEmployeesInEmployeeTabPageAsync();
+        }
+
+        async void ListBoxEmployeesInEmployeeTabPageSelectedIndex(object sender, EventArgs e)
+        {
+            if (ListBoxEmployeesInEmployeeTabPage.SelectedIndex >= 0)
+                await SendInformationToTextboxesAsync();
+        }
+
+        private async void ButtonSaveInTabPageEmployeeInformation_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ButtonSaveInTabPageEmployeeInformation.Enabled = false;
+                await SaveEmployeeInformationInTabEmployeeAsync();
+                LabelMessageInFormMain.Text = "Nuevo empleado agregado.";
+            }
+            catch (Exception ex)
+            {
+                LabelMessageInFormMain.Text = ex.Message;
+            }
+            finally
+            {
+                ButtonSaveInTabPageEmployeeInformation.Enabled = true;
+            }            
+        }
+
+        private async void ButtonDeleteInTabPageEmployeeInformation_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ButtonDeleteInTabPageEmployeeInformation.Enabled = false;
+                await DeleteEmployeeInformationInTabEmployeeAsync();                
+            }
+            catch (Exception ex)
+            {
+                LabelMessageInFormMain.Text = ex.Message;
+            }
+            finally
+            {
+                ClearEmployeeInformationTextBoxes();
+                ButtonDeleteInTabPageEmployeeInformation.Enabled = true;
+            }
+        }
+        
+        #endregion
+
+        #region Methods
+
+        void ClearEmployeeInformationTextBoxes()
+        {
+            TextBoxEmployeeNameInTabPageEmployeeInformation.Text = TextBoxEmployeeNameInTabPageEmployeeInformation.Tag.ToString();
+            TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Text = TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Tag.ToString();
+            TextBoxEmployeeIDInTabPageEmployeeInformation.Text = TextBoxEmployeeIDInTabPageEmployeeInformation.Tag.ToString();
+            TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text = TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Tag.ToString();
+            TextBoxEmployeePositionInTabPageEmployeeInformation.Text = TextBoxEmployeePositionInTabPageEmployeeInformation.Tag.ToString(); ;
+            CheckBoxIsStudentInTabPageEmployeeInformation.Checked = false;
+            CheckBoxIsPartTimeInTabPageEmployeeInformation.Checked = false;
+            CheckBoxIsFulltimeInTabPageEmployeeInformation.Checked = false;
+        }
+
+        async Task FillListBoxEmployeesInEmployeeTabPageAsync()
+        {
+            string position = ComboBoxPositionSelectorInFormMain.Text;
+            var employeeNames = await employeeRepository.GetEmployeeNamesByPosition(position);
+            ListBoxEmployeesInEmployeeTabPage.Items.Clear();
+            ListBoxEmployeesInEmployeeTabPage.Items.AddRange(employeeNames.ToArray());
+        }
+
+        async Task SendInformationToTextboxesAsync()
+        {
+            string employeeName = ListBoxEmployeesInEmployeeTabPage.SelectedItem.ToString();
+            var employeeInfo = await employeeRepository.GetEmployeeAsync(employeeName);
+
+            TextBoxEmployeeNameInTabPageEmployeeInformation.Text = employeeInfo.Name;
+            TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Text = employeeInfo.Department;
+            TextBoxEmployeeIDInTabPageEmployeeInformation.Text = employeeInfo.ID;
+            TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text = employeeInfo.PhoneNumber;
+            TextBoxEmployeePositionInTabPageEmployeeInformation.Text = employeeInfo.Position;
+            CheckBoxIsStudentInTabPageEmployeeInformation.Checked = employeeInfo.IsStudent;
+            CheckBoxIsPartTimeInTabPageEmployeeInformation.Checked = employeeInfo.JobType == "Part-Time" ? true : false;
+            CheckBoxIsFulltimeInTabPageEmployeeInformation.Checked = employeeInfo.JobType == "Full-Time" ? true : false;
+        }
+
+        async Task SaveEmployeeInformationInTabEmployeeAsync()
+        {
+            var employee = new Employee 
+            {
+                Name = TextBoxEmployeeNameInTabPageEmployeeInformation.Text,
+                ID = TextBoxEmployeeIDInTabPageEmployeeInformation.Text,
+                Department = TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Text,
+                IsStudent = CheckBoxIsStudentInTabPageEmployeeInformation.Checked,
+                JobType = CheckBoxIsPartTimeInTabPageEmployeeInformation.Checked == true ? "Part-Time" : "Full-Time",
+                PhoneNumber = TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text,
+                Position = TextBoxEmployeePositionInTabPageEmployeeInformation.Text,
+                Store = ExternalServices.Configuration.StoreLocation
+            };
+
+            employeeRepository.Employee = employee;
+            await employeeRepository.SaveAsync();
+        }
+
+        async Task DeleteEmployeeInformationInTabEmployeeAsync()
+        {
+            employeeRepository.Employee = new Employee() { ID = TextBoxEmployeeIDInTabPageEmployeeInformation.Text, Store = ExternalServices.Configuration.StoreLocation };
+            await employeeRepository.DeleteAsync();
+            ListBoxEmployeesInEmployeeTabPage.Items.Remove(ListBoxEmployeesInEmployeeTabPage.SelectedItem);
+            LabelMessageInFormMain.Text = "El empleado " + TextBoxEmployeeNameInTabPageEmployeeInformation.Text + " se eliminó.";            
+        }
+
+        #endregion         
+
+        #endregion        
     }
 }
