@@ -23,18 +23,6 @@ namespace MRSES.Windows.Properties {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string FirstDayOfTheWeek {
-            get {
-                return ((string)(this["FirstDayOfTheWeek"]));
-            }
-            set {
-                this["FirstDayOfTheWeek"] = value;
-            }
-        }
-        
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
@@ -50,18 +38,6 @@ namespace MRSES.Windows.Properties {
         public string ParseDotNetKey {
             get {
                 return ((string)(this["ParseDotNetKey"]));
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string StoreLocation {
-            get {
-                return ((string)(this["StoreLocation"]));
-            }
-            set {
-                this["StoreLocation"] = value;
             }
         }
     }

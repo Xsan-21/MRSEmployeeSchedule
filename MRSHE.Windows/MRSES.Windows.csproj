@@ -152,10 +152,6 @@
     <None Include="Resources\sync-icon.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\MRSES\MRSES.ExternalServices\MRSES.ExternalServices.csproj">
-      <Project>{96f3838e-32fa-4c7e-ab00-472245c900f9}</Project>
-      <Name>MRSES.ExternalServices</Name>
-    </ProjectReference>
     <ProjectReference Include="..\MRSES.Core\MRSES.Core.csproj">
       <Project>{62b32fe7-0d58-40e2-8a6d-517e4f17f0b6}</Project>
       <Name>MRSES.Core</Name>

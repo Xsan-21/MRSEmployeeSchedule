@@ -56,7 +56,7 @@ namespace MRSES.Windows.Forms
         async Task SendFeedBackAsync()
         {
             ButtonSendFeedbackInFormFeedBack.Enabled = false;
-            _feedBack = new FeedBack(Settings.Default.StoreLocation, TextBoxUserFeedbackInFormFeedBack.Text);
+            _feedBack = new FeedBack(Core.Configuration.StoreLocation, TextBoxUserFeedbackInFormFeedBack.Text);
             LabelMessageInFormFeedBack.Text = "Enviando mensaje...";
 
             await _feedBack.SendFeedBackAsync();

@@ -34,8 +34,10 @@ namespace MRSES.Windows.Forms
             await FillPositionComboBoxAsync();
         }
 
-        private async Task ShowPetitionsAsync()
+        private Task ShowPetitionsAsync()
         {
+            throw new NotImplementedException();
+            /*
             RichTextBoxPetitionViewInFormPetitions.Clear();
             LabelMessageResult.Text = "Buscando peticiones...";
 
@@ -52,7 +54,7 @@ namespace MRSES.Windows.Forms
             {
                 LabelMessageResult.Text = "No hay peticiones para esta semana";
                 LabelMessageResult.Visible = true;
-            }                
+            }                */
         }
 
         async Task<StringBuilder> PreparePetitionsAsync(MRSES.Core.Entities.Petition[] petitions)
@@ -100,8 +102,9 @@ namespace MRSES.Windows.Forms
                     ComboBoxWeekSelectorInFormPetition.Items.Add(week);                       
         }
 
-        async Task FillPositionComboBoxAsync()
+        Task FillPositionComboBoxAsync()
         {
+            throw new NotImplementedException();
             //if (ComboBoxPositionSelectorInFormPetition.Items.Count < 1)
             //    foreach (var position in await _employeeRepository.GetPositions()) // TODO usar Postgres
             //        ComboBoxPositionSelectorInFormPetition.Items.Add(position);       

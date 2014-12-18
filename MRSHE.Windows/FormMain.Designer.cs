@@ -46,14 +46,20 @@
             this.ButtonShowAddEmployeeTabPage = new System.Windows.Forms.Button();
             this.ButtonShowWeekScheduleTabPage = new System.Windows.Forms.Button();
             this.PanelWithWeekAndPositionComboBoxes = new System.Windows.Forms.Panel();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
             this.ComboBoxPositionSelectorInFormMain = new System.Windows.Forms.ComboBox();
             this.ComboBoxWeekSelectorInFormMain = new System.Windows.Forms.ComboBox();
             this.PanelWithTabControlInFormMain = new System.Windows.Forms.Panel();
             this.TapControlInFormMain = new System.Windows.Forms.TabControl();
             this.TapPageViewWeekSchedule = new System.Windows.Forms.TabPage();
             this.TabPageEmployeeInformation = new System.Windows.Forms.TabPage();
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation = new System.Windows.Forms.Button();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.label11 = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.ListBoxEmployeesInEmployeeTabPage = new System.Windows.Forms.ListBox();
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation = new System.Windows.Forms.TextBox();
             this.ButtonDeleteInTabPageEmployeeInformation = new System.Windows.Forms.Button();
             this.ButtonSaveInTabPageEmployeeInformation = new System.Windows.Forms.Button();
             this.CheckBoxIsFulltimeInTabPageEmployeeInformation = new System.Windows.Forms.CheckBox();
@@ -131,8 +137,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.ComboBoxSelectEmployeeInTabPageSchedule = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
             this.MenuStripInFormMain.SuspendLayout();
             this.TableLayoutPanelInFormMain.SuspendLayout();
             this.PanelWithWeekAndPositionComboBoxes.SuspendLayout();
@@ -338,6 +342,24 @@
             this.PanelWithWeekAndPositionComboBoxes.Size = new System.Drawing.Size(1245, 101);
             this.PanelWithWeekAndPositionComboBoxes.TabIndex = 3;
             // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(869, 3);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(204, 25);
+            this.label9.TabIndex = 3;
+            this.label9.Text = "Seleccione posición";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(190, 3);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(200, 25);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Seleccione semana";
+            // 
             // ComboBoxPositionSelectorInFormMain
             // 
             this.ComboBoxPositionSelectorInFormMain.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -346,7 +368,6 @@
             this.ComboBoxPositionSelectorInFormMain.Location = new System.Drawing.Point(676, 44);
             this.ComboBoxPositionSelectorInFormMain.Name = "ComboBoxPositionSelectorInFormMain";
             this.ComboBoxPositionSelectorInFormMain.Size = new System.Drawing.Size(528, 33);
-            this.ComboBoxPositionSelectorInFormMain.Sorted = true;
             this.ComboBoxPositionSelectorInFormMain.TabIndex = 1;
             this.ComboBoxPositionSelectorInFormMain.TabStop = false;
             this.ComboBoxPositionSelectorInFormMain.SelectedValueChanged += new System.EventHandler(this.ComboBoxPositionSelectorInFormMainValueChanged);
@@ -399,8 +420,12 @@
             // 
             // TabPageEmployeeInformation
             // 
+            this.TabPageEmployeeInformation.Controls.Add(this.ButtonClearTextBoxesInTabPageEmployeeInformation);
+            this.TabPageEmployeeInformation.Controls.Add(this.label18);
+            this.TabPageEmployeeInformation.Controls.Add(this.label12);
+            this.TabPageEmployeeInformation.Controls.Add(this.label11);
+            this.TabPageEmployeeInformation.Controls.Add(this.label10);
             this.TabPageEmployeeInformation.Controls.Add(this.ListBoxEmployeesInEmployeeTabPage);
-            this.TabPageEmployeeInformation.Controls.Add(this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation);
             this.TabPageEmployeeInformation.Controls.Add(this.ButtonDeleteInTabPageEmployeeInformation);
             this.TabPageEmployeeInformation.Controls.Add(this.ButtonSaveInTabPageEmployeeInformation);
             this.TabPageEmployeeInformation.Controls.Add(this.CheckBoxIsFulltimeInTabPageEmployeeInformation);
@@ -418,6 +443,61 @@
             this.TabPageEmployeeInformation.TabIndex = 1;
             this.TabPageEmployeeInformation.UseVisualStyleBackColor = true;
             // 
+            // ButtonClearTextBoxesInTabPageEmployeeInformation
+            // 
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 20);
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.Name = "ButtonClearTextBoxesInTabPageEmployeeInformation";
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.Size = new System.Drawing.Size(250, 75);
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.TabIndex = 16;
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.Text = "Añadir empleado";
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.UseVisualStyleBackColor = true;
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.Click += new System.EventHandler(this.ButtonClearTextBoxesInTabPageEmployeeInformation_Click);
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.ForeColor = System.Drawing.Color.Red;
+            this.label18.Location = new System.Drawing.Point(361, 207);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(20, 25);
+            this.label18.TabIndex = 15;
+            this.label18.Text = "*";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.ForeColor = System.Drawing.Color.Red;
+            this.label12.Location = new System.Drawing.Point(360, 260);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(20, 25);
+            this.label12.TabIndex = 14;
+            this.label12.Text = "*";
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.ForeColor = System.Drawing.Color.Red;
+            this.label11.Location = new System.Drawing.Point(362, 154);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(20, 25);
+            this.label11.TabIndex = 13;
+            this.label11.Text = "*";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.ForeColor = System.Drawing.Color.Red;
+            this.label10.Location = new System.Drawing.Point(452, 45);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(119, 25);
+            this.label10.TabIndex = 12;
+            this.label10.Text = "* Required ";
+            // 
             // ListBoxEmployeesInEmployeeTabPage
             // 
             this.ListBoxEmployeesInEmployeeTabPage.Dock = System.Windows.Forms.DockStyle.Right;
@@ -431,22 +511,6 @@
             this.ListBoxEmployeesInEmployeeTabPage.TabStop = false;
             this.ListBoxEmployeesInEmployeeTabPage.SelectedIndexChanged += new System.EventHandler(this.ListBoxEmployeesInEmployeeTabPageSelectedIndex);
             // 
-            // TextBoxSearchEmployeeFilterInTabPageEmployeeInformation
-            // 
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Location = new System.Drawing.Point(263, 30);
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Name = "TextBoxSearchEmployeeFilterInTabPageEmployeeInformation";
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Size = new System.Drawing.Size(300, 31);
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.TabIndex = 0;
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Tag = "Buscar empleado";
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Text = "Buscar empleado";
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
-            this.TextBoxSearchEmployeeFilterInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
-            // 
             // ButtonDeleteInTabPageEmployeeInformation
             // 
             this.ButtonDeleteInTabPageEmployeeInformation.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
@@ -458,7 +522,7 @@
             this.ButtonDeleteInTabPageEmployeeInformation.Name = "ButtonDeleteInTabPageEmployeeInformation";
             this.ButtonDeleteInTabPageEmployeeInformation.Size = new System.Drawing.Size(250, 75);
             this.ButtonDeleteInTabPageEmployeeInformation.TabIndex = 10;
-            this.ButtonDeleteInTabPageEmployeeInformation.Text = "Borrar";
+            this.ButtonDeleteInTabPageEmployeeInformation.Text = "Borrar Empleado";
             this.ButtonDeleteInTabPageEmployeeInformation.UseVisualStyleBackColor = true;
             this.ButtonDeleteInTabPageEmployeeInformation.Click += new System.EventHandler(this.ButtonDeleteInTabPageEmployeeInformation_Click);
             // 
@@ -473,7 +537,7 @@
             this.ButtonSaveInTabPageEmployeeInformation.Name = "ButtonSaveInTabPageEmployeeInformation";
             this.ButtonSaveInTabPageEmployeeInformation.Size = new System.Drawing.Size(250, 75);
             this.ButtonSaveInTabPageEmployeeInformation.TabIndex = 9;
-            this.ButtonSaveInTabPageEmployeeInformation.Text = "Guardar";
+            this.ButtonSaveInTabPageEmployeeInformation.Text = "Guardar Información";
             this.ButtonSaveInTabPageEmployeeInformation.UseVisualStyleBackColor = true;
             this.ButtonSaveInTabPageEmployeeInformation.Click += new System.EventHandler(this.ButtonSaveInTabPageEmployeeInformation_Click);
             // 
@@ -619,7 +683,7 @@
             this.ButtonSaveInTabPageAvailability.Name = "ButtonSaveInTabPageAvailability";
             this.ButtonSaveInTabPageAvailability.Size = new System.Drawing.Size(250, 75);
             this.ButtonSaveInTabPageAvailability.TabIndex = 9;
-            this.ButtonSaveInTabPageAvailability.Text = "Guardar";
+            this.ButtonSaveInTabPageAvailability.Text = "Guardar Disponibilidad";
             this.ButtonSaveInTabPageAvailability.UseVisualStyleBackColor = true;
             // 
             // TextBoxSaturdayInTabPageAvailability
@@ -1349,24 +1413,6 @@
             this.label1.Size = new System.Drawing.Size(0, 25);
             this.label1.TabIndex = 5;
             // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(190, 3);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(200, 25);
-            this.label8.TabIndex = 2;
-            this.label8.Text = "Seleccione semana";
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(869, 3);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(204, 25);
-            this.label9.TabIndex = 3;
-            this.label9.Text = "Seleccione posición";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1439,7 +1485,6 @@
         private System.Windows.Forms.CheckBox CheckBoxIsStudentInTabPageEmployeeInformation;
         private System.Windows.Forms.Button ButtonDeleteInTabPageEmployeeInformation;
         private System.Windows.Forms.Button ButtonSaveInTabPageEmployeeInformation;
-        private System.Windows.Forms.TextBox TextBoxSearchEmployeeFilterInTabPageEmployeeInformation;
         private System.Windows.Forms.ListBox ListBoxEmployeesInEmployeeTabPage;
         private System.Windows.Forms.TextBox TextBoxSaturdayInTabPageAvailability;
         private System.Windows.Forms.TextBox TextBoxFridayInTabPageAvailability;
@@ -1514,6 +1559,11 @@
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPetitions;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label18;
+        private System.Windows.Forms.Button ButtonClearTextBoxesInTabPageEmployeeInformation;
     }
 }
 

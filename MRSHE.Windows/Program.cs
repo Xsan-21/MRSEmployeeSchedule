@@ -17,10 +17,5 @@ namespace MRSES.Windows
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormMain());
         }
-
-        /// <summary>
-        /// Gets the current store that is using this application.
-        /// </summary>
-        static public string StoreLocation { get { return Properties.Settings.Default.StoreLocation; } }
     }
 }

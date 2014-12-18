@@ -7,10 +7,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MRSES.Core;
 using MRSES.Core.Entities;
 using MRSES.Core.Shared;
+using MRSES.Core.Persistence;
 using MRSES.Windows.Forms;
-using MRSES.ExternalServices.Postgres;
 
 namespace MRSES.Windows
 {
@@ -18,9 +19,11 @@ namespace MRSES.Windows
     {
         #region Variables
 
-        FormPetitions formPetitions = new FormPetitions();
-        EmployeeRepository employeeRepository = new EmployeeRepository();
+        string _idOfCurrentSelectedEmployeeInEmployeeTabPage;
 
+        FormPetitions formPetitions;
+        EmployeeRepository employeeRepository;
+   
         #endregion
 
         #region Properties
@@ -32,7 +35,10 @@ namespace MRSES.Windows
         public FormMain()
         {
             InitializeComponent();
-            this.Width = 850; this.Height = 500; 
+            this.Width = 850; this.Height = 500;
+
+            employeeRepository = new EmployeeRepository();
+            formPetitions = new FormPetitions();
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
@@ -43,25 +49,31 @@ namespace MRSES.Windows
 
         #endregion
 
-        #region Methods
+        #region Shared Methods For Main Form
 
         async Task FillPositionComboBoxAsync()
         {
             var positions = await employeeRepository.GetPositionsAsync();
-            ComboBoxPositionSelectorInFormMain.Items.AddRange(positions.ToArray());
+            ComboBoxPositionSelectorInFormMain.DataSource = positions;
         }
 
         void FillWeekSelectorComboBox()
         {
-            foreach (var week in ComboBoxFunctions.GetCurrentAndNextThreeWeeks())
-            {
-                ComboBoxWeekSelectorInFormMain.Items.Add(week); 
-            }
+            var weeks = ComboBoxFunctions.GetCurrentAndNextThreeWeeks();
+            ComboBoxWeekSelectorInFormMain.DataSource = weeks.ToArray();
         }
 
-        public void ShowMessageInLabelMessageOfFormMain(string message)
+        public async Task ShowMessageInLabelMessageOfFormMain(string message, string result)
         {
             LabelMessageInFormMain.Text = message;
+            
+            if(result == "error")
+                LabelMessageInFormMain.BackColor = Color.Red;
+            
+
+            await Task.Delay(5000);
+            LabelMessageInFormMain.BackColor = Color.DarkKhaki;
+            LabelMessageInFormMain.Text = "";
         }
 
         #endregion        
@@ -146,9 +158,9 @@ namespace MRSES.Windows
         #endregion
 
         #region TabPage Employee Information
-        
+
         #region Events
-        
+
         async void ComboBoxPositionSelectorInFormMainValueChanged(object sender, EventArgs e)
         {
             await FillListBoxEmployeesInEmployeeTabPageAsync();
@@ -164,17 +176,16 @@ namespace MRSES.Windows
         {
             try
             {
-                ButtonSaveInTabPageEmployeeInformation.Enabled = false;
-                await SaveEmployeeInformationInTabEmployeeAsync();
-                LabelMessageInFormMain.Text = "Nuevo empleado agregado.";
+                DisableButtonsInTabPageEmployeeInformation();
+                await ValidateEmployeeInformationBeforeSavingAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex) 
             {
-                LabelMessageInFormMain.Text = ex.Message;
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
             }
             finally
             {
-                ButtonSaveInTabPageEmployeeInformation.Enabled = true;
+                EnableButtonsInTabPageEmployeeInformation();
             }            
         }
 
@@ -182,23 +193,71 @@ namespace MRSES.Windows
         {
             try
             {
-                ButtonDeleteInTabPageEmployeeInformation.Enabled = false;
-                await DeleteEmployeeInformationInTabEmployeeAsync();                
+                DisableButtonsInTabPageEmployeeInformation();
+                await DeleteEmployeeAfterUserConfirmationAsync();
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
-                LabelMessageInFormMain.Text = ex.Message;
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
             }
             finally
             {
                 ClearEmployeeInformationTextBoxes();
-                ButtonDeleteInTabPageEmployeeInformation.Enabled = true;
+                EnableButtonsInTabPageEmployeeInformation();
             }
+        }
+
+        private void ButtonClearTextBoxesInTabPageEmployeeInformation_Click(object sender, EventArgs e)
+        {
+            ClearEmployeeInformationTextBoxes();
         }
         
         #endregion
 
         #region Methods
+
+        void EnableButtonsInTabPageEmployeeInformation()
+        {
+            ButtonSaveInTabPageEmployeeInformation.Enabled = true;
+            ButtonDeleteInTabPageEmployeeInformation.Enabled = true;
+            ButtonClearTextBoxesInTabPageEmployeeInformation.Enabled = true;
+        }
+
+        void DisableButtonsInTabPageEmployeeInformation()
+        {
+            ButtonSaveInTabPageEmployeeInformation.Enabled = false;
+            ButtonDeleteInTabPageEmployeeInformation.Enabled = false;
+            ButtonClearTextBoxesInTabPageEmployeeInformation.Enabled = false;
+        }
+
+        bool ValidateEmployeeInformationInTextBoxesOfEmployeeTabPage()
+        {
+            return
+                TextBoxEmployeeIDInTabPageEmployeeInformation.Text == TextBoxEmployeeIDInTabPageEmployeeInformation.Tag.ToString() ? false
+                : TextBoxEmployeePositionInTabPageEmployeeInformation.Text == TextBoxEmployeePositionInTabPageEmployeeInformation.Tag.ToString() ? false
+                : TextBoxEmployeeNameInTabPageEmployeeInformation.Text == TextBoxEmployeeNameInTabPageEmployeeInformation.Tag.ToString() ? false
+                : string.IsNullOrEmpty(TextBoxEmployeeIDInTabPageEmployeeInformation.Text) ? false
+                : string.IsNullOrEmpty(TextBoxEmployeePositionInTabPageEmployeeInformation.Text) ? false
+                : string.IsNullOrEmpty(TextBoxEmployeeNameInTabPageEmployeeInformation.Text) ? false
+                : true;
+        }
+
+        async Task DeleteEmployeeAfterUserConfirmationAsync()
+        {
+            if (ListBoxEmployeesInEmployeeTabPage.SelectedIndex < 0)
+            {
+                await ShowMessageInLabelMessageOfFormMain("Seleccione un empleado de la lista para eliminarlo.", "error");
+                return;
+            }
+
+            var dialogResult = AlertUser.Message("¿Desea borrar el empleado " + TextBoxEmployeeNameInTabPageEmployeeInformation.Text + " del sistema?", "Eliminar empleado", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2);
+
+            if (dialogResult == DialogResult.Yes)
+            {
+                await DeleteEmployeeInformationInTabEmployeeAsync();
+                await  ShowMessageInLabelMessageOfFormMain("El empleado " + TextBoxEmployeeNameInTabPageEmployeeInformation.Text + " se eliminó.", "done");
+            } 
+        }
 
         void ClearEmployeeInformationTextBoxes()
         {
@@ -212,10 +271,26 @@ namespace MRSES.Windows
             CheckBoxIsFulltimeInTabPageEmployeeInformation.Checked = false;
         }
 
+        async Task ValidateEmployeeInformationBeforeSavingAsync()
+        {
+            bool result = ValidateEmployeeInformationInTextBoxesOfEmployeeTabPage();
+
+            if (result)
+            {
+                await SaveEmployeeInformationInTabEmployeeAsync();
+                await ShowMessageInLabelMessageOfFormMain("Nuevo empleado agregado o actualizado.", "");
+                await FillPositionComboBoxAsync();
+            }
+            else
+            {
+                await ShowMessageInLabelMessageOfFormMain("No ha completado la información requerida del empleado.", "error");     
+            }
+        }
+
         async Task FillListBoxEmployeesInEmployeeTabPageAsync()
         {
             string position = ComboBoxPositionSelectorInFormMain.Text;
-            var employeeNames = await employeeRepository.GetEmployeeNamesByPosition(position);
+            var employeeNames = await employeeRepository.GetEmployeeNamesByPositionAsync(position);
             ListBoxEmployeesInEmployeeTabPage.Items.Clear();
             ListBoxEmployeesInEmployeeTabPage.Items.AddRange(employeeNames.ToArray());
         }
@@ -224,6 +299,8 @@ namespace MRSES.Windows
         {
             string employeeName = ListBoxEmployeesInEmployeeTabPage.SelectedItem.ToString();
             var employeeInfo = await employeeRepository.GetEmployeeAsync(employeeName);
+
+            _idOfCurrentSelectedEmployeeInEmployeeTabPage = employeeInfo.ID;
 
             TextBoxEmployeeNameInTabPageEmployeeInformation.Text = employeeInfo.Name;
             TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Text = employeeInfo.Department;
@@ -246,19 +323,19 @@ namespace MRSES.Windows
                 JobType = CheckBoxIsPartTimeInTabPageEmployeeInformation.Checked == true ? "Part-Time" : "Full-Time",
                 PhoneNumber = TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text,
                 Position = TextBoxEmployeePositionInTabPageEmployeeInformation.Text,
-                Store = ExternalServices.Configuration.StoreLocation
+                OldNameOrID = _idOfCurrentSelectedEmployeeInEmployeeTabPage
             };
 
             employeeRepository.Employee = employee;
             await employeeRepository.SaveAsync();
+            _idOfCurrentSelectedEmployeeInEmployeeTabPage = string.Empty;
         }
 
         async Task DeleteEmployeeInformationInTabEmployeeAsync()
         {
-            employeeRepository.Employee = new Employee() { ID = TextBoxEmployeeIDInTabPageEmployeeInformation.Text, Store = ExternalServices.Configuration.StoreLocation };
+            employeeRepository.Employee = new Employee() { Name = TextBoxEmployeeNameInTabPageEmployeeInformation.Text,  ID = TextBoxEmployeeIDInTabPageEmployeeInformation.Text };
             await employeeRepository.DeleteAsync();
             ListBoxEmployeesInEmployeeTabPage.Items.Remove(ListBoxEmployeesInEmployeeTabPage.SelectedItem);
-            LabelMessageInFormMain.Text = "El empleado " + TextBoxEmployeeNameInTabPageEmployeeInformation.Text + " se eliminó.";            
         }
 
         #endregion         
