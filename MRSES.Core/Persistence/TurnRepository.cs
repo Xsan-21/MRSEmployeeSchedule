@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace MRSES.ExternalServices.Postgres
+namespace MRSES.Core.Persistence
 {
     public class TurnRepository
     {

@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using Npgsql;
 using NpgsqlTypes;
 
-namespace MRSES.ExternalServices.Postgres
+namespace MRSES.Core.Persistence
 {
-    public class EmployeeRepository// : IEmployeeRepository, System.IDisposable
+    public class EmployeeRepository : IEmployeeRepository, System.IDisposable
     {
         #region Fields
 
         private IEmployee _employee;
+
         #endregion
 
         #region Properties
@@ -55,9 +56,10 @@ namespace MRSES.ExternalServices.Postgres
                 using (var command = new NpgsqlCommand("", dbConnection))
                 {
                     command.CommandText = GetQuery("Exists");
-                    command.CommandType = System.Data.CommandType.Text;                    
-                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Employee.Store);
-                    command.Parameters.AddWithValue("employeeId", NpgsqlDbType.Varchar, Employee.ID);
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+                    command.Parameters.AddWithValue("employee_id", NpgsqlDbType.Varchar, string.IsNullOrEmpty(Employee.OldNameOrID) ? Employee.ID : Employee.OldNameOrID);
+                    
                     await command.Connection.OpenAsync();
                     
                     result = (bool)(await command.ExecuteScalarAsync());
@@ -82,14 +84,24 @@ namespace MRSES.ExternalServices.Postgres
                 {
                     command.CommandText = GetQuery(action);
                     command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Employee.Store);
-                    command.Parameters.AddWithValue("employeeId", NpgsqlDbType.Varchar, Employee.ID);
+                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+                    command.Parameters.AddWithValue("employee_id", NpgsqlDbType.Varchar, Employee.ID);
                     command.Parameters.AddWithValue("department", NpgsqlDbType.Varchar, Employee.Department);
-                    command.Parameters.AddWithValue("isStudent", NpgsqlDbType.Boolean, Employee.IsStudent);
-                    command.Parameters.AddWithValue("jobType", NpgsqlDbType.Varchar, Employee.JobType);
-                    command.Parameters.AddWithValue("name", NpgsqlDbType.Varchar, Employee.Name);
-                    command.Parameters.AddWithValue("employeePosition", NpgsqlDbType.Varchar, Employee.Position);
-                    command.Parameters.AddWithValue("phone", NpgsqlDbType.Varchar, Employee.PhoneNumber);
+                    command.Parameters.AddWithValue("student", NpgsqlDbType.Boolean, Employee.IsStudent);
+                    command.Parameters.AddWithValue("job_type", NpgsqlDbType.Varchar, Employee.JobType);
+                    command.Parameters.AddWithValue("employee_name", NpgsqlDbType.Varchar, Employee.Name);
+                    command.Parameters.AddWithValue("position", NpgsqlDbType.Varchar, Employee.Position);
+                    command.Parameters.AddWithValue("phone_number", NpgsqlDbType.Varchar, Employee.PhoneNumber);
+
+                    if (action == "Update")
+                    {
+                        command.Parameters.AddWithValue("current_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+
+                        if (string.IsNullOrEmpty(Employee.OldNameOrID))
+                            RaiseException("Se requiere especificar la propiedad OldNameOrID de la variable employee para actualizar la información del empleado.");
+                        else
+                            command.Parameters.AddWithValue("old_employee_id_or_name", NpgsqlDbType.Varchar, Employee.OldNameOrID);
+                    }
 
                     await command.Connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
@@ -104,7 +116,7 @@ namespace MRSES.ExternalServices.Postgres
             bool employeeExists = await ExistsAsync();
 
             if (!employeeExists)
-                RaiseException("Error: El empleado no existe o el ID del empleado no se ha indicado.");
+                RaiseException("Error: El nombre o ID del empleado especificado no se ha indicado o no existe.");
            
             using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
             {
@@ -112,8 +124,8 @@ namespace MRSES.ExternalServices.Postgres
                 {
                     command.CommandText = GetQuery("Delete");
                     command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Employee.Store);
-                    command.Parameters.AddWithValue("employeeId", NpgsqlDbType.Varchar, Employee.ID);
+                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+                    command.Parameters.AddWithValue("employee_id", NpgsqlDbType.Varchar, Employee.ID);
 
                     await command.Connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
@@ -123,7 +135,7 @@ namespace MRSES.ExternalServices.Postgres
             Dispose();
         }      
 
-        async public Task<Employee> GetEmployeeAsync(string name)
+        async public Task<Employee> GetEmployeeAsync(string name_or_id)
         {
             var employee = new Employee();
 
@@ -134,7 +146,7 @@ namespace MRSES.ExternalServices.Postgres
                     command.CommandText = GetQuery("GetEmployee");
                     command.CommandType = System.Data.CommandType.Text;
                     command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
-                    command.Parameters.AddWithValue("name", NpgsqlDbType.Varchar, name);                    
+                    command.Parameters.AddWithValue("employee_name_or_id", NpgsqlDbType.Varchar, name_or_id);                    
 
                     await command.Connection.OpenAsync();
 
@@ -142,14 +154,13 @@ namespace MRSES.ExternalServices.Postgres
                     {
                         while (await reader.ReadAsync())
                         {
-                            employee.ID = await reader.GetFieldValueAsync<string>(0);
-                            employee.Name = await reader.GetFieldValueAsync<string>(1);
+                            employee.Name = await reader.GetFieldValueAsync<string>(0);
+                            employee.ID = await reader.GetFieldValueAsync<string>(1);
                             employee.Position = await reader.GetFieldValueAsync<string>(2);
                             employee.PhoneNumber = await reader.GetFieldValueAsync<string>(3);
                             employee.JobType = await reader.GetFieldValueAsync<string>(4);
                             employee.Department = await reader.GetFieldValueAsync<string>(5);
                             employee.IsStudent = await reader.GetFieldValueAsync<bool>(6);
-                            employee.Store = Configuration.StoreLocation;
                         }
                     }
                 }
@@ -167,6 +178,7 @@ namespace MRSES.ExternalServices.Postgres
                 {
                     command.CommandText = GetQuery("GetPositions");
                     command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.AddWithValue(":store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
 
                     await command.Connection.OpenAsync();
 
@@ -181,51 +193,50 @@ namespace MRSES.ExternalServices.Postgres
                 }
             }
 
-            return positions;
+            return positions.OrderBy(name => name).ToList();
         }
 
-        async public Task<List<Employee>> GetAllEmployeesByPosition(string position)
-        {
-            var employeeList = new List<Employee>();
+        //async public Task<List<Employee>> GetAllEmployeesByPosition(string position)
+        //{
+        //    var employeeList = new List<Employee>();
 
-            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
-            {
-                using (var command = new NpgsqlCommand("", dbConnection))
-                {
-                    command.CommandText = GetQuery("GetEmployeesByPosition");
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
-                    command.Parameters.AddWithValue("employeePosition", NpgsqlDbType.Varchar, position);
+        //    using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+        //    {
+        //        using (var command = new NpgsqlCommand("", dbConnection))
+        //        {
+        //            command.CommandText = GetQuery("GetEmployeesByPosition");
+        //            command.CommandType = System.Data.CommandType.Text;
+        //            command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+        //            command.Parameters.AddWithValue("employeePosition", NpgsqlDbType.Varchar, position);
 
-                    await command.Connection.OpenAsync();
+        //            await command.Connection.OpenAsync();
 
-                    using (var reader = await command.ExecuteReaderAsync())
-                    {
-                        while (await reader.ReadAsync())
-                        {
-                            employeeList.Add
-                            (
-                                new Employee 
-                                { 
-                                    ID = await reader.GetFieldValueAsync<string>(0),
-                                    Name = await reader.GetFieldValueAsync<string>(1),
-                                    Position = await reader.GetFieldValueAsync<string>(2),
-                                    PhoneNumber = await reader.GetFieldValueAsync<string>(3),
-                                    JobType = await reader.GetFieldValueAsync<string>(4),
-                                    Department = await reader.GetFieldValueAsync<string>(5),
-                                    IsStudent = await reader.GetFieldValueAsync<bool>(6),
-                                    Store = Configuration.StoreLocation
-                                }    
-                            );                           
-                        }
-                    }
-                }
-            }
+        //            using (var reader = await command.ExecuteReaderAsync())
+        //            {
+        //                while (await reader.ReadAsync())
+        //                {
+        //                    employeeList.Add
+        //                    (
+        //                        new Employee 
+        //                        { 
+        //                            ID = await reader.GetFieldValueAsync<string>(0),
+        //                            Name = await reader.GetFieldValueAsync<string>(1),
+        //                            Position = await reader.GetFieldValueAsync<string>(2),
+        //                            PhoneNumber = await reader.GetFieldValueAsync<string>(3),
+        //                            JobType = await reader.GetFieldValueAsync<string>(4),
+        //                            Department = await reader.GetFieldValueAsync<string>(5),
+        //                            IsStudent = await reader.GetFieldValueAsync<bool>(6),
+        //                        }    
+        //                    );                           
+        //                }
+        //            }
+        //        }
+        //    }
 
-            return employeeList;
-        }
+        //    return employeeList;
+        //}
 
-        async public Task<List<string>> GetEmployeeNamesByPosition(string position)
+        async public Task<List<string>> GetEmployeeNamesByPositionAsync(string position)
         {
             var names = new List<string>();
             using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
@@ -235,6 +246,7 @@ namespace MRSES.ExternalServices.Postgres
                     command.CommandText = GetQuery("GetNamesByPosition");
                     command.CommandType = System.Data.CommandType.Text;
                     command.Parameters.AddWithValue("employeePosition", NpgsqlDbType.Varchar, position);
+                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
 
                     await command.Connection.OpenAsync();
 
@@ -258,34 +270,30 @@ namespace MRSES.ExternalServices.Postgres
             switch (action)
             {
                 case "Exists":
-                    query = "SELECT EXISTS (SELECT TRUE FROM employee WHERE store = :store AND employee_id = :employeeId)";
+                    query = "SELECT exists_employee(:employee_id, :store)";
                     break;
                 case "Save":
-                    query = @"INSERT INTO employee VALUES (:employeeId, :name, :employeePosition, :phone, :jobType, :department, :isStudent, :store)";
+                    query = @"SELECT add_employee(:employee_name, :employee_id, :position, :phone_number, :job_type, :department, :student, :store)";
                     break;
                 case "Update":
-                    query = @"UPDATE employee
-                              SET employee_id = :employeeId, name = :name, employee_position = :employeePosition, phone_number = :phone, job_type = :jobType, department = :department, student = :isStudent, store = :store
-                              WHERE employee_id = :employeeId";
+                    query = @"SELECT update_employee_info(:employee_name, :employee_id, :position, :phone_number, :job_type, :department, :student, :store, :current_store, :old_employee_id_or_name)";
                     break;
                 case "Delete":
-                    query = "DELETE FROM employee WHERE store = :store AND employee_id = :employeeId";
+                    query = @"SELECT delete_employee(:employee_id, :store)";
                     break;
                 case "GetEmployee":
-                    query = @"SELECT employee_id, name, employee_position, phone_number, job_type, department, student
-                              FROM employee
-                              WHERE store = :store AND name = :name";
+                    query = @"SELECT * FROM get_employee_info(:employee_name_or_id, :store)";
                     break;
                 case "GetPositions":
-                    query = "SELECT DISTINCT employee_position FROM employee WHERE store = '" + Configuration.StoreLocation + "'";
+                    query = "SELECT get_positions(:store)";
                     break;
-                case "GetEmployeesByPosition":
+                case "GetEmployeesByPosition": // TODO delete if not needed
                     query = @"SELECT employee_id, name, employee_position, phone_number, job_type, department, student
                               FROM employee
                               WHERE store = :store AND employee_position = :employeePosition";
                     break;
                 case "GetNamesByPosition":
-                    query = "SELECT name FROM employee WHERE employee_position = :employeePosition AND store = '" + Configuration.StoreLocation + "'";
+                    query = "SELECT get_names_by_position(:employeePosition, :store)";
                     break;
                 default:
                     break;
@@ -296,10 +304,8 @@ namespace MRSES.ExternalServices.Postgres
 
         void ValidateEmployee()
         {
-            if (Employee == null)
+            if (Employee == null || (Employee.ID == "" && Employee.Name == ""))
                 RaiseException("No se ha especificado empleado");
-            else if (Employee.ID == "")
-                RaiseException("Valor 0 como ID no es válido");
         }
 
         void RaiseException(string message)

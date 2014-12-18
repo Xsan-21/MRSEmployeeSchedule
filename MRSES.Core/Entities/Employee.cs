@@ -9,63 +9,28 @@
         string JobType { get; set; }
         bool IsStudent { get; set; }
         string Department { get; set; }
-        string Store { get; set; } 
+        string OldNameOrID { get; set; }
     }
 
     public class Employee : IEmployee
     {
-        #region VARIABLES AND PROPERTIES
+        #region PROPERTIES
 
-        string _name, _phone, _position, _jobType, _department, _store, _id;
-        bool _isStudent;
-
-        public string Name
-        {
-            get { return _name; }
-            set { _name = value; }
-        }
-        public string ID
-        {
-            get { return _id; }
-            set { _id = value; }
-        }
-        public string PhoneNumber
-        {
-            get { return _phone; }
-            set { _phone = value; }
-        }
-        public string Position
-        {
-            get { return _position; }
-            set { _position = value; }
-        }
-        public string JobType
-        {
-            get { return _jobType; }
-            set { _jobType = value; }
-        }
-        public string Department
-        {
-            get { return _department; }
-            set { _department = value; }
-        }
-        public string Store
-        {
-            get { return _store; }
-            set { _store = value; }
-        }
-        public bool IsStudent
-        {
-            get { return _isStudent; }
-            set { _isStudent = value; }
-        }
+        public string Name { get; set; }
+        public string ID { get; set; }
+        public string PhoneNumber { get; set; }
+        public string Position { get; set; }
+        public string JobType { get; set; }
+        public bool IsStudent { get; set; }
+        public string Department { get; set; }
+        public string OldNameOrID { get; set; }
 
         #endregion
 
         #region CONSTRUCTORS
 
         public Employee() { }
-        public Employee(string name, string id, string phone, string position, string jobType, string department, bool isStudent, string store)
+        public Employee(string name, string id, string phone, string position, string jobType, string department, bool isStudent, string oldNameOrID)
         {
             Name = name;
             ID = id;
@@ -74,7 +39,7 @@
             JobType = jobType;
             Department = department;
             IsStudent = isStudent;
-            Store = store;
+            OldNameOrID = oldNameOrID;
         }
 
         #endregion       

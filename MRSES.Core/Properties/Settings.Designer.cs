@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace MRSES.Properties {
+namespace MRSES.Core.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -25,7 +25,7 @@ namespace MRSES.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("miércoles")]
         public string FirstDayOfWeek {
             get {
                 return ((string)(this["FirstDayOfWeek"]));
@@ -37,7 +37,7 @@ namespace MRSES.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Hormigueros")]
         public string StoreLocation {
             get {
                 return ((string)(this["StoreLocation"]));
@@ -50,18 +50,9 @@ namespace MRSES.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        public string ParseApplicationID {
+        public string PostgresDBConnection {
             get {
-                return ((string)(this["ParseApplicationID"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        public string ParseDotNetKey {
-            get {
-                return ((string)(this["ParseDotNetKey"]));
+                return ((string)(this["PostgresDBConnection"]));
             }
         }
     }
