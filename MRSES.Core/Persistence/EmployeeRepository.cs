@@ -196,46 +196,6 @@ namespace MRSES.Core.Persistence
             return positions.OrderBy(name => name).ToList();
         }
 
-        //async public Task<List<Employee>> GetAllEmployeesByPosition(string position)
-        //{
-        //    var employeeList = new List<Employee>();
-
-        //    using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
-        //    {
-        //        using (var command = new NpgsqlCommand("", dbConnection))
-        //        {
-        //            command.CommandText = GetQuery("GetEmployeesByPosition");
-        //            command.CommandType = System.Data.CommandType.Text;
-        //            command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
-        //            command.Parameters.AddWithValue("employeePosition", NpgsqlDbType.Varchar, position);
-
-        //            await command.Connection.OpenAsync();
-
-        //            using (var reader = await command.ExecuteReaderAsync())
-        //            {
-        //                while (await reader.ReadAsync())
-        //                {
-        //                    employeeList.Add
-        //                    (
-        //                        new Employee 
-        //                        { 
-        //                            ID = await reader.GetFieldValueAsync<string>(0),
-        //                            Name = await reader.GetFieldValueAsync<string>(1),
-        //                            Position = await reader.GetFieldValueAsync<string>(2),
-        //                            PhoneNumber = await reader.GetFieldValueAsync<string>(3),
-        //                            JobType = await reader.GetFieldValueAsync<string>(4),
-        //                            Department = await reader.GetFieldValueAsync<string>(5),
-        //                            IsStudent = await reader.GetFieldValueAsync<bool>(6),
-        //                        }    
-        //                    );                           
-        //                }
-        //            }
-        //        }
-        //    }
-
-        //    return employeeList;
-        //}
-
         async public Task<List<string>> GetEmployeeNamesByPositionAsync(string position)
         {
             var names = new List<string>();
