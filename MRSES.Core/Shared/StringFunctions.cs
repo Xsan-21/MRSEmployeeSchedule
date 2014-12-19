@@ -16,9 +16,8 @@ namespace MRSES.Core.Shared
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        async static public Task SetDefaultTextIndicatorInTextBoxAsync(TextBox sender)
+        static public void SetDefaultTextIndicatorInTextBox(TextBox sender)
         {
-            await Task.Delay(0);
             if (sender.Text == "" || sender.Text == "\b")
                 sender.Text = sender.Tag.ToString();                         
         }
@@ -28,18 +27,16 @@ namespace MRSES.Core.Shared
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        async static public Task RemoveDefaultTextIndicatorAsync(TextBox sender)
+        static public void RemoveDefaultTextIndicator(TextBox sender)
         {
-            await Task.Delay(0);
             if (sender.Tag.ToString() != sender.Text)                     
                 return;               
             
             sender.Clear();           
         }
 
-        async static public Task ChangeTextColorAsync(TextBox sender)
+        static public void ChangeTextColor(TextBox sender)
         {
-            await Task.Delay(0);
             if(sender.Text == sender.Tag.ToString())
                 sender.ForeColor = System.Drawing.Color.Gray;
             else
