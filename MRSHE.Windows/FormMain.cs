@@ -76,9 +76,37 @@ namespace MRSES.Windows
             LabelMessageInFormMain.Text = "";
         }
 
+        string CurrentSelectedPositionInComboBox()
+        {
+            return ComboBoxPositionSelectorInFormMain.Text;
+        }
+
+        async Task<List<string>> GetAllEmployeeNamesByPositionAsync(string position)
+        {
+            return await employeeRepository.GetEmployeeNamesByPositionAsync(position);
+        }
+
+        void ValidateHourInTextBox(TextBox textBox)
+        {
+            TimeFunctions.ValidateTurnHourFormat(textBox.Text);
+        }
+
+        void ConvertShortFormatHourToLong(TextBox textbox)
+        {
+            TimeFunctions.ChangeShortFormatToLongFormat(textbox);
+        }
+
         #endregion        
 
-        #region Events
+        #region Main Form Events
+
+        async void ComboBoxPositionSelectorInFormMainValueChanged(object sender, EventArgs e)
+        {
+            await FillListBoxEmployeesInEmployeeTabPageAsync();
+            await FillComboBoxSelectEmployeeInScheduleTabPageAsync();
+            await FillComboBoxSelectEmployeeInPetitionsTabPageAsync();
+            await FillComboBoxSelectEmployeeInAvailabilityTabPageAsync();
+        }
 
         #region Button clicks
 
@@ -114,19 +142,19 @@ namespace MRSES.Windows
 
         #region Textbox events
 
-        async void RemoveDefaultTextIndicatorInTextBoxAsync(object sender, EventArgs e)
+        void RemoveDefaultTextIndicatorInTextBox(object sender, EventArgs e)
         {
-            await StringFunctions.RemoveDefaultTextIndicatorAsync(sender as TextBox);                                        
+            StringFunctions.RemoveDefaultTextIndicator(sender as TextBox);                                        
         }
 
-        async void SetDefaultTextIndicatorInTextBoxAsync(object sender, EventArgs e)
+        void SetDefaultTextIndicatorInTextBox(object sender, EventArgs e)
         {
-            await StringFunctions.SetDefaultTextIndicatorInTextBoxAsync(sender as TextBox);
+            StringFunctions.SetDefaultTextIndicatorInTextBox(sender as TextBox);
         }
 
-        async void ChangeColorOfTextAsync(object sender, EventArgs e)
+        void ChangeColorOfText(object sender, EventArgs e)
         {
-            await StringFunctions.ChangeTextColorAsync(sender as TextBox);
+            StringFunctions.ChangeTextColor(sender as TextBox);
         }
 
         #endregion
@@ -154,17 +182,12 @@ namespace MRSES.Windows
         }
         
         #endregion     
-        
+
         #endregion
 
         #region TabPage Employee Information
 
         #region Events
-
-        async void ComboBoxPositionSelectorInFormMainValueChanged(object sender, EventArgs e)
-        {
-            await FillListBoxEmployeesInEmployeeTabPageAsync();
-        }
 
         async void ListBoxEmployeesInEmployeeTabPageSelectedIndex(object sender, EventArgs e)
         {
@@ -236,9 +259,9 @@ namespace MRSES.Windows
                 TextBoxEmployeeIDInTabPageEmployeeInformation.Text == TextBoxEmployeeIDInTabPageEmployeeInformation.Tag.ToString() ? false
                 : TextBoxEmployeePositionInTabPageEmployeeInformation.Text == TextBoxEmployeePositionInTabPageEmployeeInformation.Tag.ToString() ? false
                 : TextBoxEmployeeNameInTabPageEmployeeInformation.Text == TextBoxEmployeeNameInTabPageEmployeeInformation.Tag.ToString() ? false
-                : string.IsNullOrEmpty(TextBoxEmployeeIDInTabPageEmployeeInformation.Text) ? false
-                : string.IsNullOrEmpty(TextBoxEmployeePositionInTabPageEmployeeInformation.Text) ? false
-                : string.IsNullOrEmpty(TextBoxEmployeeNameInTabPageEmployeeInformation.Text) ? false
+                : StringFunctions.StringIsNullOrEmpty(TextBoxEmployeeIDInTabPageEmployeeInformation.Text) ? false
+                : StringFunctions.StringIsNullOrEmpty(TextBoxEmployeePositionInTabPageEmployeeInformation.Text) ? false
+                : StringFunctions.StringIsNullOrEmpty(TextBoxEmployeeNameInTabPageEmployeeInformation.Text) ? false
                 : true;
         }
 
@@ -289,10 +312,9 @@ namespace MRSES.Windows
 
         async Task FillListBoxEmployeesInEmployeeTabPageAsync()
         {
-            string position = ComboBoxPositionSelectorInFormMain.Text;
-            var employeeNames = await employeeRepository.GetEmployeeNamesByPositionAsync(position);
-            ListBoxEmployeesInEmployeeTabPage.Items.Clear();
-            ListBoxEmployeesInEmployeeTabPage.Items.AddRange(employeeNames.ToArray());
+            string position = CurrentSelectedPositionInComboBox();
+            var employeeNames = await GetAllEmployeeNamesByPositionAsync(position);
+            ListBoxEmployeesInEmployeeTabPage.DataSource = employeeNames;
         }
 
         async Task SendInformationToTextboxesAsync()
@@ -341,5 +363,73 @@ namespace MRSES.Windows
         #endregion         
 
         #endregion        
+
+        #region TabPage Employee Availability
+
+        #region Events
+
+        private void ButtonSaveInTabPageAvailability_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ValidateAvailabilityHourFormatOfTextBoxes();
+            }
+            catch (Exception ex)
+            {
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+            }
+        }
+        
+        #endregion
+
+        #region Methods
+
+        void ValidateAvailabilityHourFormatOfTextBoxes()
+        {
+            ValidateHourInTextBox(TextBoxWednesdayInTabPageAvailability);
+            //ValidateHourInTextBox(TextBoxThursdayInTabPageAvailability);
+            //ValidateHourInTextBox(TextBoxFridayInTabPageAvailability);
+            //ValidateHourInTextBox(TextBoxSaturdayInTabPageAvailability);
+            //ValidateHourInTextBox(TextBoxSundayInTabPageAvailability);
+            //ValidateHourInTextBox(TextBoxMondayInTabPageAvailability);
+            //ValidateHourInTextBox(TextBoxTuesdayInTabPageAvailability);
+        }
+        
+        async Task FillComboBoxSelectEmployeeInAvailabilityTabPageAsync()
+        {
+            string position = CurrentSelectedPositionInComboBox();
+            var employeeNames = await GetAllEmployeeNamesByPositionAsync(position);
+            ComboBoxSelectEmployeeInTabPageAvailability.DataSource = employeeNames;
+        }
+        
+        #endregion
+
+        #endregion
+
+        #region TabPage EmployeePetitions
+        #region Methods
+
+        async Task FillComboBoxSelectEmployeeInPetitionsTabPageAsync()
+        {
+            string position = CurrentSelectedPositionInComboBox();
+            var employeeNames = await GetAllEmployeeNamesByPositionAsync(position);
+            ComboBoxSelectEmployeeInTabPagePetition.DataSource = employeeNames;
+        }
+        #endregion
+        #endregion
+
+        #region TabPage EmployeeSchedule
+        #region Methods
+
+        async Task FillComboBoxSelectEmployeeInScheduleTabPageAsync()
+        {
+            string position = CurrentSelectedPositionInComboBox();
+            var employeeNames = await GetAllEmployeeNamesByPositionAsync(position);
+            ComboBoxSelectEmployeeInTabPageSchedule.DataSource = employeeNames;
+        }
+        #endregion
+
+        
+        #endregion
     }
 }

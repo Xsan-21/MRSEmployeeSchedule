@@ -583,9 +583,9 @@
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.TabIndex = 4;
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Tag = "Departamento";
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Text = "Departamento";
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
-            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxEmployeePhoneNumberInTabPageEmployeeInformation
             // 
@@ -599,9 +599,9 @@
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.TabIndex = 5;
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Tag = "Número de teléfono";
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text = "Número de teléfono";
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
-            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxEmployeeIDInTabPageEmployeeInformation
             // 
@@ -615,9 +615,9 @@
             this.TextBoxEmployeeIDInTabPageEmployeeInformation.TabIndex = 2;
             this.TextBoxEmployeeIDInTabPageEmployeeInformation.Tag = "ID de empleado";
             this.TextBoxEmployeeIDInTabPageEmployeeInformation.Text = "ID de empleado";
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
-            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxEmployeeIDInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxEmployeePositionInTabPageEmployeeInformation
             // 
@@ -631,9 +631,9 @@
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.TabIndex = 3;
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.Tag = "Posición";
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.Text = "Posición";
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
-            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxEmployeeNameInTabPageEmployeeInformation
             // 
@@ -647,9 +647,9 @@
             this.TextBoxEmployeeNameInTabPageEmployeeInformation.TabIndex = 1;
             this.TextBoxEmployeeNameInTabPageEmployeeInformation.Tag = "Nombre de empleado";
             this.TextBoxEmployeeNameInTabPageEmployeeInformation.Text = "Nombre de empleado";
-            this.TextBoxEmployeeNameInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfTextAsync);
-            this.TextBoxEmployeeNameInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBoxAsync);
-            this.TextBoxEmployeeNameInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBoxAsync);
+            this.TextBoxEmployeeNameInTabPageEmployeeInformation.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxEmployeeNameInTabPageEmployeeInformation.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxEmployeeNameInTabPageEmployeeInformation.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TabPageEmployeeAvailability
             // 
@@ -685,6 +685,7 @@
             this.ButtonSaveInTabPageAvailability.TabIndex = 9;
             this.ButtonSaveInTabPageAvailability.Text = "Guardar Disponibilidad";
             this.ButtonSaveInTabPageAvailability.UseVisualStyleBackColor = true;
+            this.ButtonSaveInTabPageAvailability.Click += new System.EventHandler(this.ButtonSaveInTabPageAvailability_Click);
             // 
             // TextBoxSaturdayInTabPageAvailability
             // 
@@ -698,6 +699,9 @@
             this.TextBoxSaturdayInTabPageAvailability.Tag = "sábado";
             this.TextBoxSaturdayInTabPageAvailability.Text = "sábado";
             this.TextBoxSaturdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxSaturdayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxSaturdayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxSaturdayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxFridayInTabPageAvailability
             // 
@@ -711,6 +715,9 @@
             this.TextBoxFridayInTabPageAvailability.Tag = "viernes";
             this.TextBoxFridayInTabPageAvailability.Text = "viernes";
             this.TextBoxFridayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxFridayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxFridayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxFridayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxThursdayInTabPageAvailability
             // 
@@ -724,6 +731,9 @@
             this.TextBoxThursdayInTabPageAvailability.Tag = "jueves";
             this.TextBoxThursdayInTabPageAvailability.Text = "jueves";
             this.TextBoxThursdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxThursdayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxThursdayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxThursdayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxWednesdayInTabPageAvailability
             // 
@@ -737,6 +747,9 @@
             this.TextBoxWednesdayInTabPageAvailability.Tag = "miércoles";
             this.TextBoxWednesdayInTabPageAvailability.Text = "miércoles";
             this.TextBoxWednesdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxWednesdayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxWednesdayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxWednesdayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxTuesdayInTabPageAvailability
             // 
@@ -746,10 +759,13 @@
             this.TextBoxTuesdayInTabPageAvailability.MaxLength = 20;
             this.TextBoxTuesdayInTabPageAvailability.Name = "TextBoxTuesdayInTabPageAvailability";
             this.TextBoxTuesdayInTabPageAvailability.Size = new System.Drawing.Size(205, 31);
-            this.TextBoxTuesdayInTabPageAvailability.TabIndex = 9;
+            this.TextBoxTuesdayInTabPageAvailability.TabIndex = 8;
             this.TextBoxTuesdayInTabPageAvailability.Tag = "martes";
             this.TextBoxTuesdayInTabPageAvailability.Text = "martes";
             this.TextBoxTuesdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxTuesdayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxTuesdayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxTuesdayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxMondayInTabPageAvailability
             // 
@@ -763,6 +779,9 @@
             this.TextBoxMondayInTabPageAvailability.Tag = "lunes";
             this.TextBoxMondayInTabPageAvailability.Text = "lunes";
             this.TextBoxMondayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxMondayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxMondayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxMondayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxSundayInTabPageAvailability
             // 
@@ -776,6 +795,9 @@
             this.TextBoxSundayInTabPageAvailability.Tag = "domingo";
             this.TextBoxSundayInTabPageAvailability.Text = "domingo";
             this.TextBoxSundayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxSundayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxSundayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxSundayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // label6
             // 
