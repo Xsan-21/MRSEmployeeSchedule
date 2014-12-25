@@ -131,9 +131,10 @@
   </metadata>
   <data name="label6.Text" xml:space="preserve">
     <value>Paso 2: Establezca un horario de acomodo por día que este empleado SI puede trabajar.
-                       Ejemplo: Si es estudiante que estudia de 8AM a 3PM los lunes, 
-                                      escriba un horario que pueda realizar. Por ejemplo,
-                                      5:00PM - 9:00PM en el día lunes.
+                       
+                        Ejemplo: Si es estudiante que estudia de 8:00am a 3:00pm los lunes, 
+                                      escriba un horario que pueda realizar este día. Por ejemplo,
+                                      5:00pm - 9:30pm, puede usar la forma corta: 5p - 9.30p.
 
                        Si el empleado no está disponible durante todo el día, escriba ND.
 

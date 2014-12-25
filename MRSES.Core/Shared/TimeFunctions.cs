@@ -28,63 +28,29 @@ namespace MRSES.Core.Shared
             return LocalTimePattern.CreateWithInvariantCulture("h:mmtt").Parse(hour).Value;
         }
 
-        static public bool TurnHourIsInLongFormat(string turn)
+        static public bool TurnHourIsInLongFormat(string turnHour)
         {
-            bool success = true;
-
-            if (!turn.Contains("-"))
-                throw new System.Exception("La hora especificada esta incompleta. Por favor indique hora de entrada y salida separada por un guión (Ej. 11:00am - 2:00pm).");
-
-            var result = SeparateHourInAndHourOut(turn);
-
-            foreach (var element in result)
-                if (element != "" && success)
-                    success = ValidateHourIn12HourFormat(element);
-    
-            return success;
+            return System.Text.RegularExpressions.Regex.Match(turnHour, @"(1[012]|[1-9]):[0-5][0-9](\\s)?(?i)(am|pm)").Success;
+           
         }
 
-        static public bool TurnHourIsInShortFormat(string shortHour)
+        static public bool TurnHourIsInShortFormat(string turnHour)
         {
-            BasicRequirementsForShortTimeFormat(shortHour);
+            if (turnHour.IndexOfAny(new[] { 'a', 'p' }) < 0)
+                throw new System.Exception("La hora especificada no indica si es de día o de tarde. Por favor indique a o p en la hora.");
 
-            var turnInAndOut = SeparateHourInAndHourOut(shortHour);
-
-            var turnIn = turnInAndOut[0];
-            var turnOut = turnInAndOut[1];
-
-            var turnInIsValid = SpecifiedPatternAndHourAreValid("ht", turnIn) || SpecifiedPatternAndHourAreValid("h.mt", turnIn);
-            var turnOutIsValid = SpecifiedPatternAndHourAreValid("ht", turnOut) || SpecifiedPatternAndHourAreValid("h.mt", turnOut);
-
-            return turnInIsValid && turnOutIsValid;
+            return SpecifiedPatternAndHourAreValid("ht", turnHour) || SpecifiedPatternAndHourAreValid("h.mt", turnHour);
         }
 
-        static void BasicRequirementsForShortTimeFormat(string turn)
+        static string[] SeparateHourInAndHourOut(string turn)
         {
-            if (!turn.Contains("-"))
-                throw new System.Exception("La hora especificada esta incompleta. Por favor indique hora de entrada y salida separada por un guión (Ej. 11a - 2p).");
-            
-            var getTurnInAndOut = SeparateHourInAndHourOut(turn);
-
-            foreach (var hour in getTurnInAndOut)
-		        if(hour.IndexOfAny(new[]{'a','p'}) < 0)
-                    throw new System.Exception("La hora especificada no indica si es de día o de tarde. Por favor indique a o p en la hora.");            
+            return turn.Replace(" ","").Split('-');
         }
 
-        static bool ValidateHourIn12HourFormat(string hour)
-        {
-            return System.Text.RegularExpressions.Regex.Match(hour, @"(1[012]|[1-9]):[0-5][0-9](\\s)?(?i)(am|pm)").Success;
-        }
-
-        static string[] SeparateHourInAndHourOut(string text)
-        {
-            return text.Replace(" ","").Split('-');
-        }
-
-        static public bool ValidateTotalHour(string hour)
-        {
-            return System.Text.RegularExpressions.Regex.IsMatch(hour, @"^\d+(\.\d{2})?$");
-        }
+        //static public bool ValidateTotalHour(string hour)
+        //{
+        //    return System.Text.RegularExpressions.Regex.IsMatch(hour, @"^\d+(\.\d{2})?$");
+        //}
 
         static string FromShortToLongHour(string shortHour)
         {
@@ -114,30 +80,46 @@ namespace MRSES.Core.Shared
             return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Success;
         }
 
-        static public bool ValidateTurnHourFormat(string turn)
+        static bool ValidateTurnHourFormat(string turn)
         {
             return TurnHourIsInShortFormat(turn) || TurnHourIsInLongFormat(turn);
         }
 
         static public void ChangeShortFormatToLongFormat(System.Windows.Forms.TextBox textBox)
         {
-            var turn = textBox.Text;
+            var turn = textBox.Text.Trim();
 
-            if (turn != textBox.Tag.ToString() || !string.IsNullOrEmpty(turn) || !turn.Contains("X"))
+            var termsToIgnore = new[] {textBox.Tag.ToString(), "X", "available", "nd", "no disponible", "disponible", string.Empty, null };
+
+            for (int i = 0; i < termsToIgnore.Length; i++)
             {
-                if (TurnHourIsInShortFormat(turn))
-                {
-                    textBox.Text = FromShortToLongHour(turn);
-                }
-                else if(TurnHourIsInLongFormat(turn))
-                {
+                if (turn == termsToIgnore[i])
                     return;
+            }
+
+            string[] result = new string[2];
+
+            if (!turn.Contains("-"))
+                throw new System.Exception("Por favor indique hora de entrada y salida separada por un guión (Ej. 11:00am - 2:00pm o 11a-2p).");
+
+            var getTurnInAndOut = SeparateHourInAndHourOut(turn);
+
+            for (int i = 0; i < 2; i++)
+			{
+			    if (ValidateTurnHourFormat(getTurnInAndOut[i]))
+                {
+                    if (TurnHourIsInShortFormat(getTurnInAndOut[i]))
+                        result[i] = FromShortToLongHour(getTurnInAndOut[i]);
+                    else
+                        result[i] = getTurnInAndOut[i];
                 }
                 else
                 {
                     throw new System.Exception("La hora especificada no tiene un formato correcto.");
                 }
-            }
+			}
+
+            textBox.Text = result[0] + " - " + result[1];
         }
     }
 }

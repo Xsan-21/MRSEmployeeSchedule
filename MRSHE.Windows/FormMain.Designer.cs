@@ -804,7 +804,7 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(368, 88);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(861, 200);
+            this.label6.Size = new System.Drawing.Size(861, 225);
             this.label6.TabIndex = 27;
             this.label6.Text = resources.GetString("label6.Text");
             // 
@@ -819,6 +819,7 @@
             this.ComboBoxSelectEmployeeInTabPageAvailability.Name = "ComboBoxSelectEmployeeInTabPageAvailability";
             this.ComboBoxSelectEmployeeInTabPageAvailability.Size = new System.Drawing.Size(324, 33);
             this.ComboBoxSelectEmployeeInTabPageAvailability.TabIndex = 1;
+            this.ComboBoxSelectEmployeeInTabPageAvailability.SelectedIndexChanged += new System.EventHandler(this.SelectedIndexChangeInTextBoxEmployeeNameInAvailabilityTabPage);
             // 
             // label5
             // 

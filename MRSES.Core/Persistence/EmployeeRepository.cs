@@ -247,11 +247,6 @@ namespace MRSES.Core.Persistence
                 case "GetPositions":
                     query = "SELECT get_positions(:store)";
                     break;
-                case "GetEmployeesByPosition": // TODO delete if not needed
-                    query = @"SELECT employee_id, name, employee_position, phone_number, job_type, department, student
-                              FROM employee
-                              WHERE store = :store AND employee_position = :employeePosition";
-                    break;
                 case "GetNamesByPosition":
                     query = "SELECT get_names_by_position(:employeePosition, :store)";
                     break;

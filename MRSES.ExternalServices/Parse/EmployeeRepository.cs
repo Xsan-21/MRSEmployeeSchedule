@@ -61,7 +61,7 @@ namespace MRSES.ExternalServices.Parse
 		        { "jobType", Employee.JobType },
                 { "student", Employee.IsStudent},
 		        { "department", Employee.Department}, 
-                { "store", Employee.Store}
+                { "store", Configuration.StoreLocation}
 	        };
 
             await newEmployee.SaveAsync(); 
@@ -78,7 +78,7 @@ namespace MRSES.ExternalServices.Parse
             existingEmployee["jobType"] = Employee.JobType;
             existingEmployee["student"] = Employee.IsStudent;
             existingEmployee["department"] = Employee.Department;
-            existingEmployee["store"] = Employee.Store;
+            existingEmployee["store"] = Configuration.StoreLocation;
 
             await existingEmployee.SaveAsync();
             Dispose();
@@ -100,18 +100,18 @@ namespace MRSES.ExternalServices.Parse
         {
             ValidateEmployee();
             var query = from n in ParseObject.GetQuery("Employees")
-                        where n.Get<string>("store") == Employee.Store
+                        where n.Get<string>("store") == Configuration.StoreLocation
                         where n.Get<string>("Id") == Employee.ID
                         select n;
 
             return await query.FirstOrDefaultAsync() == null ? false : true;
-        }  
+        }
 
-        async public Task<Employee> GetEmployee(string name, int id)
+        async public Task<Employee> GetEmployeeAsync(string name_or_id)
         {
             var query = from employee in ParseObject.GetQuery("Employees")
                         where employee.Get<string>("store") == Configuration.StoreLocation
-                        where employee.Get<string>("name") == name && employee.Get<int>("Id") == id                         
+                        where employee.Get<string>("name") == name_or_id || employee.Get<string>("Id") == name_or_id                         
                         select employee;
 
             var employeeInfo = await query.FirstOrDefaultAsync();
@@ -156,7 +156,7 @@ namespace MRSES.ExternalServices.Parse
             return result == null ? null : result.ObjectId;
         }
 
-        async public Task<List<string>> GetPositions()
+        async public Task<List<string>> GetPositionsAsync()
         {
             return await Task.Run(async () => 
             {
@@ -194,11 +194,11 @@ namespace MRSES.ExternalServices.Parse
             });
         }
 
-        async public Task<List<Employee>> GetAllEmployeesByPosition(string position)
+        async public Task<List<string>> GetEmployeeNamesByPositionAsync(string position)
         {
             return await Task.Run(async () =>
             {
-                List<Employee> employeeList = new List<Employee>();
+                var employeeList = new List<string>();
 
                 var employees = from employee in ParseObject.GetQuery("Employees")
                                 where employee.Get<string>("store") == Configuration.StoreLocation
@@ -207,10 +207,7 @@ namespace MRSES.ExternalServices.Parse
                                 select employee;
 
                 foreach (var employee in await employees.FindAsync())
-                {
-                    var result = await FillEmployeeInformation(employee);
-                    employeeList.Add(result);
-                }
+                    employeeList.Add(employee.Get<string>("name"));
 
                 return employeeList;
             });
@@ -223,7 +220,6 @@ namespace MRSES.ExternalServices.Parse
                 return new Employee()
                 {
                     Department = employee.Get<string>("department"),
-                    Store = employee.Get<string>("store"),
                     ID = employee.Get<string>("Id"),
                     Name = employee.Get<string>("name"),
                     IsStudent = employee.Get<bool>("student"),

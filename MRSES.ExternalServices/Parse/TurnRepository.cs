@@ -43,18 +43,18 @@ namespace MRSES.ExternalServices.Parse
 
         async public Task<Worker[]> GetScheduleAsync(string position, LocalDate ofWeek)
         {
-            var allEmployeesOfASpecificPosition = await _employeeRepository.GetAllEmployeesByPosition(position);
+            var allEmployeesOfASpecificPosition = await _employeeRepository.GetEmployeeNamesByPositionAsync(position);
 
             var workerSchedule = await Task.WhenAll(allEmployeesOfASpecificPosition.Select(employee => GetEmployeeScheduleAsync(employee, ofWeek)));
 
             return workerSchedule;
         }
 
-        async public Task<Worker> GetEmployeeScheduleAsync(IEmployee employee, LocalDate ofWeek)
+        async public Task<Worker> GetEmployeeScheduleAsync(string employeeName, LocalDate ofWeek)
         {
-            var _worker = new Worker(ofWeek, employee.Name);
+            var _worker = new Worker(ofWeek, employeeName);
             var _workerSchedule = _worker.Schedule;    
-            var _employeeTurns = await GetEmployeeTurns(employee, ofWeek);
+            var _employeeTurns = await GetEmployeeTurns(employeeName, ofWeek);
 
             await FillEmployeeSchedule(_workerSchedule, _employeeTurns);
 
@@ -82,9 +82,9 @@ namespace MRSES.ExternalServices.Parse
             });                     
         }
 
-        async Task<IEnumerable<ParseObject>> GetEmployeeTurns(IEmployee employee, LocalDate ofWeek)
+        async Task<IEnumerable<ParseObject>> GetEmployeeTurns(string employeeName, LocalDate ofWeek)
         {
-            var _employee = await GetEmployeeParseObject(employee);
+            var _employee = await GetEmployeeParseObject(employeeName);
 
             var _employeeTurns = from turns in ParseObject.GetQuery("Turns")
                                  where turns.Get<ParseObject>("employee") == _employee
@@ -161,9 +161,9 @@ namespace MRSES.ExternalServices.Parse
             return await query.FirstOrDefaultAsync();
         }
 
-        async Task<ParseObject> GetEmployeeParseObject(IEmployee employee)
+        async Task<ParseObject> GetEmployeeParseObject(string employeeName)
         {
-            return await EmployeeRepository.GetEmployeeObjectWithoutData(employee);
+            return await EmployeeRepository.GetEmployeeObjectWithoutData(employeeName);
         }
 
         void ValidateEmployeeAndTurn()

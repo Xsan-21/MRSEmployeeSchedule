@@ -23,6 +23,7 @@ namespace MRSES.Windows
 
         FormPetitions formPetitions;
         EmployeeRepository employeeRepository;
+        AvailabilityRepository _availabilityRepo;
    
         #endregion
 
@@ -39,6 +40,7 @@ namespace MRSES.Windows
 
             employeeRepository = new EmployeeRepository();
             formPetitions = new FormPetitions();
+            _availabilityRepo = new AvailabilityRepository();
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
@@ -86,12 +88,7 @@ namespace MRSES.Windows
             return await employeeRepository.GetEmployeeNamesByPositionAsync(position);
         }
 
-        void ValidateHourInTextBox(TextBox textBox)
-        {
-            TimeFunctions.ValidateTurnHourFormat(textBox.Text);
-        }
-
-        void ConvertShortFormatHourToLong(TextBox textbox)
+        void ValidateAndConvertHourInShortFormatToLongIfNecesary(TextBox textbox)
         {
             TimeFunctions.ChangeShortFormatToLongFormat(textbox);
         }
@@ -368,11 +365,24 @@ namespace MRSES.Windows
 
         #region Events
 
-        private void ButtonSaveInTabPageAvailability_Click(object sender, EventArgs e)
+        async void SelectedIndexChangeInTextBoxEmployeeNameInAvailabilityTabPage(object sender, EventArgs e)
         {
             try
             {
-                ValidateAvailabilityHourFormatOfTextBoxes();
+                await SendEmployeeAvailabilityToTextBoxesAsync();
+            }
+            catch (Exception ex)
+            {
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+            }
+        }
+
+        private async void ButtonSaveInTabPageAvailability_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await SaveEmployeeAvailabilityAsync();
+                await ShowMessageInLabelMessageOfFormMain("Se guardo la disponibilidad de " + ComboBoxSelectEmployeeInTabPageAvailability.Text, "");
             }
             catch (Exception ex)
             {
@@ -384,15 +394,62 @@ namespace MRSES.Windows
 
         #region Methods
 
+        Availability GetEmployeeAvailabilityFromTextBoxes()
+        {
+            string _wednesday = TextBoxWednesdayInTabPageAvailability.Text.Trim(),
+                _thursday = TextBoxThursdayInTabPageAvailability.Text.Trim(),
+                _friday = TextBoxFridayInTabPageAvailability.Text.Trim(),
+                _saturday = TextBoxSaturdayInTabPageAvailability.Text.Trim(),
+                _sunday = TextBoxSundayInTabPageAvailability.Text.Trim(),
+                _monday = TextBoxMondayInTabPageAvailability.Text.Trim(),
+                _tuesday = TextBoxTuesdayInTabPageAvailability.Text.Trim();
+
+            var _possibleNotAvailableInputs = new List<string>() { "nd","no disponible" };
+
+            return new Availability()
+            {
+                Wednesday = _wednesday.Contains('-') ? _wednesday : _possibleNotAvailableInputs.Any(p => p == _wednesday) ? "no disponible" : null,
+                Thursday = _thursday.Contains('-') ? _thursday : _possibleNotAvailableInputs.Any(p => p == _thursday) ? "no disponible" : null,
+                Friday = _friday.Contains('-') ? _friday : _possibleNotAvailableInputs.Any(p => p == _friday) ? "no disponible" : null,
+                Saturday = _saturday.Contains('-') ? _saturday : _possibleNotAvailableInputs.Any(p => p == _saturday) ? "no disponible" : null,
+                Sunday = _sunday.Contains('-') ? _sunday : _possibleNotAvailableInputs.Any(p => p == _sunday) ? "no disponible" : null,
+                Monday = _monday.Contains('-') ? _monday : _possibleNotAvailableInputs.Any(p => p == _monday) ? "no disponible" : null,
+                Tuesday = _tuesday.Contains('-') ? _tuesday : _possibleNotAvailableInputs.Any(p => p == _tuesday) ? "no disponible" : null
+            };
+        }
+
+        async Task SaveEmployeeAvailabilityAsync()
+        {
+            ValidateAvailabilityHourFormatOfTextBoxes();
+
+            _availabilityRepo.EmployeeName = ComboBoxSelectEmployeeInTabPageAvailability.Text;
+            _availabilityRepo.Availability = GetEmployeeAvailabilityFromTextBoxes();
+            await _availabilityRepo.SaveAsync();
+        }
+
+        async Task SendEmployeeAvailabilityToTextBoxesAsync()
+        {
+            _availabilityRepo.EmployeeName = ComboBoxSelectEmployeeInTabPageAvailability.Text;
+            var availability = await _availabilityRepo.GetAvailabilityAsync();
+
+            TextBoxWednesdayInTabPageAvailability.Text = availability.Wednesday;
+            TextBoxThursdayInTabPageAvailability.Text = availability.Thursday;
+            TextBoxFridayInTabPageAvailability.Text = availability.Friday;
+            TextBoxSaturdayInTabPageAvailability.Text = availability.Saturday;
+            TextBoxSundayInTabPageAvailability.Text = availability.Sunday;
+            TextBoxMondayInTabPageAvailability.Text = availability.Monday;
+            TextBoxTuesdayInTabPageAvailability.Text = availability.Tuesday;
+        }
+
         void ValidateAvailabilityHourFormatOfTextBoxes()
         {
-            ValidateHourInTextBox(TextBoxWednesdayInTabPageAvailability);
-            //ValidateHourInTextBox(TextBoxThursdayInTabPageAvailability);
-            //ValidateHourInTextBox(TextBoxFridayInTabPageAvailability);
-            //ValidateHourInTextBox(TextBoxSaturdayInTabPageAvailability);
-            //ValidateHourInTextBox(TextBoxSundayInTabPageAvailability);
-            //ValidateHourInTextBox(TextBoxMondayInTabPageAvailability);
-            //ValidateHourInTextBox(TextBoxTuesdayInTabPageAvailability);
+            var textBoxes = new[] { TextBoxWednesdayInTabPageAvailability, TextBoxThursdayInTabPageAvailability, TextBoxFridayInTabPageAvailability,
+            TextBoxSaturdayInTabPageAvailability, TextBoxSundayInTabPageAvailability, TextBoxMondayInTabPageAvailability, TextBoxTuesdayInTabPageAvailability};
+
+            foreach (var textbox in textBoxes)
+            {
+                ValidateAndConvertHourInShortFormatToLongIfNecesary(textbox);
+            }
         }
         
         async Task FillComboBoxSelectEmployeeInAvailabilityTabPageAsync()
@@ -429,7 +486,6 @@ namespace MRSES.Windows
         }
         #endregion
 
-        
         #endregion
     }
 }

@@ -50,6 +50,8 @@ namespace MRSES.Core.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Server=127.0.0.1; Port=8000; Database=mrs-schedule; User Id=postgres; Password=qw" +
+            "erty")]
         public string PostgresDBConnection {
             get {
                 return ((string)(this["PostgresDBConnection"]));
