@@ -68,10 +68,10 @@ namespace MRSES.Windows.Forms
                             where n.Date <= MRSES.Core.Entities.WorkWeek.CurrentWeek().PlusWeeks(1)
                             group new
                             {
-                                Name = n.Employee.Name,
+                                Name = n.EmployeeName,
                                 Availability = NodaTime.Period.Between(n.AvailableFrom, n.AvailableTo).Hours == 0
                                                 ? "No disponible"
-                                                : string.Format("Disponible de {0} a {1}", n.AvailableFrom.TimeOfDay, n.AvailableTo.TimeOfDay)
+                                                : string.Format("Disponible de {0} a {1}", n.AvailableFrom, n.AvailableTo)
                             }
                             by n.Date;
 

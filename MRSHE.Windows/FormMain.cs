@@ -20,10 +20,11 @@ namespace MRSES.Windows
         #region Variables
 
         string _idOfCurrentSelectedEmployeeInEmployeeTabPage;
-
+        System.Globalization.CultureInfo _culture = new System.Globalization.CultureInfo("en-US");
         FormPetitions formPetitions;
         EmployeeRepository employeeRepository;
         AvailabilityRepository _availabilityRepo;
+        PetitionRepository _petitionRepo;
    
         #endregion
 
@@ -37,10 +38,12 @@ namespace MRSES.Windows
         {
             InitializeComponent();
             this.Width = 850; this.Height = 500;
+            PetitionDatePicker.MinDate = DateTime.Now.AddDays(1);
 
             employeeRepository = new EmployeeRepository();
             formPetitions = new FormPetitions();
             _availabilityRepo = new AvailabilityRepository();
+            _petitionRepo = new PetitionRepository();
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
@@ -464,7 +467,49 @@ namespace MRSES.Windows
         #endregion
 
         #region TabPage EmployeePetitions
+        
         #region Methods
+
+        async Task DeleteSelectedPetitionsOfAnEmployeeAsync()
+        {
+            var checkedPetitions = ListViewEmployeePetitionsInTabPagePetitions.CheckedIndices;
+            var petition = new Petition() { EmployeeName = ComboBoxSelectEmployeeInTabPagePetition.Text };
+
+            for (int i = 0; i < checkedPetitions.Count; i++)
+            {
+                var date = ListViewEmployeePetitionsInTabPagePetitions.Items[checkedPetitions[i]].Text;
+                petition.Date = DateFunctions.FromDateTimeStringToLocalDate(date);
+
+                _petitionRepo.Petition = petition;
+                await _petitionRepo.DeleteAsync();
+                ListViewEmployeePetitionsInTabPagePetitions.Items.RemoveAt(checkedPetitions[i]);
+            }
+        }
+
+        async Task SaveEmployeePetitionAsync()
+        {
+            var petition = new Petition();
+            petition.EmployeeName = ComboBoxSelectEmployeeInTabPagePetition.Text;
+            petition.Date = DateFunctions.FromDateTimeToLocalDate(PetitionDatePicker.Value.Date);
+
+            if (!IsFreeDayCheckBox.Checked)
+            {
+                if (string.IsNullOrEmpty(TextBoxPetitionAvailabilityHours.Text))
+                {
+                    TextBoxPetitionAvailabilityHours.Focus();
+                    throw new Exception("No ha indicado la hora disponible que el empleado puede laborar.");
+                }
+
+                ValidateAndConvertHourInShortFormatToLongIfNecesary(TextBoxPetitionAvailabilityHours);
+
+                var availability = TextBoxPetitionAvailabilityHours.Text.Replace(" ", "").Split('-');
+                petition.AvailableFrom = TimeFunctions.ParseLocalTimeFromString(availability[0]);
+                petition.AvailableTo = TimeFunctions.ParseLocalTimeFromString(availability[1]);
+            }
+
+            _petitionRepo.Petition = petition;
+            await _petitionRepo.SaveAsync();
+        }
 
         async Task FillComboBoxSelectEmployeeInPetitionsTabPageAsync()
         {
@@ -472,10 +517,84 @@ namespace MRSES.Windows
             var employeeNames = await GetAllEmployeeNamesByPositionAsync(position);
             ComboBoxSelectEmployeeInTabPagePetition.DataSource = employeeNames;
         }
+
+        async Task ShowAllPetitionsOfAnEmployeeAsync() 
+        {
+            var employeePetitions = await _petitionRepo.GetEmployeePetitionsAsync(ComboBoxSelectEmployeeInTabPagePetition.Text);
+            ListViewEmployeePetitionsInTabPagePetitions.Items.Clear();
+
+            for (int i = 0; i < employeePetitions.Count; i++)
+            {
+                string availableFrom = employeePetitions[i].AvailableFrom.ToString("h:mmtt", _culture),
+                       availableTo = employeePetitions[i].AvailableTo.ToString("h:mmtt", _culture),
+                       availableFromTo = availableFrom == availableTo ? "Pidió día libre" : string.Format("{0} - {1}", availableFrom, availableTo);
+
+                var availability = new ListViewItem(new string[] 
+                { 
+                    employeePetitions[i].Date.ToString(), 
+                    employeePetitions[i].FreeDay ? "Cierto" : "Falso", 
+                    availableFromTo
+                });
+
+                ListViewEmployeePetitionsInTabPagePetitions.Items.Add(availability);
+            }
+        }
+
         #endregion
+
+        #region Events
+
+        private async void ButtonDeletePetitionInTabPagePetition_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await DeleteSelectedPetitionsOfAnEmployeeAsync();
+                await ShowMessageInLabelMessageOfFormMain("Las peticiones han sido eliminadas", "");
+            }
+            catch (Exception ex)
+            {
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+            }
+        }
+
+        private void IsFreeDayCheckBox_CheckStateChanged(object sender, EventArgs e)
+        {
+            LabelPetitionExampleIndicator.Visible = !IsFreeDayCheckBox.Checked;
+            TextBoxPetitionAvailabilityHours.Visible = !IsFreeDayCheckBox.Checked;
+        }
+
+        private async void ButtonSavePetitionInTabPagePetition_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                await SaveEmployeePetitionAsync();
+                await ShowMessageInLabelMessageOfFormMain("La petición para el " + PetitionDatePicker.Value.ToShortDateString() + " de " + ComboBoxSelectEmployeeInTabPagePetition .Text+ " se guardó.", "");
+                await ShowAllPetitionsOfAnEmployeeAsync();
+            }
+            catch (Exception ex)
+            {
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+            }
+        }
+
+        private async void ComboBoxSelectEmployeeInTabPagePetition_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                await ShowAllPetitionsOfAnEmployeeAsync();
+            }
+            catch (Exception ex)
+            {
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+            }
+        }
+
+        #endregion
+
         #endregion
 
         #region TabPage EmployeeSchedule
+
         #region Methods
 
         async Task FillComboBoxSelectEmployeeInScheduleTabPageAsync()
@@ -484,6 +603,12 @@ namespace MRSES.Windows
             var employeeNames = await GetAllEmployeeNamesByPositionAsync(position);
             ComboBoxSelectEmployeeInTabPageSchedule.DataSource = employeeNames;
         }
+        #endregion
+
+        #region Events
+
+        
+
         #endregion
 
         #endregion

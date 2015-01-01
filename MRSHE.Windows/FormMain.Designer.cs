@@ -84,17 +84,22 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.TabPageEmployeePetition = new System.Windows.Forms.TabPage();
-            this.ButtonSaveInTabPagePetition = new System.Windows.Forms.Button();
+            this.label17 = new System.Windows.Forms.Label();
+            this.ListViewEmployeePetitionsInTabPagePetitions = new System.Windows.Forms.ListView();
+            this.PetitionDate = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.FreeDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.Availability = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ButtonDeletePetitionInTabPagePetition = new System.Windows.Forms.Button();
+            this.ButtonSavePetitionInTabPagePetition = new System.Windows.Forms.Button();
             this.label14 = new System.Windows.Forms.Label();
             this.ComboBoxSelectEmployeeInTabPagePetition = new System.Windows.Forms.ComboBox();
             this.IsFreeDayCheckBox = new System.Windows.Forms.CheckBox();
-            this.label17 = new System.Windows.Forms.Label();
             this.label16 = new System.Windows.Forms.Label();
             this.label15 = new System.Windows.Forms.Label();
-            this.petitionExampleIndicatorLabel = new System.Windows.Forms.Label();
+            this.LabelPetitionExampleIndicator = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
-            this.petitionDatePicker = new System.Windows.Forms.DateTimePicker();
-            this.horarioDisponibleTxt = new System.Windows.Forms.TextBox();
+            this.PetitionDatePicker = new System.Windows.Forms.DateTimePicker();
+            this.TextBoxPetitionAvailabilityHours = new System.Windows.Forms.TextBox();
             this.TabPageEmployeeSchedule = new System.Windows.Forms.TabPage();
             this.ButtonSaveInTabPageSchedule = new System.Windows.Forms.Button();
             this.linkLabel7 = new System.Windows.Forms.LinkLabel();
@@ -841,17 +846,19 @@
             // 
             // TabPageEmployeePetition
             // 
-            this.TabPageEmployeePetition.Controls.Add(this.ButtonSaveInTabPagePetition);
+            this.TabPageEmployeePetition.Controls.Add(this.label17);
+            this.TabPageEmployeePetition.Controls.Add(this.ListViewEmployeePetitionsInTabPagePetitions);
+            this.TabPageEmployeePetition.Controls.Add(this.ButtonDeletePetitionInTabPagePetition);
+            this.TabPageEmployeePetition.Controls.Add(this.ButtonSavePetitionInTabPagePetition);
             this.TabPageEmployeePetition.Controls.Add(this.label14);
             this.TabPageEmployeePetition.Controls.Add(this.ComboBoxSelectEmployeeInTabPagePetition);
             this.TabPageEmployeePetition.Controls.Add(this.IsFreeDayCheckBox);
-            this.TabPageEmployeePetition.Controls.Add(this.label17);
             this.TabPageEmployeePetition.Controls.Add(this.label16);
             this.TabPageEmployeePetition.Controls.Add(this.label15);
-            this.TabPageEmployeePetition.Controls.Add(this.petitionExampleIndicatorLabel);
+            this.TabPageEmployeePetition.Controls.Add(this.LabelPetitionExampleIndicator);
             this.TabPageEmployeePetition.Controls.Add(this.label13);
-            this.TabPageEmployeePetition.Controls.Add(this.petitionDatePicker);
-            this.TabPageEmployeePetition.Controls.Add(this.horarioDisponibleTxt);
+            this.TabPageEmployeePetition.Controls.Add(this.PetitionDatePicker);
+            this.TabPageEmployeePetition.Controls.Add(this.TextBoxPetitionAvailabilityHours);
             this.TabPageEmployeePetition.Location = new System.Drawing.Point(4, 34);
             this.TabPageEmployeePetition.Name = "TabPageEmployeePetition";
             this.TabPageEmployeePetition.Padding = new System.Windows.Forms.Padding(3);
@@ -859,19 +866,77 @@
             this.TabPageEmployeePetition.TabIndex = 3;
             this.TabPageEmployeePetition.UseVisualStyleBackColor = true;
             // 
-            // ButtonSaveInTabPagePetition
+            // label17
             // 
-            this.ButtonSaveInTabPagePetition.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
-            this.ButtonSaveInTabPagePetition.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
-            this.ButtonSaveInTabPagePetition.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.ButtonSaveInTabPagePetition.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
-            this.ButtonSaveInTabPagePetition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSaveInTabPagePetition.Location = new System.Drawing.Point(800, 423);
-            this.ButtonSaveInTabPagePetition.Name = "ButtonSaveInTabPagePetition";
-            this.ButtonSaveInTabPagePetition.Size = new System.Drawing.Size(250, 75);
-            this.ButtonSaveInTabPagePetition.TabIndex = 5;
-            this.ButtonSaveInTabPagePetition.Text = "Guardar";
-            this.ButtonSaveInTabPagePetition.UseVisualStyleBackColor = true;
+            this.label17.AutoSize = true;
+            this.label17.Location = new System.Drawing.Point(46, 233);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(309, 25);
+            this.label17.TabIndex = 31;
+            this.label17.Text = "Otras peticiones del empleado:";
+            this.label17.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // ListViewEmployeePetitionsInTabPagePetitions
+            // 
+            this.ListViewEmployeePetitionsInTabPagePetitions.CheckBoxes = true;
+            this.ListViewEmployeePetitionsInTabPagePetitions.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.PetitionDate,
+            this.FreeDay,
+            this.Availability});
+            this.ListViewEmployeePetitionsInTabPagePetitions.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ListViewEmployeePetitionsInTabPagePetitions.GridLines = true;
+            this.ListViewEmployeePetitionsInTabPagePetitions.Location = new System.Drawing.Point(51, 296);
+            this.ListViewEmployeePetitionsInTabPagePetitions.Name = "ListViewEmployeePetitionsInTabPagePetitions";
+            this.ListViewEmployeePetitionsInTabPagePetitions.Size = new System.Drawing.Size(557, 197);
+            this.ListViewEmployeePetitionsInTabPagePetitions.TabIndex = 30;
+            this.ListViewEmployeePetitionsInTabPagePetitions.TabStop = false;
+            this.ListViewEmployeePetitionsInTabPagePetitions.UseCompatibleStateImageBehavior = false;
+            this.ListViewEmployeePetitionsInTabPagePetitions.View = System.Windows.Forms.View.Details;
+            // 
+            // PetitionDate
+            // 
+            this.PetitionDate.Text = "Fecha";
+            this.PetitionDate.Width = 211;
+            // 
+            // FreeDay
+            // 
+            this.FreeDay.Text = "Día Libre";
+            this.FreeDay.Width = 149;
+            // 
+            // Availability
+            // 
+            this.Availability.Text = "Disponibilidad";
+            this.Availability.Width = 190;
+            // 
+            // ButtonDeletePetitionInTabPagePetition
+            // 
+            this.ButtonDeletePetitionInTabPagePetition.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
+            this.ButtonDeletePetitionInTabPagePetition.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+            this.ButtonDeletePetitionInTabPagePetition.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.ButtonDeletePetitionInTabPagePetition.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.ButtonDeletePetitionInTabPagePetition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonDeletePetitionInTabPagePetition.Location = new System.Drawing.Point(51, 522);
+            this.ButtonDeletePetitionInTabPagePetition.Name = "ButtonDeletePetitionInTabPagePetition";
+            this.ButtonDeletePetitionInTabPagePetition.Size = new System.Drawing.Size(250, 75);
+            this.ButtonDeletePetitionInTabPagePetition.TabIndex = 29;
+            this.ButtonDeletePetitionInTabPagePetition.Text = "Eliminar";
+            this.ButtonDeletePetitionInTabPagePetition.UseVisualStyleBackColor = true;
+            this.ButtonDeletePetitionInTabPagePetition.Click += new System.EventHandler(this.ButtonDeletePetitionInTabPagePetition_Click);
+            // 
+            // ButtonSavePetitionInTabPagePetition
+            // 
+            this.ButtonSavePetitionInTabPagePetition.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
+            this.ButtonSavePetitionInTabPagePetition.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+            this.ButtonSavePetitionInTabPagePetition.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.ButtonSavePetitionInTabPagePetition.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.ButtonSavePetitionInTabPagePetition.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSavePetitionInTabPagePetition.Location = new System.Drawing.Point(902, 522);
+            this.ButtonSavePetitionInTabPagePetition.Name = "ButtonSavePetitionInTabPagePetition";
+            this.ButtonSavePetitionInTabPagePetition.Size = new System.Drawing.Size(250, 75);
+            this.ButtonSavePetitionInTabPagePetition.TabIndex = 5;
+            this.ButtonSavePetitionInTabPagePetition.Text = "Guardar";
+            this.ButtonSavePetitionInTabPagePetition.UseVisualStyleBackColor = true;
+            this.ButtonSavePetitionInTabPagePetition.Click += new System.EventHandler(this.ButtonSavePetitionInTabPagePetition_Click);
             // 
             // label14
             // 
@@ -891,27 +956,18 @@
             this.ComboBoxSelectEmployeeInTabPagePetition.Name = "ComboBoxSelectEmployeeInTabPagePetition";
             this.ComboBoxSelectEmployeeInTabPagePetition.Size = new System.Drawing.Size(368, 33);
             this.ComboBoxSelectEmployeeInTabPagePetition.TabIndex = 1;
+            this.ComboBoxSelectEmployeeInTabPagePetition.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSelectEmployeeInTabPagePetition_SelectedIndexChanged);
             // 
             // IsFreeDayCheckBox
             // 
             this.IsFreeDayCheckBox.AutoSize = true;
-            this.IsFreeDayCheckBox.Location = new System.Drawing.Point(313, 384);
+            this.IsFreeDayCheckBox.Location = new System.Drawing.Point(930, 207);
             this.IsFreeDayCheckBox.Name = "IsFreeDayCheckBox";
             this.IsFreeDayCheckBox.Size = new System.Drawing.Size(160, 29);
             this.IsFreeDayCheckBox.TabIndex = 3;
             this.IsFreeDayCheckBox.Text = "Dar día libre";
             this.IsFreeDayCheckBox.UseVisualStyleBackColor = true;
-            // 
-            // label17
-            // 
-            this.label17.AutoSize = true;
-            this.label17.Font = new System.Drawing.Font("Calibri", 50F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label17.ForeColor = System.Drawing.Color.LightGray;
-            this.label17.Location = new System.Drawing.Point(23, 306);
-            this.label17.Name = "label17";
-            this.label17.Size = new System.Drawing.Size(138, 164);
-            this.label17.TabIndex = 25;
-            this.label17.Text = "3";
+            this.IsFreeDayCheckBox.CheckStateChanged += new System.EventHandler(this.IsFreeDayCheckBox_CheckStateChanged);
             // 
             // label16
             // 
@@ -935,46 +991,50 @@
             this.label15.TabIndex = 23;
             this.label15.Text = "1";
             // 
-            // petitionExampleIndicatorLabel
+            // LabelPetitionExampleIndicator
             // 
-            this.petitionExampleIndicatorLabel.AutoSize = true;
-            this.petitionExampleIndicatorLabel.Location = new System.Drawing.Point(219, 512);
-            this.petitionExampleIndicatorLabel.Name = "petitionExampleIndicatorLabel";
-            this.petitionExampleIndicatorLabel.Size = new System.Drawing.Size(364, 50);
-            this.petitionExampleIndicatorLabel.TabIndex = 22;
-            this.petitionExampleIndicatorLabel.Text = "Indique horario que si puede laborar \r\nEj. 8:00AM - 12:00PM\r\n";
-            this.petitionExampleIndicatorLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.LabelPetitionExampleIndicator.Location = new System.Drawing.Point(804, 274);
+            this.LabelPetitionExampleIndicator.Name = "LabelPetitionExampleIndicator";
+            this.LabelPetitionExampleIndicator.Size = new System.Drawing.Size(396, 50);
+            this.LabelPetitionExampleIndicator.TabIndex = 22;
+            this.LabelPetitionExampleIndicator.Text = "O indique horario si tiene disponibilidad para trabajar algún turno\r\n\r\n";
+            this.LabelPetitionExampleIndicator.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label13
             // 
             this.label13.AutoSize = true;
-            this.label13.Location = new System.Drawing.Point(851, 50);
+            this.label13.Location = new System.Drawing.Point(849, 49);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(334, 25);
             this.label13.TabIndex = 21;
             this.label13.Text = "Seleccione la fecha de la petición";
             // 
-            // petitionDatePicker
+            // PetitionDatePicker
             // 
-            this.petitionDatePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.petitionDatePicker.Location = new System.Drawing.Point(833, 99);
-            this.petitionDatePicker.MaxDate = new System.DateTime(3000, 12, 31, 0, 0, 0, 0);
-            this.petitionDatePicker.MinDate = new System.DateTime(2014, 1, 1, 0, 0, 0, 0);
-            this.petitionDatePicker.Name = "petitionDatePicker";
-            this.petitionDatePicker.Size = new System.Drawing.Size(368, 32);
-            this.petitionDatePicker.TabIndex = 2;
-            this.petitionDatePicker.Value = new System.DateTime(2014, 9, 22, 0, 0, 0, 0);
+            this.PetitionDatePicker.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.PetitionDatePicker.Location = new System.Drawing.Point(826, 97);
+            this.PetitionDatePicker.MaxDate = new System.DateTime(3000, 12, 31, 0, 0, 0, 0);
+            this.PetitionDatePicker.MinDate = new System.DateTime(2015, 1, 1, 0, 0, 0, 0);
+            this.PetitionDatePicker.Name = "PetitionDatePicker";
+            this.PetitionDatePicker.Size = new System.Drawing.Size(368, 32);
+            this.PetitionDatePicker.TabIndex = 2;
+            this.PetitionDatePicker.Value = new System.DateTime(2015, 1, 1, 0, 0, 0, 0);
             // 
-            // horarioDisponibleTxt
+            // TextBoxPetitionAvailabilityHours
             // 
-            this.horarioDisponibleTxt.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.horarioDisponibleTxt.ForeColor = System.Drawing.Color.Black;
-            this.horarioDisponibleTxt.Location = new System.Drawing.Point(215, 445);
-            this.horarioDisponibleTxt.Multiline = true;
-            this.horarioDisponibleTxt.Name = "horarioDisponibleTxt";
-            this.horarioDisponibleTxt.Size = new System.Drawing.Size(368, 40);
-            this.horarioDisponibleTxt.TabIndex = 4;
-            this.horarioDisponibleTxt.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxPetitionAvailabilityHours.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.TextBoxPetitionAvailabilityHours.ForeColor = System.Drawing.Color.Gray;
+            this.TextBoxPetitionAvailabilityHours.Location = new System.Drawing.Point(826, 359);
+            this.TextBoxPetitionAvailabilityHours.Multiline = true;
+            this.TextBoxPetitionAvailabilityHours.Name = "TextBoxPetitionAvailabilityHours";
+            this.TextBoxPetitionAvailabilityHours.Size = new System.Drawing.Size(368, 40);
+            this.TextBoxPetitionAvailabilityHours.TabIndex = 4;
+            this.TextBoxPetitionAvailabilityHours.Tag = "Ej. 1am - 6pm ";
+            this.TextBoxPetitionAvailabilityHours.Text = "Ej. 1am - 6pm ";
+            this.TextBoxPetitionAvailabilityHours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxPetitionAvailabilityHours.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxPetitionAvailabilityHours.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxPetitionAvailabilityHours.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TabPageEmployeeSchedule
             // 
@@ -1524,14 +1584,13 @@
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.ComboBox ComboBoxSelectEmployeeInTabPagePetition;
         private System.Windows.Forms.CheckBox IsFreeDayCheckBox;
-        private System.Windows.Forms.Label label17;
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.Label label15;
-        private System.Windows.Forms.Label petitionExampleIndicatorLabel;
+        private System.Windows.Forms.Label LabelPetitionExampleIndicator;
         private System.Windows.Forms.Label label13;
-        private System.Windows.Forms.DateTimePicker petitionDatePicker;
-        private System.Windows.Forms.TextBox horarioDisponibleTxt;
-        private System.Windows.Forms.Button ButtonSaveInTabPagePetition;
+        private System.Windows.Forms.DateTimePicker PetitionDatePicker;
+        private System.Windows.Forms.TextBox TextBoxPetitionAvailabilityHours;
+        private System.Windows.Forms.Button ButtonSavePetitionInTabPagePetition;
         private System.Windows.Forms.TabPage TabPageEmployeeSchedule;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemHelp;
@@ -1587,6 +1646,12 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label label18;
         private System.Windows.Forms.Button ButtonClearTextBoxesInTabPageEmployeeInformation;
+        private System.Windows.Forms.Button ButtonDeletePetitionInTabPagePetition;
+        private System.Windows.Forms.ListView ListViewEmployeePetitionsInTabPagePetitions;
+        private System.Windows.Forms.Label label17;
+        private System.Windows.Forms.ColumnHeader PetitionDate;
+        private System.Windows.Forms.ColumnHeader FreeDay;
+        private System.Windows.Forms.ColumnHeader Availability;
     }
 }
 
