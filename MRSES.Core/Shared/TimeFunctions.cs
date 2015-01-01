@@ -5,6 +5,14 @@ namespace MRSES.Core.Shared
 {
     public struct TimeFunctions
     {
+        #region Variables
+
+        static System.Globalization.CultureInfo culture_usa = new System.Globalization.CultureInfo("en-US");
+        static System.Globalization.CultureInfo culture_pr = new System.Globalization.CultureInfo("es-PR");
+
+        #endregion
+        
+
         static public LocalTime[] GetTurnInAndOut(string turn)
         {
             if (turn.Contains("X") || string.IsNullOrEmpty(turn))
@@ -26,6 +34,11 @@ namespace MRSES.Core.Shared
         static public LocalTime ConvertToLocalTime(string hour)
         {
             return LocalTimePattern.CreateWithInvariantCulture("h:mmtt").Parse(hour).Value;
+        }
+
+        static public string ApplyCultureToLocalTime(LocalTime hour)
+        {
+            return hour.ToString("h:mmtt", culture_usa);
         }
 
         static public bool TurnHourIsInLongFormat(string turnHour)
@@ -72,7 +85,7 @@ namespace MRSES.Core.Shared
         /// <returns></returns>
         static string ConvertShortHourToLongWithSpecificPattern(string patternText, string shortHour)
         {
-            return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Value.ToString("h:mmtt", new System.Globalization.CultureInfo("en-US"));
+            return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Value.ToString("h:mmtt", culture_usa);
         }
 
         static bool SpecifiedPatternAndHourAreValid(string patternText, string shortHour)

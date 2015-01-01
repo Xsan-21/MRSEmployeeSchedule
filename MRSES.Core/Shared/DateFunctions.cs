@@ -6,14 +6,26 @@ namespace MRSES.Core.Shared
 {
     public struct DateFunctions
     {
+        #region Variables
+
+        static System.Globalization.CultureInfo culture_usa = new System.Globalization.CultureInfo("en-US");
+        static System.Globalization.CultureInfo culture_pr = new System.Globalization.CultureInfo("es-PR"); // .ToString("dd \\de MMMM \\de yyyy", new System.Globalization.CultureInfo("es-PR")
+
+        #endregion
+
+        public static string ApplyCultureToLocalDate(LocalDate date, string culture)
+        {
+            throw new NotImplementedException();
+        }
+
         public static DateTime FromDateTimeStringToDateTime(string date)
         {
             return DateTime.Parse(date);
         }
 
-        public static DateTime FromLocalDateToDateTime(LocalDate localDate)
+        public static LocalDate FromDateTimeStringToLocalDate(string date)
         {
-            return new DateTime(localDate.Year, localDate.Month, localDate.Day);
+            return LocalDatePattern.CreateWithInvariantCulture("dddd, MMMM d, yyyy").Parse(date).Value;
         }
 
         public static LocalDate FromDateTimeToLocalDate(DateTime dateTime)
@@ -21,29 +33,24 @@ namespace MRSES.Core.Shared
             return new LocalDate(dateTime.Year, dateTime.Month, dateTime.Day);
         }
 
-        public static LocalDate FromShortDateTimeFormatToLocalDate(string shortDateTime)
+        //public static LocalDate FromShortDateTimeFormatToLocalDate(string shortDateTime)
+        //{
+        //    return LocalDatePattern.CreateWithInvariantCulture("M/d/yyyy").Parse(shortDateTime).Value;
+        //}
+
+        //public static LocalDate FromLocalDateStringToLocalDate(string localDate)
+        //{
+        //    return LocalDatePattern.CreateWithInvariantCulture("dddd, MMMM d, yyyy").Parse(localDate).Value;
+        //}
+
+        static public DateTime FromLocalTimeToDateTime(LocalTime time)
         {
-            return LocalDatePattern.CreateWithInvariantCulture("M/d/yyyy").Parse(shortDateTime).Value;
+            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, time.Hour, time.Minute, time.Second);
         }
 
-        public static LocalDate FromLocalDateStringToLocalDate(string localDate)
+        static public DateTime FromLocalDateToDateTime(LocalDate date)
         {
-            return LocalDatePattern.CreateWithInvariantCulture("dddd, MMMM d, yyyy").Parse(localDate).Value;
-        }
-
-        public static LocalDateTime ConvertDateTimeToLocalDateTime(DateTime date, LocalTime time)
-        {
-            return new LocalDateTime(date.Year, date.Month, date.Day, time.Hour, time.Minute);
-        }
-
-        public static DateTime ConvertLocalDateTimeToDateTime(LocalDateTime localDateTime)
-        {
-            return localDateTime.ToDateTimeUnspecified();
-        }
-
-        public static LocalDateTime FromDateTimeToLocalDateTime(DateTime petitionDate)
-        {
-            return new LocalDateTime(petitionDate.Year, petitionDate.Month, petitionDate.Day, petitionDate.Hour, petitionDate.Minute, petitionDate.Second);
+            return new DateTime(date.Year, date.Month, date.Day);
         }
     }
 }
