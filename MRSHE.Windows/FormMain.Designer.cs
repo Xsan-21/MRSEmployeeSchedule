@@ -884,7 +884,9 @@
             this.FreeDay,
             this.Availability});
             this.ListViewEmployeePetitionsInTabPagePetitions.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ListViewEmployeePetitionsInTabPagePetitions.FullRowSelect = true;
             this.ListViewEmployeePetitionsInTabPagePetitions.GridLines = true;
+            this.ListViewEmployeePetitionsInTabPagePetitions.HoverSelection = true;
             this.ListViewEmployeePetitionsInTabPagePetitions.Location = new System.Drawing.Point(51, 296);
             this.ListViewEmployeePetitionsInTabPagePetitions.Name = "ListViewEmployeePetitionsInTabPagePetitions";
             this.ListViewEmployeePetitionsInTabPagePetitions.Size = new System.Drawing.Size(557, 197);
@@ -892,6 +894,7 @@
             this.ListViewEmployeePetitionsInTabPagePetitions.TabStop = false;
             this.ListViewEmployeePetitionsInTabPagePetitions.UseCompatibleStateImageBehavior = false;
             this.ListViewEmployeePetitionsInTabPagePetitions.View = System.Windows.Forms.View.Details;
+            this.ListViewEmployeePetitionsInTabPagePetitions.ItemChecked += new System.Windows.Forms.ItemCheckedEventHandler(this.ListViewEmployeePetitionsInTabPagePetitions_ItemChecked);
             // 
             // PetitionDate
             // 
@@ -910,6 +913,7 @@
             // 
             // ButtonDeletePetitionInTabPagePetition
             // 
+            this.ButtonDeletePetitionInTabPagePetition.Enabled = false;
             this.ButtonDeletePetitionInTabPagePetition.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonDeletePetitionInTabPagePetition.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
             this.ButtonDeletePetitionInTabPagePetition.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
@@ -925,6 +929,7 @@
             // 
             // ButtonSavePetitionInTabPagePetition
             // 
+            this.ButtonSavePetitionInTabPagePetition.Enabled = false;
             this.ButtonSavePetitionInTabPagePetition.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonSavePetitionInTabPagePetition.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
             this.ButtonSavePetitionInTabPagePetition.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
@@ -1032,7 +1037,7 @@
             this.TextBoxPetitionAvailabilityHours.Tag = "Ej. 1am - 6pm ";
             this.TextBoxPetitionAvailabilityHours.Text = "Ej. 1am - 6pm ";
             this.TextBoxPetitionAvailabilityHours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxPetitionAvailabilityHours.TextChanged += new System.EventHandler(this.ChangeColorOfText);
+            this.TextBoxPetitionAvailabilityHours.TextChanged += new System.EventHandler(this.TextBoxPetitionAvailabilityHours_TextChanged);
             this.TextBoxPetitionAvailabilityHours.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
             this.TextBoxPetitionAvailabilityHours.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 

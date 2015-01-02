@@ -93,7 +93,7 @@ namespace MRSES.Windows
 
         void ValidateAndConvertHourInShortFormatToLongIfNecesary(TextBox textbox)
         {
-            TimeFunctions.ChangeShortFormatToLongFormat(textbox);
+            TimeFunctions.TryChangeShortFormatToLongFormat(textbox);
         }
 
         #endregion        
@@ -472,17 +472,20 @@ namespace MRSES.Windows
 
         async Task DeleteSelectedPetitionsOfAnEmployeeAsync()
         {
-            var checkedPetitions = ListViewEmployeePetitionsInTabPagePetitions.CheckedIndices;
-            var petition = new Petition() { EmployeeName = ComboBoxSelectEmployeeInTabPagePetition.Text };
-
-            for (int i = 0; i < checkedPetitions.Count; i++)
+            int countOfSelectedPetitions = ListViewEmployeePetitionsInTabPagePetitions.CheckedItems.Count;
+            
+            while (countOfSelectedPetitions-- > 0)
             {
-                var date = ListViewEmployeePetitionsInTabPagePetitions.Items[checkedPetitions[i]].Text;
-                petition.Date = DateFunctions.FromDateTimeStringToLocalDate(date);
+                var firstPetitionSelected = ListViewEmployeePetitionsInTabPagePetitions.CheckedItems[0];
 
-                _petitionRepo.Petition = petition;
+                _petitionRepo.Petition = new Petition()
+                {
+                    EmployeeName = ComboBoxSelectEmployeeInTabPagePetition.Text,
+                    Date = DateFunctions.FromDateTimeStringToLocalDate(firstPetitionSelected.Text)
+                };
+
                 await _petitionRepo.DeleteAsync();
-                ListViewEmployeePetitionsInTabPagePetitions.Items.RemoveAt(checkedPetitions[i]);
+                ListViewEmployeePetitionsInTabPagePetitions.Items.RemoveAt(firstPetitionSelected.Index);
             }
         }
 
@@ -494,17 +497,9 @@ namespace MRSES.Windows
 
             if (!IsFreeDayCheckBox.Checked)
             {
-                if (string.IsNullOrEmpty(TextBoxPetitionAvailabilityHours.Text))
-                {
-                    TextBoxPetitionAvailabilityHours.Focus();
-                    throw new Exception("No ha indicado la hora disponible que el empleado puede laborar.");
-                }
-
-                ValidateAndConvertHourInShortFormatToLongIfNecesary(TextBoxPetitionAvailabilityHours);
-
-                var availability = TextBoxPetitionAvailabilityHours.Text.Replace(" ", "").Split('-');
-                petition.AvailableFrom = TimeFunctions.ParseLocalTimeFromString(availability[0]);
-                petition.AvailableTo = TimeFunctions.ParseLocalTimeFromString(availability[1]);
+                var availability = TimeFunctions.GetTurnInAndOut(TextBoxPetitionAvailabilityHours.Text);
+                petition.AvailableFrom = availability[0];
+                petition.AvailableTo = availability[1];
             }
 
             _petitionRepo.Petition = petition;
@@ -540,6 +535,23 @@ namespace MRSES.Windows
             }
         }
 
+        void EnableOrDisableButtonDeletePetitionInTabPagePetition()
+        {
+            var itemsChecked = ListViewEmployeePetitionsInTabPagePetitions.CheckedItems.Count;
+
+            ButtonDeletePetitionInTabPagePetition.Enabled = itemsChecked > 0 ? true : false;
+        }
+
+        void ResetPetitionSelectionFields()
+        {
+            PetitionDatePicker.Value = PetitionDatePicker.MinDate;
+            IsFreeDayCheckBox.Checked = false;
+            LabelPetitionExampleIndicator.Visible = true;
+            TextBoxPetitionAvailabilityHours.Text = TextBoxPetitionAvailabilityHours.Tag.ToString();
+            TextBoxPetitionAvailabilityHours.Visible = true;
+            ButtonSavePetitionInTabPagePetition.Enabled = false;
+        }
+
         #endregion
 
         #region Events
@@ -548,6 +560,7 @@ namespace MRSES.Windows
         {
             try
             {
+                ButtonDeletePetitionInTabPagePetition.Enabled = false;
                 await DeleteSelectedPetitionsOfAnEmployeeAsync();
                 await ShowMessageInLabelMessageOfFormMain("Las peticiones han sido eliminadas", "");
             }
@@ -555,12 +568,17 @@ namespace MRSES.Windows
             {
                 new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
             }
+            finally
+            {
+                EnableOrDisableButtonDeletePetitionInTabPagePetition();
+            }
         }
 
         private void IsFreeDayCheckBox_CheckStateChanged(object sender, EventArgs e)
         {
             LabelPetitionExampleIndicator.Visible = !IsFreeDayCheckBox.Checked;
             TextBoxPetitionAvailabilityHours.Visible = !IsFreeDayCheckBox.Checked;
+            ButtonSavePetitionInTabPagePetition.Enabled = IsFreeDayCheckBox.Checked;
         }
 
         private async void ButtonSavePetitionInTabPagePetition_Click(object sender, EventArgs e)
@@ -568,8 +586,9 @@ namespace MRSES.Windows
             try
             {
                 await SaveEmployeePetitionAsync();
-                await ShowMessageInLabelMessageOfFormMain("La petición para el " + PetitionDatePicker.Value.ToShortDateString() + " de " + ComboBoxSelectEmployeeInTabPagePetition .Text+ " se guardó.", "");
                 await ShowAllPetitionsOfAnEmployeeAsync();
+                ResetPetitionSelectionFields();
+                await ShowMessageInLabelMessageOfFormMain("La petición para el " + PetitionDatePicker.Value.ToShortDateString() + " de " + ComboBoxSelectEmployeeInTabPagePetition .Text+ " se guardó.", "");
             }
             catch (Exception ex)
             {
@@ -589,6 +608,11 @@ namespace MRSES.Windows
             }
         }
 
+        private void ListViewEmployeePetitionsInTabPagePetitions_ItemChecked(object sender, ItemCheckedEventArgs e)
+        {
+            EnableOrDisableButtonDeletePetitionInTabPagePetition();
+        }
+
         #endregion
 
         #endregion
@@ -604,6 +628,13 @@ namespace MRSES.Windows
             ComboBoxSelectEmployeeInTabPageSchedule.DataSource = employeeNames;
         }
         #endregion
+
+        private void TextBoxPetitionAvailabilityHours_TextChanged(object sender, EventArgs e)
+        {
+            StringFunctions.ChangeTextColor(sender as TextBox);
+            TimeFunctions.TryChangeShortFormatToLongFormat(TextBoxPetitionAvailabilityHours);
+            ButtonSavePetitionInTabPagePetition.Enabled = TimeFunctions.FormatOfTurnIsValid(TextBoxPetitionAvailabilityHours.Text);
+        }
 
         #region Events
 
