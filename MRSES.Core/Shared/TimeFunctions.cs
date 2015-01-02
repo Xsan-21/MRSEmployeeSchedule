@@ -41,17 +41,14 @@ namespace MRSES.Core.Shared
             return hour.ToString("h:mmtt", culture_usa);
         }
 
-        static public bool TurnHourIsInLongFormat(string turnHour)
+        static bool TurnHourIsInLongFormat(string turnHour)
         {
             return System.Text.RegularExpressions.Regex.Match(turnHour, @"(1[012]|[1-9]):[0-5][0-9](\\s)?(?i)(am|pm)").Success;
            
         }
 
-        static public bool TurnHourIsInShortFormat(string turnHour)
+        static bool TurnHourIsInShortFormat(string turnHour)
         {
-            if (turnHour.IndexOfAny(new[] { 'a', 'p' }) < 0)
-                throw new System.Exception("La hora especificada no indica si es de día o de tarde. Por favor indique a o p en la hora.");
-
             return SpecifiedPatternAndHourAreValid("ht", turnHour) || SpecifiedPatternAndHourAreValid("h.mt", turnHour);
         }
 
@@ -93,46 +90,61 @@ namespace MRSES.Core.Shared
             return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Success;
         }
 
-        static bool ValidateTurnHourFormat(string turn)
+        /// <summary>
+        /// Verify if the turn format is correct. Input format should be like 8:00am - 5:00pm
+        /// </summary>
+        /// <param name="turn"></param>
+        /// <returns></returns>
+        static public bool FormatOfTurnIsValid(string turn)
         {
-            return TurnHourIsInShortFormat(turn) || TurnHourIsInLongFormat(turn);
+            if (!turn.Contains("-"))
+                return false;
+
+            var turnInAndOut = SeparateHourInAndHourOut(turn);
+
+            return TurnHourIsInLongFormat(turnInAndOut[0]) && TurnHourIsInLongFormat(turnInAndOut[1]);
         }
 
-        static public void ChangeShortFormatToLongFormat(System.Windows.Forms.TextBox textBox)
+        static bool TurnContainsRequiredPattern(System.Windows.Forms.TextBox textBox)
         {
             var turn = textBox.Text.Trim();
 
-            var termsToIgnore = new[] {textBox.Tag.ToString(), "X", "available", "nd", "no disponible", "disponible", string.Empty, null };
+            var termsToIgnore = new[] { textBox.Tag.ToString(), "X", "available", "nd", "no disponible", "disponible", string.Empty, null };
 
             for (int i = 0; i < termsToIgnore.Length; i++)
             {
                 if (turn == termsToIgnore[i])
-                    return;
+                    return false;
             }
+
+            if (turn.IndexOfAny(new[] { 'a', 'p' }) < 0)
+                return false;//throw new System.Exception("La hora especificada no indica si es de día o de tarde. Por favor indique a o p en la hora.");
+
+            if (!turn.Contains("-"))
+                return false;//throw new System.Exception("Por favor indique hora de entrada y salida separada por un guión (Ej. 11:00am - 2:00pm o 11a-2p).");
+
+            return true;
+        } 
+
+        static public void TryChangeShortFormatToLongFormat(System.Windows.Forms.TextBox textBox)
+        {
+            if (!TurnContainsRequiredPattern(textBox))
+                return;
 
             string[] result = new string[2];
 
-            if (!turn.Contains("-"))
-                throw new System.Exception("Por favor indique hora de entrada y salida separada por un guión (Ej. 11:00am - 2:00pm o 11a-2p).");
-
-            var getTurnInAndOut = SeparateHourInAndHourOut(turn);
+            var getTurnInAndOut = SeparateHourInAndHourOut(textBox.Text);
 
             for (int i = 0; i < 2; i++)
 			{
-			    if (ValidateTurnHourFormat(getTurnInAndOut[i]))
-                {
-                    if (TurnHourIsInShortFormat(getTurnInAndOut[i]))
-                        result[i] = FromShortToLongHour(getTurnInAndOut[i]);
-                    else
-                        result[i] = getTurnInAndOut[i];
-                }
+                if (TurnHourIsInShortFormat(getTurnInAndOut[i]))
+                    result[i] = FromShortToLongHour(getTurnInAndOut[i]);
                 else
-                {
-                    throw new System.Exception("La hora especificada no tiene un formato correcto.");
-                }
+                    result[i] = getTurnInAndOut[i];
 			}
 
             textBox.Text = result[0] + " - " + result[1];
+            textBox.Select(textBox.Text.Length, 0);
         }
     }
 }

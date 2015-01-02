@@ -24,8 +24,6 @@ namespace MRSES.Core.Persistence
 
         public async Task SaveAsync()
         {
-            CheckIfPetitionIsValid();
-
             using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
@@ -36,7 +34,7 @@ namespace MRSES.Core.Persistence
                     command.Parameters.AddWithValue("emp_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
                     command.Parameters.AddWithValue("pet_date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(Petition.Date));
                     command.Parameters.AddWithValue("available_from", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(Petition.AvailableFrom));
-                    command.Parameters.AddWithValue("available_to", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(Petition.AvailableFrom));
+                    command.Parameters.AddWithValue("available_to", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(Petition.AvailableTo));
 
                     await command.Connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
@@ -130,12 +128,6 @@ namespace MRSES.Core.Persistence
             }
 
             return query;
-        }
-
-        private void CheckIfPetitionIsValid()
-        {
-            if (Petition == null || string.IsNullOrEmpty(Petition.EmployeeName))
-                throw new Exception("No se ha especificado petición o nombre de empleado.");
         }
 
         public void Dispose()

@@ -45,7 +45,7 @@ namespace MRSES.Core.Shared
 
         static public DateTime FromLocalTimeToDateTime(LocalTime time)
         {
-            return new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day, time.Hour, time.Minute, time.Second);
+            return new DateTime(2015, 1, 1, time.Hour, time.Minute, time.Second);
         }
 
         static public DateTime FromLocalDateToDateTime(LocalDate date)
