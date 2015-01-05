@@ -91,11 +91,6 @@ namespace MRSES.Windows
             return await employeeRepository.GetEmployeeNamesByPositionAsync(position);
         }
 
-        void ValidateAndConvertHourInShortFormatToLongIfNecesary(TextBox textbox)
-        {
-            TimeFunctions.TryChangeShortFormatToLongFormat(textbox);
-        }
-
         #endregion        
 
         #region Main Form Events
@@ -208,6 +203,7 @@ namespace MRSES.Windows
             }
             finally
             {
+                ClearEmployeeInformationTextBoxes();
                 EnableButtonsInTabPageEmployeeInformation();
             }            
         }
@@ -292,6 +288,7 @@ namespace MRSES.Windows
             CheckBoxIsStudentInTabPageEmployeeInformation.Checked = false;
             CheckBoxIsPartTimeInTabPageEmployeeInformation.Checked = false;
             CheckBoxIsFulltimeInTabPageEmployeeInformation.Checked = false;
+            _idOfCurrentSelectedEmployeeInEmployeeTabPage = string.Empty;
         }
 
         async Task ValidateEmployeeInformationBeforeSavingAsync()
@@ -345,7 +342,7 @@ namespace MRSES.Windows
                 JobType = CheckBoxIsPartTimeInTabPageEmployeeInformation.Checked == true ? "Part-Time" : "Full-Time",
                 PhoneNumber = TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text,
                 Position = TextBoxEmployeePositionInTabPageEmployeeInformation.Text,
-                OldNameOrID = _idOfCurrentSelectedEmployeeInEmployeeTabPage
+                OldID = _idOfCurrentSelectedEmployeeInEmployeeTabPage
             };
 
             employeeRepository.Employee = employee;
@@ -357,7 +354,7 @@ namespace MRSES.Windows
         {
             employeeRepository.Employee = new Employee() { Name = TextBoxEmployeeNameInTabPageEmployeeInformation.Text,  ID = TextBoxEmployeeIDInTabPageEmployeeInformation.Text };
             await employeeRepository.DeleteAsync();
-            ListBoxEmployeesInEmployeeTabPage.Items.Remove(ListBoxEmployeesInEmployeeTabPage.SelectedItem);
+            await FillPositionComboBoxAsync();
         }
 
         #endregion         
@@ -397,7 +394,8 @@ namespace MRSES.Windows
 
         #region Methods
 
-        Availability GetEmployeeAvailabilityFromTextBoxes()
+        Availability 
+            GetEmployeeAvailabilityFromTextBoxes()
         {
             string _wednesday = TextBoxWednesdayInTabPageAvailability.Text.Trim(),
                 _thursday = TextBoxThursdayInTabPageAvailability.Text.Trim(),
@@ -435,13 +433,13 @@ namespace MRSES.Windows
             _availabilityRepo.EmployeeName = ComboBoxSelectEmployeeInTabPageAvailability.Text;
             var availability = await _availabilityRepo.GetAvailabilityAsync();
 
-            TextBoxWednesdayInTabPageAvailability.Text = availability.Wednesday;
-            TextBoxThursdayInTabPageAvailability.Text = availability.Thursday;
-            TextBoxFridayInTabPageAvailability.Text = availability.Friday;
-            TextBoxSaturdayInTabPageAvailability.Text = availability.Saturday;
-            TextBoxSundayInTabPageAvailability.Text = availability.Sunday;
-            TextBoxMondayInTabPageAvailability.Text = availability.Monday;
-            TextBoxTuesdayInTabPageAvailability.Text = availability.Tuesday;
+            TextBoxWednesdayInTabPageAvailability.Text = availability.Wednesday == "available" ? "disponible" : availability.Wednesday;
+            TextBoxThursdayInTabPageAvailability.Text = availability.Thursday == "available" ? "disponible" : availability.Thursday;
+            TextBoxFridayInTabPageAvailability.Text = availability.Friday == "available" ? "disponible" : availability.Friday;
+            TextBoxSaturdayInTabPageAvailability.Text = availability.Saturday == "available" ? "disponible" : availability.Saturday;
+            TextBoxSundayInTabPageAvailability.Text = availability.Sunday == "available" ? "disponible" : availability.Sunday;
+            TextBoxMondayInTabPageAvailability.Text = availability.Monday == "available" ? "disponible" : availability.Monday;
+            TextBoxTuesdayInTabPageAvailability.Text = availability.Tuesday == "available" ? "disponible" : availability.Tuesday;
         }
 
         void ValidateAvailabilityHourFormatOfTextBoxes()
@@ -450,9 +448,7 @@ namespace MRSES.Windows
             TextBoxSaturdayInTabPageAvailability, TextBoxSundayInTabPageAvailability, TextBoxMondayInTabPageAvailability, TextBoxTuesdayInTabPageAvailability};
 
             foreach (var textbox in textBoxes)
-            {
-                ValidateAndConvertHourInShortFormatToLongIfNecesary(textbox);
-            }
+                TimeFunctions.TryChangeShortFormatToLongFormat(textbox);
         }
         
         async Task FillComboBoxSelectEmployeeInAvailabilityTabPageAsync()
@@ -556,6 +552,13 @@ namespace MRSES.Windows
 
         #region Events
 
+        private void TextBoxPetitionAvailabilityHours_TextChanged(object sender, EventArgs e)
+        {
+            StringFunctions.ChangeTextColor(sender as TextBox);
+            TimeFunctions.TryChangeShortFormatToLongFormat(TextBoxPetitionAvailabilityHours);
+            ButtonSavePetitionInTabPagePetition.Enabled = TimeFunctions.FormatOfTurnIsValid(TextBoxPetitionAvailabilityHours.Text);
+        }
+
         private async void ButtonDeletePetitionInTabPagePetition_Click(object sender, EventArgs e)
         {
             try
@@ -629,12 +632,7 @@ namespace MRSES.Windows
         }
         #endregion
 
-        private void TextBoxPetitionAvailabilityHours_TextChanged(object sender, EventArgs e)
-        {
-            StringFunctions.ChangeTextColor(sender as TextBox);
-            TimeFunctions.TryChangeShortFormatToLongFormat(TextBoxPetitionAvailabilityHours);
-            ButtonSavePetitionInTabPagePetition.Enabled = TimeFunctions.FormatOfTurnIsValid(TextBoxPetitionAvailabilityHours.Text);
-        }
+        
 
         #region Events
 
