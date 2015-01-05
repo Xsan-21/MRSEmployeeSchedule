@@ -118,10 +118,10 @@ namespace MRSES.Core.Shared
             }
 
             if (turn.IndexOfAny(new[] { 'a', 'p' }) < 0)
-                return false;//throw new System.Exception("La hora especificada no indica si es de día o de tarde. Por favor indique a o p en la hora.");
+                return false;
 
             if (!turn.Contains("-"))
-                return false;//throw new System.Exception("Por favor indique hora de entrada y salida separada por un guión (Ej. 11:00am - 2:00pm o 11a-2p).");
+                return false;
 
             return true;
         } 

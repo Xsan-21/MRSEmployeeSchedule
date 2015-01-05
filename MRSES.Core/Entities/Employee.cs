@@ -9,7 +9,7 @@
         string JobType { get; set; }
         bool IsStudent { get; set; }
         string Department { get; set; }
-        string OldNameOrID { get; set; }
+        string OldID { get; set; }
     }
 
     public class Employee : IEmployee
@@ -23,7 +23,7 @@
         public string JobType { get; set; }
         public bool IsStudent { get; set; }
         public string Department { get; set; }
-        public string OldNameOrID { get; set; }
+        public string OldID { get; set; }
 
         #endregion
 
@@ -39,7 +39,7 @@
             JobType = jobType;
             Department = department;
             IsStudent = isStudent;
-            OldNameOrID = oldNameOrID;
+            OldID = oldNameOrID;
         }
 
         #endregion       

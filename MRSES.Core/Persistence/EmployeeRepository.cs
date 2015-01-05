@@ -44,45 +44,15 @@ namespace MRSES.Core.Persistence
 
         #endregion 
         
-        #region Methods
-
-        async public Task<bool> ExistsAsync()
-        {
-            ValidateEmployee();
-            bool result = false;
-
-            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
-            {
-                using (var command = new NpgsqlCommand("", dbConnection))
-                {
-                    command.CommandText = GetQuery("Exists");
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
-                    command.Parameters.AddWithValue("employee_id", NpgsqlDbType.Varchar, string.IsNullOrEmpty(Employee.OldNameOrID) ? Employee.ID : Employee.OldNameOrID);
-                    
-                    await command.Connection.OpenAsync();
-                    
-                    result = (bool)(await command.ExecuteScalarAsync());
-                }
-            }
-
-            return result;
-        }        
+        #region Methods      
 
         async public Task SaveAsync()
         {
-            bool employeeExists = await ExistsAsync();
-            string action = employeeExists == true ? "Update" : "Save";
-            await SaveEmployeeInformationAsync(action);                
-        }
-
-        async Task SaveEmployeeInformationAsync(string action)
-        {
             using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
                 {
-                    command.CommandText = GetQuery(action);
+                    command.CommandText = GetQuery("Save");
                     command.CommandType = System.Data.CommandType.Text;
                     command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
                     command.Parameters.AddWithValue("employee_id", NpgsqlDbType.Varchar, Employee.ID);
@@ -90,34 +60,20 @@ namespace MRSES.Core.Persistence
                     command.Parameters.AddWithValue("student", NpgsqlDbType.Boolean, Employee.IsStudent);
                     command.Parameters.AddWithValue("job_type", NpgsqlDbType.Varchar, Employee.JobType);
                     command.Parameters.AddWithValue("employee_name", NpgsqlDbType.Varchar, Employee.Name);
-                    command.Parameters.AddWithValue("position", NpgsqlDbType.Varchar, Employee.Position);
+                    command.Parameters.AddWithValue("employee_position", NpgsqlDbType.Varchar, Employee.Position);
                     command.Parameters.AddWithValue("phone_number", NpgsqlDbType.Varchar, Employee.PhoneNumber);
-
-                    if (action == "Update")
-                    {
-                        command.Parameters.AddWithValue("current_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
-
-                        if (string.IsNullOrEmpty(Employee.OldNameOrID))
-                            RaiseException("Se requiere especificar la propiedad OldNameOrID de la variable employee para actualizar la información del empleado.");
-                        else
-                            command.Parameters.AddWithValue("old_employee_id_or_name", NpgsqlDbType.Varchar, Employee.OldNameOrID);
-                    }
+                    command.Parameters.AddWithValue("old_id", NpgsqlDbType.Varchar, Employee.OldID);
 
                     await command.Connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
                 }
             }
 
-            Dispose();
-        }      
-        
-        async public Task DeleteAsync()
-        {
-            bool employeeExists = await ExistsAsync();
+            Dispose();               
+        }
 
-            if (!employeeExists)
-                RaiseException("Error: El nombre o ID del empleado especificado no se ha indicado o no existe.");
-           
+        async public Task DeleteAsync()
+        { 
             using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
@@ -229,14 +185,8 @@ namespace MRSES.Core.Persistence
             string query = string.Empty;
             switch (action)
             {
-                case "Exists":
-                    query = "SELECT exists_employee(:employee_id, :store)";
-                    break;
                 case "Save":
-                    query = @"SELECT add_employee(:employee_name, :employee_id, :position, :phone_number, :job_type, :department, :student, :store)";
-                    break;
-                case "Update":
-                    query = @"SELECT update_employee_info(:employee_name, :employee_id, :position, :phone_number, :job_type, :department, :student, :store, :current_store, :old_employee_id_or_name)";
+                    query = @"SELECT add_employee(:employee_name, :employee_id, :employee_position, :phone_number, :job_type, :department, :student, :store, :old_id)";
                     break;
                 case "Delete":
                     query = @"SELECT delete_employee(:employee_id, :store)";
