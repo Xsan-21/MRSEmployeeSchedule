@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Globalization;
 using NodaTime;
 
 
@@ -22,17 +21,12 @@ namespace MRSES.Core.Entities
     public class Turn : ITurn
     {
         #region VARIABLES AND PROPERTIES
-        
-        CultureInfo culture;
+
+        System.Globalization.CultureInfo culture;
 
         public LocalDate OfWeek { get; set; }
 
-        LocalDate _date;
-        public LocalDate Date
-        {
-            get { return _date; }
-            set { _date = value; }
-        }
+        public LocalDate Date { get; set; }
 
         public string FirstTurn
         {
@@ -50,33 +44,13 @@ namespace MRSES.Core.Entities
             }
         }
 
-        LocalTime _turnIn1;
-        public LocalTime TurnIn1
-        {
-            get { return _turnIn1; }
-            set { _turnIn1 = value; }
-        }
+        public LocalTime TurnIn1 { get; set; }
 
-        LocalTime _turnOut1;
-        public LocalTime TurnOut1
-        {
-            get { return _turnOut1; }
-            set { _turnOut1 = value; }
-        }
+        public LocalTime TurnOut1 { get; set; }
 
-        LocalTime _turnIn2;
-        public LocalTime TurnIn2
-        {
-            get { return _turnIn2; }
-            set { _turnIn2 = value; }
-        }
+        public LocalTime TurnIn2 { get; set; }
 
-        LocalTime _turnOut2;
-        public LocalTime TurnOut2
-        {
-            get { return _turnOut2; }
-            set { _turnOut2 = value; }
-        }
+        public LocalTime TurnOut2 { get; set; }
 
         public double Hours
         {
@@ -134,7 +108,7 @@ namespace MRSES.Core.Entities
 
         public Turn()
         {
-            culture = new CultureInfo("en-US");
+            culture = new System.Globalization.CultureInfo(Configuration.CultureInfo);
             Date = new ZonedDateTime(SystemClock.Instance.Now, DateTimeZoneProviders.Tzdb["America/Puerto_Rico"]).Date;
         }
 
@@ -160,9 +134,9 @@ namespace MRSES.Core.Entities
         string ToString(LocalTime turnIn, LocalTime turnOut)
         {
             if (CalculateHours(turnIn, turnOut) == 0)
-                return "XXXXXX";
+                return string.Empty;
 
-            return string.Format("{0}-{1}", turnIn.ToString("h:mmtt", culture), turnOut.ToString("h:mmtt", culture));
+            return string.Format("{0} - {1}", turnIn.ToString("h:mmtt", culture), turnOut.ToString("h:mmtt", culture));
         }
 
         #endregion METHODS

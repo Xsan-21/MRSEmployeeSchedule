@@ -18,5 +18,10 @@
             get { return Properties.Settings.Default.StoreLocation; }
             set { Properties.Settings.Default.StoreLocation = value; Properties.Settings.Default.Save(); } 
         }
+
+        public static string CultureInfo
+        {
+            get { return Properties.Settings.Default.CultureInfo; }
+        }
     }
 }

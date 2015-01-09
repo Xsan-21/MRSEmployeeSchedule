@@ -25,7 +25,7 @@ namespace MRSES.Core.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("miércoles")]
+        [global::System.Configuration.DefaultSettingValueAttribute("wednesday")]
         public string FirstDayOfWeek {
             get {
                 return ((string)(this["FirstDayOfWeek"]));
@@ -53,6 +53,18 @@ namespace MRSES.Core.Properties {
         public string PostgresDBConnection {
             get {
                 return ((string)(this["PostgresDBConnection"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("en-US")]
+        public string CultureInfo {
+            get {
+                return ((string)(this["CultureInfo"]));
+            }
+            set {
+                this["CultureInfo"] = value;
             }
         }
     }

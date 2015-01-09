@@ -8,8 +8,8 @@ namespace MRSES.Core.Shared
     {
         #region Variables
 
-        static System.Globalization.CultureInfo culture_usa = new System.Globalization.CultureInfo("en-US");
-        static System.Globalization.CultureInfo culture_pr = new System.Globalization.CultureInfo("es-PR"); // .ToString("dd \\de MMMM \\de yyyy", new System.Globalization.CultureInfo("es-PR")
+        static System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo(Configuration.CultureInfo);
+        // .ToString("dd \\de MMMM \\de yyyy", new System.Globalization.CultureInfo("es-PR")
 
         #endregion
 
@@ -38,10 +38,10 @@ namespace MRSES.Core.Shared
         //    return LocalDatePattern.CreateWithInvariantCulture("M/d/yyyy").Parse(shortDateTime).Value;
         //}
 
-        //public static LocalDate FromLocalDateStringToLocalDate(string localDate)
-        //{
-        //    return LocalDatePattern.CreateWithInvariantCulture("dddd, MMMM d, yyyy").Parse(localDate).Value;
-        //}
+        public static LocalDate FromLocalDateStringToLocalDate(string localDate)
+        {
+            return LocalDatePattern.CreateWithInvariantCulture("dddd, MMMM d, yyyy").Parse(localDate).Value;
+        }
 
         static public DateTime FromLocalTimeToDateTime(LocalTime time)
         {

@@ -55,6 +55,7 @@
     <Compile Include="Entities\Availability.cs" />
     <Compile Include="Entities\Employee.cs" />
     <Compile Include="Entities\IAvailabilityRepository.cs" />
+    <Compile Include="Entities\IAvailable.cs" />
     <Compile Include="Entities\IDatabase.cs" />
     <Compile Include="Entities\IEmployeeRepository.cs" />
     <Compile Include="Entities\IPetitionRepository.cs" />
@@ -74,7 +75,6 @@
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
     <Compile Include="Shared\AlertUser.cs" />
-    <Compile Include="Shared\ComboBoxFunctions.cs" />
     <Compile Include="Shared\DateFunctions.cs" />
     <Compile Include="Shared\StringFunctions.cs" />
     <Compile Include="Shared\TimeFunctions.cs" />

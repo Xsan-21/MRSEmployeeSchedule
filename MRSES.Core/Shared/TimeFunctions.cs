@@ -1,5 +1,6 @@
 ﻿using NodaTime;
 using NodaTime.Text;
+using System.Linq;
 
 namespace MRSES.Core.Shared
 {
@@ -7,16 +8,69 @@ namespace MRSES.Core.Shared
     {
         #region Variables
 
-        static System.Globalization.CultureInfo culture_usa = new System.Globalization.CultureInfo("en-US");
-        static System.Globalization.CultureInfo culture_pr = new System.Globalization.CultureInfo("es-PR");
+        static System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo(Configuration.CultureInfo);
 
         #endregion
-        
+
+        /// <summary>
+        /// Verify if the turn format is correct. Input format should be like 8:00am - 5:00pm
+        /// </summary>
+        /// <param name="turn"></param>
+        /// <returns></returns>
+        static public bool FormatOfTurnIsValid(string turn)
+        {
+            bool result = false;
+
+            if (turn.Contains("-"))
+            {
+                var turnInAndOut = SeparateHourInAndHourOut(turn);
+                result = HourIsInLongFormat(turnInAndOut[0]) && HourIsInLongFormat(turnInAndOut[1]);
+            }
+
+            return result;
+        }
+
+        static public bool TryChangeShortHourFormatToLongFormat(System.Windows.Forms.TextBox textBox)
+        {
+            bool result = false;
+
+            if (ContainsTermsToIgnore(textBox.Text, textBox.Tag.ToString()))
+                return result;
+
+            if (textBox.Text.Contains("-"))
+            {
+                string[] _result = new string[2];
+
+                var getTurnInAndOut = SeparateHourInAndHourOut(textBox.Text);
+
+                for (int i = 0; i < 2; i++)
+                {
+                    if (HourIsInShortFormat(getTurnInAndOut[i]))
+                        _result[i] = ConvertHourInShortFormatToLong(getTurnInAndOut[i]);
+                    else
+                        _result[i] = getTurnInAndOut[i];
+                }
+
+                textBox.Text = _result[0] + " - " + _result[1];
+                
+                if(string.IsNullOrWhiteSpace(_result[1]))
+                    textBox.Select(textBox.Text.Length, 0);
+
+                result = true;
+            }
+
+            return result;
+        }
+
+        static public double TotalTurnHours(string firstTurn, string secondTurn)
+        {
+            return SumTurnHours(firstTurn) + SumTurnHours(secondTurn);
+        }
 
         static public LocalTime[] GetTurnInAndOut(string turn)
         {
-            if (turn.Contains("X") || string.IsNullOrEmpty(turn))
-                return new LocalTime[] {new LocalTime(), new LocalTime() };
+            if (!FormatOfTurnIsValid(turn))
+                throw new System.Exception("El formato del turno no es válido.");
 
             string[] turnResult = SeparateHourInAndHourOut(turn);
 
@@ -26,35 +80,40 @@ namespace MRSES.Core.Shared
             return new LocalTime[] { turnIn, turnOut };
         }
 
-        static public LocalTime ParseLocalTimeFromString(string time)
-        {
-            return LocalTimePattern.CreateWithInvariantCulture("h:mmtt").Parse(time).Value;
-        }
-
         static public LocalTime ConvertToLocalTime(string hour)
         {
+            if (!HourIsInLongFormat(hour))
+                throw new System.Exception("El formato de la hora no es válido. Por ejemplo, el formato de ser como 12:00pm");
+
             return LocalTimePattern.CreateWithInvariantCulture("h:mmtt").Parse(hour).Value;
         }
 
-        static public string ApplyCultureToLocalTime(LocalTime hour)
+        static string ApplyCultureToLocalTime(LocalTime hour)
         {
-            return hour.ToString("h:mmtt", culture_usa);
+            return hour.ToString("h:mmtt", culture);
         }
 
-        static bool TurnHourIsInLongFormat(string turnHour)
+        static bool HourIsInLongFormat(string turnHour)
         {
-            return System.Text.RegularExpressions.Regex.Match(turnHour, @"(1[012]|[1-9]):[0-5][0-9](\\s)?(?i)(am|pm)").Success;
-           
+            return LocalTimePattern.CreateWithInvariantCulture("h:mmtt").Parse(turnHour).Success;
         }
 
-        static bool TurnHourIsInShortFormat(string turnHour)
+        static bool HourIsInShortFormat(string turnHour)
         {
-            return SpecifiedPatternAndHourAreValid("ht", turnHour) || SpecifiedPatternAndHourAreValid("h.mt", turnHour);
+            return HourFormatAndPatternMatches("ht", turnHour) || HourFormatAndPatternMatches("h.mt", turnHour);
+        }
+
+        static bool HourFormatAndPatternMatches(string patternText, string shortHour)
+        {
+            return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Success;
         }
 
         static string[] SeparateHourInAndHourOut(string turn)
         {
-            return turn.Replace(" ","").Split('-');
+            if (!turn.Contains("-"))
+                throw new System.Exception("");
+            
+            return turn.Replace(" ", "").Split('-');
         }
 
         //static public bool ValidateTotalHour(string hour)
@@ -62,16 +121,17 @@ namespace MRSES.Core.Shared
         //    return System.Text.RegularExpressions.Regex.IsMatch(hour, @"^\d+(\.\d{2})?$");
         //}
 
-        static string FromShortToLongHour(string shortHour)
+        static string ConvertHourInShortFormatToLong(string shortHour)
         {
-            string result = shortHour;
+            if (!HourIsInShortFormat(shortHour))
+                throw new System.Exception("La hora no está en forma corta. Ejemplo, de ser como 1p o 1.3p");
 
-            if (SpecifiedPatternAndHourAreValid("ht", shortHour))
-                result = ConvertShortHourToLongWithSpecificPattern("ht", shortHour);
-            else if (SpecifiedPatternAndHourAreValid("h.mt", shortHour))
-                result = ConvertShortHourToLongWithSpecificPattern("h.mt", shortHour);
+            if (HourFormatAndPatternMatches("ht", shortHour))
+                return ConvertHourInShortFormatToLongWithSpecificPattern("ht", shortHour);
+            else if (HourFormatAndPatternMatches("h.mt", shortHour))
+                return ConvertHourInShortFormatToLongWithSpecificPattern("h.mt", shortHour);
 
-            return result;
+            return shortHour;
         }
 
         /// <summary>
@@ -80,71 +140,33 @@ namespace MRSES.Core.Shared
         /// <param name="patternText"></param>
         /// <param name="shortHour"></param>
         /// <returns></returns>
-        static string ConvertShortHourToLongWithSpecificPattern(string patternText, string shortHour)
+        static string ConvertHourInShortFormatToLongWithSpecificPattern(string patternText, string shortHour)
         {
-            return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Value.ToString("h:mmtt", culture_usa);
+            return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Value.ToString("h:mmtt", culture);
         }
 
-        static bool SpecifiedPatternAndHourAreValid(string patternText, string shortHour)
+        static bool ContainsTermsToIgnore(string input, string otherTerm = "")
         {
-            return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Success;
-        }
+            bool result = false;
 
-        /// <summary>
-        /// Verify if the turn format is correct. Input format should be like 8:00am - 5:00pm
-        /// </summary>
-        /// <param name="turn"></param>
-        /// <returns></returns>
-        static public bool FormatOfTurnIsValid(string turn)
-        {
-            if (!turn.Contains("-"))
-                return false;
+            string[] termsToIgnore = 
+            { 
+                "X", "available", "nd", "no disponible", "disponible", otherTerm, string.Empty, null 
+            };
 
-            var turnInAndOut = SeparateHourInAndHourOut(turn);
+            if (termsToIgnore.Any(term => term == input))
+                result = true;
 
-            return TurnHourIsInLongFormat(turnInAndOut[0]) && TurnHourIsInLongFormat(turnInAndOut[1]);
-        }
-
-        static bool TurnContainsRequiredPattern(System.Windows.Forms.TextBox textBox)
-        {
-            var turn = textBox.Text.Trim();
-
-            var termsToIgnore = new[] { textBox.Tag.ToString(), "X", "available", "nd", "no disponible", "disponible", string.Empty, null };
-
-            for (int i = 0; i < termsToIgnore.Length; i++)
-            {
-                if (turn == termsToIgnore[i])
-                    return false;
-            }
-
-            if (turn.IndexOfAny(new[] { 'a', 'p' }) < 0)
-                return false;
-
-            if (!turn.Contains("-"))
-                return false;
-
-            return true;
+            return result;
         } 
 
-        static public void TryChangeShortFormatToLongFormat(System.Windows.Forms.TextBox textBox)
+        static double SumTurnHours(string turn)
         {
-            if (!TurnContainsRequiredPattern(textBox))
-                return;
+            if (!FormatOfTurnIsValid(turn))
+                return 0;
 
-            string[] result = new string[2];
-
-            var getTurnInAndOut = SeparateHourInAndHourOut(textBox.Text);
-
-            for (int i = 0; i < 2; i++)
-			{
-                if (TurnHourIsInShortFormat(getTurnInAndOut[i]))
-                    result[i] = FromShortToLongHour(getTurnInAndOut[i]);
-                else
-                    result[i] = getTurnInAndOut[i];
-			}
-
-            textBox.Text = result[0] + " - " + result[1];
-            textBox.Select(textBox.Text.Length, 0);
+            var turnInAndOut = GetTurnInAndOut(turn);
+            return Period.Between(turnInAndOut[0], turnInAndOut[1]).ToDuration().ToTimeSpan().TotalHours;
         }
     }
 }

@@ -6,6 +6,8 @@ namespace MRSES.Core.Entities
 {
     public struct WorkWeek
     {
+        static System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo(Configuration.CultureInfo);
+
         public static IEnumerable<LocalDate> GetCurrentAndNextThreeWeeksFrom(LocalDate fromWeek)
         {
             for (int i = 0; i < 4; i++)
@@ -47,28 +49,29 @@ namespace MRSES.Core.Entities
 
             switch (Configuration.FirstDayOfWeek)
             {
-                case "miércoles":
+                case "wednesday":
                     dayOfWeek = IsoDayOfWeek.Wednesday;
                     break;
-                case "jueves":
+                case "thursday":
                     dayOfWeek = IsoDayOfWeek.Thursday;
                     break;
-                case "viernes":
+                case "friday":
                     dayOfWeek = IsoDayOfWeek.Friday;
                     break;
-                case "sábado":
+                case "saturday":
                     dayOfWeek = IsoDayOfWeek.Saturday;
                     break;
-                case "domingo":
+                case "sunday":
                     dayOfWeek = IsoDayOfWeek.Sunday;
                     break;
-                case "lunes":
+                case "monday":
                     dayOfWeek = IsoDayOfWeek.Monday;
                     break;
-                case "martes":
+                case "tuesday":
                     dayOfWeek = IsoDayOfWeek.Tuesday;
                     break;
                 default:
+                    dayOfWeek = IsoDayOfWeek.Monday;
                     break;
             }
 

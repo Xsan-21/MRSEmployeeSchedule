@@ -1,9 +1,7 @@
-﻿using System.Threading.Tasks;
-
-namespace MRSES.Core.Entities
+﻿namespace MRSES.Core.Entities
 {
-    public interface IPetitionRepository : IAvailabilityRepository
+    public interface IPetitionRepository : IAvailable
     {
-        Task<Petition[]> GetAllPetitions(NodaTime.LocalDate ofWeek, string position);
+        System.Threading.Tasks.Task<Petition[]> GetAllPetitions(NodaTime.LocalDate ofWeek, string position);
     }
 }

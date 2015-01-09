@@ -11,7 +11,7 @@ using System.Data;
 
 namespace MRSES.Core.Persistence
 {
-    public class PetitionRepository : System.IDisposable
+    public class PetitionRepository : IAvailable, System.IDisposable
     {
         public IPetition Petition { get; set; }
 
@@ -104,9 +104,42 @@ namespace MRSES.Core.Persistence
             return petitions;
         }
 
-        public async Task<bool> CanDoTheTurnAsync(string employeeName, ITurn turnToBeSave)
+        public async Task<bool> CanDoTheTurnAsync(string employeeName, ITurn turn)
         {
-            throw new NotImplementedException();
+            bool result = true;
+            var employeeId = await EmployeeRepository.GetEmployeeIdAsync(employeeName);
+
+            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            {
+                using (var command = new NpgsqlCommand("", dbConnection))
+                {
+                    command.CommandText = GetQuery("VerifyAvailability");
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.AddWithValue("emp_id", NpgsqlDbType.Varchar, employeeId);
+                    command.Parameters.AddWithValue("turn_date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(turn.Date));
+                    command.Parameters.AddWithValue("turn_in1", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnIn1));
+                    command.Parameters.AddWithValue("turn_out1", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnOut1));
+                    command.Parameters.AddWithValue("turn_in2", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnIn2));
+                    command.Parameters.AddWithValue("turn_out2", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnOut2));
+
+                    await command.Connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            result = await reader.GetFieldValueAsync<bool>(0);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        DateTime FromLocalTimeToDateTime(NodaTime.LocalTime time)
+        {
+            return DateFunctions.FromLocalTimeToDateTime(time);
         }
 
         static string GetQuery(string action)
@@ -122,6 +155,9 @@ namespace MRSES.Core.Persistence
                     break;
                 case "DeletePetition":
                     query = "SELECT delete_petition(:emp_name, :emp_store, :pet_date)";
+                    break;
+                case "VerifyAvailability":
+                    query = "SELECT petition_employee_can_do_the_turn(:emp_id, :turn_date, :turn_in1, :turn_out1, :turn_in2, :turn_out2)";
                     break;
                 default:
                     break;

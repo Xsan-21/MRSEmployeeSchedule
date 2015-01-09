@@ -1,4 +1,5 @@
 ﻿using MRSES.Core.Entities;
+using MRSES.Core.Shared;
 using Npgsql;
 using NpgsqlTypes;
 using System;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MRSES.Core.Persistence
 {
-    public class AvailabilityRepository : IAvailabilityRepository, System.IDisposable
+    public class AvailabilityRepository : IAvailabilityRepository, IAvailable, System.IDisposable
     {
         #region Properties
 
@@ -140,6 +141,44 @@ namespace MRSES.Core.Persistence
             return result;
         }
 
+        public async Task<bool> CanDoTheTurnAsync(string employeeName, ITurn turn)
+        {
+            bool result = true;
+            var employeeId = await EmployeeRepository.GetEmployeeIdAsync(employeeName);
+
+            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            {
+                using (var command = new NpgsqlCommand("", dbConnection))
+                {
+                    command.CommandText = GetQuery("VerifyAvailability");
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.AddWithValue("emp_id", NpgsqlDbType.Varchar, employeeId);
+                    command.Parameters.AddWithValue("turn_date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(turn.Date));
+                    command.Parameters.AddWithValue("turn_in1", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnIn1));
+                    command.Parameters.AddWithValue("turn_out1", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnOut1));
+                    command.Parameters.AddWithValue("turn_in2", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnIn2));
+                    command.Parameters.AddWithValue("turn_out2", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnOut2));
+
+                    await command.Connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (await reader.ReadAsync())
+                        {
+                            result = await reader.GetFieldValueAsync<bool>(0);
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        DateTime FromLocalTimeToDateTime(NodaTime.LocalTime time)
+        {
+            return DateFunctions.FromLocalTimeToDateTime(time);
+        }
+
         static string GetQuery(string action)
         {
             string query = string.Empty;
@@ -151,6 +190,9 @@ namespace MRSES.Core.Persistence
                 case "SaveAvailability":
                     query = "SELECT add_availability(:emp_name, :emp_store, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday)";
                     break;
+                case "VerifyAvailability":
+                    query = "SELECT availability_employee_can_do_the_turn(:emp_id, :turn_date, :turn_in1, :turn_out1, :turn_in2, :turn_out2)";
+                    break;
                 default:
                     break;
             }
@@ -159,12 +201,7 @@ namespace MRSES.Core.Persistence
         }
 
         #endregion
-        // TODO implement this method.
-        public Task<bool> CanDoTheTurnAsync(IEmployee employee, ITurn turn)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public void Dispose()
         {
             EmployeeName = null;

@@ -224,5 +224,37 @@ namespace MRSES.Core.Persistence
         }
        
         #endregion    
+
+        #region Static methods
+
+        static async public Task<string> GetEmployeeIdAsync(string employeeName)
+        {
+            var employeeId = "";
+
+            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            {
+                using (var command = new NpgsqlCommand("", dbConnection))
+                {
+                    command.CommandText = "SELECT get_employee_id(:emp_name, :emp_store)";
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.AddWithValue("emp_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+                    command.Parameters.AddWithValue("emp_name", NpgsqlDbType.Varchar, employeeName);
+
+                    await command.Connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {   
+                        if(await reader.ReadAsync())
+                        {
+                            employeeId = await reader.GetFieldValueAsync<string>(0);
+                        }
+                    }
+                }
+            }
+
+            return employeeId;
+        }
+
+        #endregion
     }
 }
