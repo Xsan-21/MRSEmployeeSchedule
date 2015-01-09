@@ -33,8 +33,6 @@
             this.ToolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemPrintSchedule = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemView = new System.Windows.Forms.ToolStripMenuItem();
-            this.ToolStripMenuItemPetitions = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemFeedBack = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
@@ -71,6 +69,13 @@
             this.TextBoxEmployeePositionInTabPageEmployeeInformation = new System.Windows.Forms.TextBox();
             this.TextBoxEmployeeNameInTabPageEmployeeInformation = new System.Windows.Forms.TextBox();
             this.TabPageEmployeeAvailability = new System.Windows.Forms.TabPage();
+            this.label25 = new System.Windows.Forms.Label();
+            this.label24 = new System.Windows.Forms.Label();
+            this.label23 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.label19 = new System.Windows.Forms.Label();
             this.ButtonSaveInTabPageAvailability = new System.Windows.Forms.Button();
             this.TextBoxSaturdayInTabPageAvailability = new System.Windows.Forms.TextBox();
             this.TextBoxFridayInTabPageAvailability = new System.Windows.Forms.TextBox();
@@ -101,43 +106,44 @@
             this.PetitionDatePicker = new System.Windows.Forms.DateTimePicker();
             this.TextBoxPetitionAvailabilityHours = new System.Windows.Forms.TextBox();
             this.TabPageEmployeeSchedule = new System.Windows.Forms.TabPage();
+            this.LabelVerfyingScheduleMessage = new System.Windows.Forms.Label();
             this.ButtonSaveInTabPageSchedule = new System.Windows.Forms.Button();
-            this.linkLabel7 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel6 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.LabelNotAvailableDay7 = new System.Windows.Forms.LinkLabel();
+            this.LabelNotAvailableDay6 = new System.Windows.Forms.LinkLabel();
+            this.LabelNotAvailableDay5 = new System.Windows.Forms.LinkLabel();
+            this.LabelNotAvailableDay4 = new System.Windows.Forms.LinkLabel();
+            this.LabelNotAvailableDay3 = new System.Windows.Forms.LinkLabel();
+            this.LabelNotAvailableDay2 = new System.Windows.Forms.LinkLabel();
+            this.LabelNotAvailableDay1 = new System.Windows.Forms.LinkLabel();
             this.LabelTotalHoursInSeventhDayInTabPageSchedule = new System.Windows.Forms.Label();
-            this.textBox11 = new System.Windows.Forms.TextBox();
-            this.textBox12 = new System.Windows.Forms.TextBox();
+            this.TextBoxDay7SecondTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.TextBoxDay7FirstTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
             this.LabelSeventhDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
             this.LabelTotalHoursInSixthDayInTabPageSchedule = new System.Windows.Forms.Label();
-            this.textBox9 = new System.Windows.Forms.TextBox();
-            this.textBox10 = new System.Windows.Forms.TextBox();
+            this.TextBoxDay6SecondTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.TextBoxDay6FirstTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
             this.LabelSixthDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
             this.LabelTotalHoursInFifthDayInTabPageSchedule = new System.Windows.Forms.Label();
-            this.textBox7 = new System.Windows.Forms.TextBox();
-            this.textBox8 = new System.Windows.Forms.TextBox();
+            this.TextBoxDay5SecondTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.TextBoxDay5FirstTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
             this.LabelFifthDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
             this.LabelTotalHoursInFourthDayInTabPageSchedule = new System.Windows.Forms.Label();
-            this.textBox5 = new System.Windows.Forms.TextBox();
-            this.textBox6 = new System.Windows.Forms.TextBox();
+            this.TextBoxDay4SecondTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.TextBoxDay4FirstTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
             this.LabelFourthDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
             this.LabelTotalHoursInThirdDayInTabPageSchedule = new System.Windows.Forms.Label();
-            this.textBox3 = new System.Windows.Forms.TextBox();
-            this.textBox4 = new System.Windows.Forms.TextBox();
+            this.TextBoxDay3SecondTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.TextBoxDay3FirstTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
             this.LabelThirdDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
             this.LabelTotalHoursInSecondDayInTabPageSchedule = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.TextBoxDay2SecondTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.TextBoxDay2FirstTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
             this.LabelSecondDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
             this.LabelTotalHoursInFirstDayInTabPageSchedule = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
-            this.TextBoxSecondTurnDay1InTabPageSchedule = new System.Windows.Forms.TextBox();
-            this.TextBoxFirstTurnDay1InTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.TextBoxDay1SecondTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
+            this.TextBoxDay1FirstTurnInTabPageSchedule = new System.Windows.Forms.TextBox();
             this.LabelFirstDayOfWeekInTabPageSchedule = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.ComboBoxSelectEmployeeInTabPageSchedule = new System.Windows.Forms.ComboBox();
@@ -158,7 +164,6 @@
             this.MenuStripInFormMain.BackColor = System.Drawing.Color.White;
             this.MenuStripInFormMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemFile,
-            this.ToolStripMenuItemView,
             this.ToolStripMenuItemHelp});
             this.MenuStripInFormMain.Location = new System.Drawing.Point(0, 0);
             this.MenuStripInFormMain.Name = "MenuStripInFormMain";
@@ -189,23 +194,6 @@
             this.ToolStripMenuItemExit.Size = new System.Drawing.Size(347, 36);
             this.ToolStripMenuItemExit.Text = "&Salir";
             this.ToolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
-            // 
-            // ToolStripMenuItemView
-            // 
-            this.ToolStripMenuItemView.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.ToolStripMenuItemPetitions});
-            this.ToolStripMenuItemView.Name = "ToolStripMenuItemView";
-            this.ToolStripMenuItemView.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.ToolStripMenuItemView.Size = new System.Drawing.Size(63, 36);
-            this.ToolStripMenuItemView.Text = "&Ver";
-            // 
-            // ToolStripMenuItemPetitions
-            // 
-            this.ToolStripMenuItemPetitions.Name = "ToolStripMenuItemPetitions";
-            this.ToolStripMenuItemPetitions.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.P)));
-            this.ToolStripMenuItemPetitions.Size = new System.Drawing.Size(279, 36);
-            this.ToolStripMenuItemPetitions.Text = "&Peticiones";
-            this.ToolStripMenuItemPetitions.Click += new System.EventHandler(this.ToolStripMenuItemPetitions_Click);
             // 
             // ToolStripMenuItemHelp
             // 
@@ -388,6 +376,7 @@
             this.ComboBoxWeekSelectorInFormMain.Size = new System.Drawing.Size(528, 33);
             this.ComboBoxWeekSelectorInFormMain.TabIndex = 0;
             this.ComboBoxWeekSelectorInFormMain.TabStop = false;
+            this.ComboBoxWeekSelectorInFormMain.SelectedIndexChanged += new System.EventHandler(this.ComboBoxWeekSelectorInFormMain_SelectedIndexChanged);
             // 
             // PanelWithTabControlInFormMain
             // 
@@ -658,6 +647,13 @@
             // 
             // TabPageEmployeeAvailability
             // 
+            this.TabPageEmployeeAvailability.Controls.Add(this.label25);
+            this.TabPageEmployeeAvailability.Controls.Add(this.label24);
+            this.TabPageEmployeeAvailability.Controls.Add(this.label23);
+            this.TabPageEmployeeAvailability.Controls.Add(this.label22);
+            this.TabPageEmployeeAvailability.Controls.Add(this.label21);
+            this.TabPageEmployeeAvailability.Controls.Add(this.label20);
+            this.TabPageEmployeeAvailability.Controls.Add(this.label19);
             this.TabPageEmployeeAvailability.Controls.Add(this.ButtonSaveInTabPageAvailability);
             this.TabPageEmployeeAvailability.Controls.Add(this.TextBoxSaturdayInTabPageAvailability);
             this.TabPageEmployeeAvailability.Controls.Add(this.TextBoxFridayInTabPageAvailability);
@@ -677,6 +673,76 @@
             this.TabPageEmployeeAvailability.TabIndex = 2;
             this.TabPageEmployeeAvailability.UseVisualStyleBackColor = true;
             // 
+            // label25
+            // 
+            this.label25.AutoSize = true;
+            this.label25.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.label25.Location = new System.Drawing.Point(799, 436);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(77, 25);
+            this.label25.TabIndex = 34;
+            this.label25.Text = "martes";
+            // 
+            // label24
+            // 
+            this.label24.AutoSize = true;
+            this.label24.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.label24.Location = new System.Drawing.Point(558, 436);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(64, 25);
+            this.label24.TabIndex = 33;
+            this.label24.Text = "lunes";
+            // 
+            // label23
+            // 
+            this.label23.AutoSize = true;
+            this.label23.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.label23.Location = new System.Drawing.Point(301, 436);
+            this.label23.Name = "label23";
+            this.label23.Size = new System.Drawing.Size(94, 25);
+            this.label23.TabIndex = 32;
+            this.label23.Text = "domingo";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.label22.Location = new System.Drawing.Point(906, 342);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(83, 25);
+            this.label22.TabIndex = 31;
+            this.label22.Text = "sábado";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.label21.Location = new System.Drawing.Point(667, 342);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(82, 25);
+            this.label21.TabIndex = 30;
+            this.label21.Text = "viernes";
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.label20.Location = new System.Drawing.Point(418, 342);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(75, 25);
+            this.label20.TabIndex = 29;
+            this.label20.Text = "jueves";
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.ForeColor = System.Drawing.Color.DarkKhaki;
+            this.label19.Location = new System.Drawing.Point(160, 342);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(104, 25);
+            this.label19.TabIndex = 28;
+            this.label19.Text = "miércoles";
+            // 
             // ButtonSaveInTabPageAvailability
             // 
             this.ButtonSaveInTabPageAvailability.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
@@ -684,7 +750,7 @@
             this.ButtonSaveInTabPageAvailability.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.ButtonSaveInTabPageAvailability.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.ButtonSaveInTabPageAvailability.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSaveInTabPageAvailability.Location = new System.Drawing.Point(461, 513);
+            this.ButtonSaveInTabPageAvailability.Location = new System.Drawing.Point(461, 528);
             this.ButtonSaveInTabPageAvailability.Name = "ButtonSaveInTabPageAvailability";
             this.ButtonSaveInTabPageAvailability.Size = new System.Drawing.Size(250, 75);
             this.ButtonSaveInTabPageAvailability.TabIndex = 9;
@@ -695,114 +761,86 @@
             // TextBoxSaturdayInTabPageAvailability
             // 
             this.TextBoxSaturdayInTabPageAvailability.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.TextBoxSaturdayInTabPageAvailability.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxSaturdayInTabPageAvailability.Location = new System.Drawing.Point(836, 366);
-            this.TextBoxSaturdayInTabPageAvailability.MaxLength = 20;
+            this.TextBoxSaturdayInTabPageAvailability.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxSaturdayInTabPageAvailability.Location = new System.Drawing.Point(836, 381);
+            this.TextBoxSaturdayInTabPageAvailability.MaxLength = 17;
             this.TextBoxSaturdayInTabPageAvailability.Name = "TextBoxSaturdayInTabPageAvailability";
             this.TextBoxSaturdayInTabPageAvailability.Size = new System.Drawing.Size(205, 31);
             this.TextBoxSaturdayInTabPageAvailability.TabIndex = 5;
             this.TextBoxSaturdayInTabPageAvailability.Tag = "sábado";
-            this.TextBoxSaturdayInTabPageAvailability.Text = "sábado";
             this.TextBoxSaturdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxSaturdayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
-            this.TextBoxSaturdayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
-            this.TextBoxSaturdayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxFridayInTabPageAvailability
             // 
             this.TextBoxFridayInTabPageAvailability.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.TextBoxFridayInTabPageAvailability.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxFridayInTabPageAvailability.Location = new System.Drawing.Point(594, 366);
-            this.TextBoxFridayInTabPageAvailability.MaxLength = 20;
+            this.TextBoxFridayInTabPageAvailability.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxFridayInTabPageAvailability.Location = new System.Drawing.Point(594, 381);
+            this.TextBoxFridayInTabPageAvailability.MaxLength = 17;
             this.TextBoxFridayInTabPageAvailability.Name = "TextBoxFridayInTabPageAvailability";
             this.TextBoxFridayInTabPageAvailability.Size = new System.Drawing.Size(205, 31);
             this.TextBoxFridayInTabPageAvailability.TabIndex = 4;
             this.TextBoxFridayInTabPageAvailability.Tag = "viernes";
-            this.TextBoxFridayInTabPageAvailability.Text = "viernes";
             this.TextBoxFridayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxFridayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
-            this.TextBoxFridayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
-            this.TextBoxFridayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxThursdayInTabPageAvailability
             // 
             this.TextBoxThursdayInTabPageAvailability.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.TextBoxThursdayInTabPageAvailability.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxThursdayInTabPageAvailability.Location = new System.Drawing.Point(350, 366);
-            this.TextBoxThursdayInTabPageAvailability.MaxLength = 20;
+            this.TextBoxThursdayInTabPageAvailability.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxThursdayInTabPageAvailability.Location = new System.Drawing.Point(350, 381);
+            this.TextBoxThursdayInTabPageAvailability.MaxLength = 17;
             this.TextBoxThursdayInTabPageAvailability.Name = "TextBoxThursdayInTabPageAvailability";
             this.TextBoxThursdayInTabPageAvailability.Size = new System.Drawing.Size(205, 31);
             this.TextBoxThursdayInTabPageAvailability.TabIndex = 3;
             this.TextBoxThursdayInTabPageAvailability.Tag = "jueves";
-            this.TextBoxThursdayInTabPageAvailability.Text = "jueves";
             this.TextBoxThursdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxThursdayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
-            this.TextBoxThursdayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
-            this.TextBoxThursdayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxWednesdayInTabPageAvailability
             // 
             this.TextBoxWednesdayInTabPageAvailability.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.TextBoxWednesdayInTabPageAvailability.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxWednesdayInTabPageAvailability.Location = new System.Drawing.Point(107, 366);
-            this.TextBoxWednesdayInTabPageAvailability.MaxLength = 20;
+            this.TextBoxWednesdayInTabPageAvailability.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxWednesdayInTabPageAvailability.Location = new System.Drawing.Point(107, 381);
+            this.TextBoxWednesdayInTabPageAvailability.MaxLength = 17;
             this.TextBoxWednesdayInTabPageAvailability.Name = "TextBoxWednesdayInTabPageAvailability";
             this.TextBoxWednesdayInTabPageAvailability.Size = new System.Drawing.Size(205, 31);
             this.TextBoxWednesdayInTabPageAvailability.TabIndex = 2;
             this.TextBoxWednesdayInTabPageAvailability.Tag = "miércoles";
-            this.TextBoxWednesdayInTabPageAvailability.Text = "miércoles";
             this.TextBoxWednesdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxWednesdayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
-            this.TextBoxWednesdayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
-            this.TextBoxWednesdayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxTuesdayInTabPageAvailability
             // 
             this.TextBoxTuesdayInTabPageAvailability.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.TextBoxTuesdayInTabPageAvailability.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxTuesdayInTabPageAvailability.Location = new System.Drawing.Point(728, 428);
-            this.TextBoxTuesdayInTabPageAvailability.MaxLength = 20;
+            this.TextBoxTuesdayInTabPageAvailability.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxTuesdayInTabPageAvailability.Location = new System.Drawing.Point(731, 476);
+            this.TextBoxTuesdayInTabPageAvailability.MaxLength = 17;
             this.TextBoxTuesdayInTabPageAvailability.Name = "TextBoxTuesdayInTabPageAvailability";
             this.TextBoxTuesdayInTabPageAvailability.Size = new System.Drawing.Size(205, 31);
             this.TextBoxTuesdayInTabPageAvailability.TabIndex = 8;
             this.TextBoxTuesdayInTabPageAvailability.Tag = "martes";
-            this.TextBoxTuesdayInTabPageAvailability.Text = "martes";
             this.TextBoxTuesdayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxTuesdayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
-            this.TextBoxTuesdayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
-            this.TextBoxTuesdayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxMondayInTabPageAvailability
             // 
             this.TextBoxMondayInTabPageAvailability.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.TextBoxMondayInTabPageAvailability.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxMondayInTabPageAvailability.Location = new System.Drawing.Point(483, 428);
-            this.TextBoxMondayInTabPageAvailability.MaxLength = 20;
+            this.TextBoxMondayInTabPageAvailability.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxMondayInTabPageAvailability.Location = new System.Drawing.Point(486, 476);
+            this.TextBoxMondayInTabPageAvailability.MaxLength = 17;
             this.TextBoxMondayInTabPageAvailability.Name = "TextBoxMondayInTabPageAvailability";
             this.TextBoxMondayInTabPageAvailability.Size = new System.Drawing.Size(205, 31);
             this.TextBoxMondayInTabPageAvailability.TabIndex = 7;
             this.TextBoxMondayInTabPageAvailability.Tag = "lunes";
-            this.TextBoxMondayInTabPageAvailability.Text = "lunes";
             this.TextBoxMondayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxMondayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
-            this.TextBoxMondayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
-            this.TextBoxMondayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TextBoxSundayInTabPageAvailability
             // 
             this.TextBoxSundayInTabPageAvailability.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
-            this.TextBoxSundayInTabPageAvailability.ForeColor = System.Drawing.Color.Gray;
-            this.TextBoxSundayInTabPageAvailability.Location = new System.Drawing.Point(238, 428);
-            this.TextBoxSundayInTabPageAvailability.MaxLength = 20;
+            this.TextBoxSundayInTabPageAvailability.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxSundayInTabPageAvailability.Location = new System.Drawing.Point(241, 476);
+            this.TextBoxSundayInTabPageAvailability.MaxLength = 17;
             this.TextBoxSundayInTabPageAvailability.Name = "TextBoxSundayInTabPageAvailability";
             this.TextBoxSundayInTabPageAvailability.Size = new System.Drawing.Size(205, 31);
             this.TextBoxSundayInTabPageAvailability.TabIndex = 6;
             this.TextBoxSundayInTabPageAvailability.Tag = "domingo";
-            this.TextBoxSundayInTabPageAvailability.Text = "domingo";
             this.TextBoxSundayInTabPageAvailability.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.TextBoxSundayInTabPageAvailability.TextChanged += new System.EventHandler(this.ChangeColorOfText);
-            this.TextBoxSundayInTabPageAvailability.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
-            this.TextBoxSundayInTabPageAvailability.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // label6
             // 
@@ -1030,6 +1068,7 @@
             this.TextBoxPetitionAvailabilityHours.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TextBoxPetitionAvailabilityHours.ForeColor = System.Drawing.Color.Gray;
             this.TextBoxPetitionAvailabilityHours.Location = new System.Drawing.Point(826, 359);
+            this.TextBoxPetitionAvailabilityHours.MaxLength = 17;
             this.TextBoxPetitionAvailabilityHours.Multiline = true;
             this.TextBoxPetitionAvailabilityHours.Name = "TextBoxPetitionAvailabilityHours";
             this.TextBoxPetitionAvailabilityHours.Size = new System.Drawing.Size(368, 40);
@@ -1039,47 +1078,49 @@
             this.TextBoxPetitionAvailabilityHours.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.TextBoxPetitionAvailabilityHours.TextChanged += new System.EventHandler(this.TextBoxPetitionAvailabilityHours_TextChanged);
             this.TextBoxPetitionAvailabilityHours.Enter += new System.EventHandler(this.RemoveDefaultTextIndicatorInTextBox);
+            this.TextBoxPetitionAvailabilityHours.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             this.TextBoxPetitionAvailabilityHours.Leave += new System.EventHandler(this.SetDefaultTextIndicatorInTextBox);
             // 
             // TabPageEmployeeSchedule
             // 
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelVerfyingScheduleMessage);
             this.TabPageEmployeeSchedule.Controls.Add(this.ButtonSaveInTabPageSchedule);
-            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel7);
-            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel6);
-            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel5);
-            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel4);
-            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel3);
-            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel2);
-            this.TabPageEmployeeSchedule.Controls.Add(this.linkLabel1);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelNotAvailableDay7);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelNotAvailableDay6);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelNotAvailableDay5);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelNotAvailableDay4);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelNotAvailableDay3);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelNotAvailableDay2);
+            this.TabPageEmployeeSchedule.Controls.Add(this.LabelNotAvailableDay1);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInSeventhDayInTabPageSchedule);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox11);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox12);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay7SecondTurnInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay7FirstTurnInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelSeventhDayOfWeekInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInSixthDayInTabPageSchedule);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox9);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox10);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay6SecondTurnInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay6FirstTurnInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelSixthDayOfWeekInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInFifthDayInTabPageSchedule);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox7);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox8);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay5SecondTurnInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay5FirstTurnInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelFifthDayOfWeekInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInFourthDayInTabPageSchedule);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox5);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox6);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay4SecondTurnInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay4FirstTurnInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelFourthDayOfWeekInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInThirdDayInTabPageSchedule);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox3);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox4);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay3SecondTurnInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay3FirstTurnInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelThirdDayOfWeekInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInSecondDayInTabPageSchedule);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox1);
-            this.TabPageEmployeeSchedule.Controls.Add(this.textBox2);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay2SecondTurnInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay2FirstTurnInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelSecondDayOfWeekInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelTotalHoursInFirstDayInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.label4);
             this.TabPageEmployeeSchedule.Controls.Add(this.label7);
-            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxSecondTurnDay1InTabPageSchedule);
-            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxFirstTurnDay1InTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay1SecondTurnInTabPageSchedule);
+            this.TabPageEmployeeSchedule.Controls.Add(this.TextBoxDay1FirstTurnInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelFirstDayOfWeekInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.label2);
             this.TabPageEmployeeSchedule.Controls.Add(this.ComboBoxSelectEmployeeInTabPageSchedule);
@@ -1091,9 +1132,20 @@
             this.TabPageEmployeeSchedule.Tag = "";
             this.TabPageEmployeeSchedule.UseVisualStyleBackColor = true;
             // 
+            // LabelVerfyingScheduleMessage
+            // 
+            this.LabelVerfyingScheduleMessage.AutoSize = true;
+            this.LabelVerfyingScheduleMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelVerfyingScheduleMessage.ForeColor = System.Drawing.Color.ForestGreen;
+            this.LabelVerfyingScheduleMessage.Location = new System.Drawing.Point(697, 557);
+            this.LabelVerfyingScheduleMessage.Name = "LabelVerfyingScheduleMessage";
+            this.LabelVerfyingScheduleMessage.Size = new System.Drawing.Size(0, 29);
+            this.LabelVerfyingScheduleMessage.TabIndex = 305;
+            // 
             // ButtonSaveInTabPageSchedule
             // 
             this.ButtonSaveInTabPageSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonSaveInTabPageSchedule.Enabled = false;
             this.ButtonSaveInTabPageSchedule.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonSaveInTabPageSchedule.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
             this.ButtonSaveInTabPageSchedule.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
@@ -1105,119 +1157,141 @@
             this.ButtonSaveInTabPageSchedule.TabIndex = 297;
             this.ButtonSaveInTabPageSchedule.Text = "Guardar";
             this.ButtonSaveInTabPageSchedule.UseVisualStyleBackColor = true;
+            this.ButtonSaveInTabPageSchedule.Click += new System.EventHandler(this.ButtonSaveInTabPageSchedule_Click);
             // 
-            // linkLabel7
+            // LabelNotAvailableDay7
             // 
-            this.linkLabel7.AutoSize = true;
-            this.linkLabel7.LinkColor = System.Drawing.Color.Red;
-            this.linkLabel7.Location = new System.Drawing.Point(30, 477);
-            this.linkLabel7.Name = "linkLabel7";
-            this.linkLabel7.Size = new System.Drawing.Size(243, 25);
-            this.linkLabel7.TabIndex = 304;
-            this.linkLabel7.TabStop = true;
-            this.linkLabel7.Text = "No puede hacer el turno";
-            this.linkLabel7.Visible = false;
+            this.LabelNotAvailableDay7.AutoSize = true;
+            this.LabelNotAvailableDay7.Cursor = System.Windows.Forms.Cursors.Default;
+            this.LabelNotAvailableDay7.LinkColor = System.Drawing.Color.Red;
+            this.LabelNotAvailableDay7.Location = new System.Drawing.Point(30, 477);
+            this.LabelNotAvailableDay7.Name = "LabelNotAvailableDay7";
+            this.LabelNotAvailableDay7.Size = new System.Drawing.Size(243, 25);
+            this.LabelNotAvailableDay7.TabIndex = 304;
+            this.LabelNotAvailableDay7.TabStop = true;
+            this.LabelNotAvailableDay7.Tag = "tuesday";
+            this.LabelNotAvailableDay7.Text = "No puede hacer el turno";
+            this.LabelNotAvailableDay7.Visible = false;
             // 
-            // linkLabel6
+            // LabelNotAvailableDay6
             // 
-            this.linkLabel6.AutoSize = true;
-            this.linkLabel6.LinkColor = System.Drawing.Color.Red;
-            this.linkLabel6.Location = new System.Drawing.Point(30, 425);
-            this.linkLabel6.Name = "linkLabel6";
-            this.linkLabel6.Size = new System.Drawing.Size(243, 25);
-            this.linkLabel6.TabIndex = 303;
-            this.linkLabel6.TabStop = true;
-            this.linkLabel6.Text = "No puede hacer el turno";
-            this.linkLabel6.Visible = false;
+            this.LabelNotAvailableDay6.AutoSize = true;
+            this.LabelNotAvailableDay6.Cursor = System.Windows.Forms.Cursors.Default;
+            this.LabelNotAvailableDay6.LinkColor = System.Drawing.Color.Red;
+            this.LabelNotAvailableDay6.Location = new System.Drawing.Point(30, 425);
+            this.LabelNotAvailableDay6.Name = "LabelNotAvailableDay6";
+            this.LabelNotAvailableDay6.Size = new System.Drawing.Size(243, 25);
+            this.LabelNotAvailableDay6.TabIndex = 303;
+            this.LabelNotAvailableDay6.TabStop = true;
+            this.LabelNotAvailableDay6.Tag = "monday";
+            this.LabelNotAvailableDay6.Text = "No puede hacer el turno";
+            this.LabelNotAvailableDay6.Visible = false;
             // 
-            // linkLabel5
+            // LabelNotAvailableDay5
             // 
-            this.linkLabel5.AutoSize = true;
-            this.linkLabel5.LinkColor = System.Drawing.Color.Red;
-            this.linkLabel5.Location = new System.Drawing.Point(30, 375);
-            this.linkLabel5.Name = "linkLabel5";
-            this.linkLabel5.Size = new System.Drawing.Size(243, 25);
-            this.linkLabel5.TabIndex = 302;
-            this.linkLabel5.TabStop = true;
-            this.linkLabel5.Text = "No puede hacer el turno";
-            this.linkLabel5.Visible = false;
+            this.LabelNotAvailableDay5.AutoSize = true;
+            this.LabelNotAvailableDay5.Cursor = System.Windows.Forms.Cursors.Default;
+            this.LabelNotAvailableDay5.LinkColor = System.Drawing.Color.Red;
+            this.LabelNotAvailableDay5.Location = new System.Drawing.Point(30, 375);
+            this.LabelNotAvailableDay5.Name = "LabelNotAvailableDay5";
+            this.LabelNotAvailableDay5.Size = new System.Drawing.Size(243, 25);
+            this.LabelNotAvailableDay5.TabIndex = 302;
+            this.LabelNotAvailableDay5.TabStop = true;
+            this.LabelNotAvailableDay5.Tag = "sunday";
+            this.LabelNotAvailableDay5.Text = "No puede hacer el turno";
+            this.LabelNotAvailableDay5.Visible = false;
             // 
-            // linkLabel4
+            // LabelNotAvailableDay4
             // 
-            this.linkLabel4.AutoSize = true;
-            this.linkLabel4.LinkColor = System.Drawing.Color.Red;
-            this.linkLabel4.Location = new System.Drawing.Point(30, 324);
-            this.linkLabel4.Name = "linkLabel4";
-            this.linkLabel4.Size = new System.Drawing.Size(243, 25);
-            this.linkLabel4.TabIndex = 301;
-            this.linkLabel4.TabStop = true;
-            this.linkLabel4.Text = "No puede hacer el turno";
-            this.linkLabel4.Visible = false;
+            this.LabelNotAvailableDay4.AutoSize = true;
+            this.LabelNotAvailableDay4.Cursor = System.Windows.Forms.Cursors.Default;
+            this.LabelNotAvailableDay4.LinkColor = System.Drawing.Color.Red;
+            this.LabelNotAvailableDay4.Location = new System.Drawing.Point(30, 324);
+            this.LabelNotAvailableDay4.Name = "LabelNotAvailableDay4";
+            this.LabelNotAvailableDay4.Size = new System.Drawing.Size(243, 25);
+            this.LabelNotAvailableDay4.TabIndex = 301;
+            this.LabelNotAvailableDay4.TabStop = true;
+            this.LabelNotAvailableDay4.Tag = "saturday";
+            this.LabelNotAvailableDay4.Text = "No puede hacer el turno";
+            this.LabelNotAvailableDay4.Visible = false;
             // 
-            // linkLabel3
+            // LabelNotAvailableDay3
             // 
-            this.linkLabel3.AutoSize = true;
-            this.linkLabel3.LinkColor = System.Drawing.Color.Red;
-            this.linkLabel3.Location = new System.Drawing.Point(30, 273);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(243, 25);
-            this.linkLabel3.TabIndex = 300;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "No puede hacer el turno";
-            this.linkLabel3.Visible = false;
+            this.LabelNotAvailableDay3.AutoSize = true;
+            this.LabelNotAvailableDay3.Cursor = System.Windows.Forms.Cursors.Default;
+            this.LabelNotAvailableDay3.LinkColor = System.Drawing.Color.Red;
+            this.LabelNotAvailableDay3.Location = new System.Drawing.Point(30, 273);
+            this.LabelNotAvailableDay3.Name = "LabelNotAvailableDay3";
+            this.LabelNotAvailableDay3.Size = new System.Drawing.Size(243, 25);
+            this.LabelNotAvailableDay3.TabIndex = 300;
+            this.LabelNotAvailableDay3.TabStop = true;
+            this.LabelNotAvailableDay3.Tag = "friday";
+            this.LabelNotAvailableDay3.Text = "No puede hacer el turno";
+            this.LabelNotAvailableDay3.Visible = false;
             // 
-            // linkLabel2
+            // LabelNotAvailableDay2
             // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.LinkColor = System.Drawing.Color.Red;
-            this.linkLabel2.Location = new System.Drawing.Point(30, 223);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(243, 25);
-            this.linkLabel2.TabIndex = 299;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "No puede hacer el turno";
-            this.linkLabel2.Visible = false;
+            this.LabelNotAvailableDay2.AutoSize = true;
+            this.LabelNotAvailableDay2.Cursor = System.Windows.Forms.Cursors.Default;
+            this.LabelNotAvailableDay2.LinkColor = System.Drawing.Color.Red;
+            this.LabelNotAvailableDay2.Location = new System.Drawing.Point(30, 223);
+            this.LabelNotAvailableDay2.Name = "LabelNotAvailableDay2";
+            this.LabelNotAvailableDay2.Size = new System.Drawing.Size(243, 25);
+            this.LabelNotAvailableDay2.TabIndex = 299;
+            this.LabelNotAvailableDay2.TabStop = true;
+            this.LabelNotAvailableDay2.Tag = "thursday";
+            this.LabelNotAvailableDay2.Text = "No puede hacer el turno";
+            this.LabelNotAvailableDay2.Visible = false;
             // 
-            // linkLabel1
+            // LabelNotAvailableDay1
             // 
-            this.linkLabel1.AutoSize = true;
-            this.linkLabel1.LinkColor = System.Drawing.Color.Red;
-            this.linkLabel1.Location = new System.Drawing.Point(30, 173);
-            this.linkLabel1.Name = "linkLabel1";
-            this.linkLabel1.Size = new System.Drawing.Size(243, 25);
-            this.linkLabel1.TabIndex = 298;
-            this.linkLabel1.TabStop = true;
-            this.linkLabel1.Text = "No puede hacer el turno";
-            this.linkLabel1.Visible = false;
+            this.LabelNotAvailableDay1.AutoSize = true;
+            this.LabelNotAvailableDay1.Cursor = System.Windows.Forms.Cursors.Default;
+            this.LabelNotAvailableDay1.LinkColor = System.Drawing.Color.Red;
+            this.LabelNotAvailableDay1.Location = new System.Drawing.Point(30, 173);
+            this.LabelNotAvailableDay1.Name = "LabelNotAvailableDay1";
+            this.LabelNotAvailableDay1.Size = new System.Drawing.Size(243, 25);
+            this.LabelNotAvailableDay1.TabIndex = 298;
+            this.LabelNotAvailableDay1.TabStop = true;
+            this.LabelNotAvailableDay1.Tag = "wednesday";
+            this.LabelNotAvailableDay1.Text = "No puede hacer el turno";
+            this.LabelNotAvailableDay1.Visible = false;
             // 
             // LabelTotalHoursInSeventhDayInTabPageSchedule
             // 
             this.LabelTotalHoursInSeventhDayInTabPageSchedule.AutoSize = true;
-            this.LabelTotalHoursInSeventhDayInTabPageSchedule.Location = new System.Drawing.Point(920, 477);
+            this.LabelTotalHoursInSeventhDayInTabPageSchedule.Location = new System.Drawing.Point(936, 477);
             this.LabelTotalHoursInSeventhDayInTabPageSchedule.Name = "LabelTotalHoursInSeventhDayInTabPageSchedule";
-            this.LabelTotalHoursInSeventhDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInSeventhDayInTabPageSchedule.Size = new System.Drawing.Size(0, 25);
             this.LabelTotalHoursInSeventhDayInTabPageSchedule.TabIndex = 297;
-            this.LabelTotalHoursInSeventhDayInTabPageSchedule.Text = "horas";
             // 
-            // textBox11
+            // TextBoxDay7SecondTurnInTabPageSchedule
             // 
-            this.textBox11.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox11.ForeColor = System.Drawing.Color.Black;
-            this.textBox11.Location = new System.Drawing.Point(684, 474);
-            this.textBox11.Name = "textBox11";
-            this.textBox11.Size = new System.Drawing.Size(205, 31);
-            this.textBox11.TabIndex = 296;
-            this.textBox11.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay7SecondTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay7SecondTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay7SecondTurnInTabPageSchedule.Location = new System.Drawing.Point(700, 474);
+            this.TextBoxDay7SecondTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay7SecondTurnInTabPageSchedule.Name = "TextBoxDay7SecondTurnInTabPageSchedule";
+            this.TextBoxDay7SecondTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay7SecondTurnInTabPageSchedule.TabIndex = 296;
+            this.TextBoxDay7SecondTurnInTabPageSchedule.Tag = "day7SecondTurn";
+            this.TextBoxDay7SecondTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay7SecondTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay7SecondTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
-            // textBox12
+            // TextBoxDay7FirstTurnInTabPageSchedule
             // 
-            this.textBox12.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox12.ForeColor = System.Drawing.Color.Black;
-            this.textBox12.Location = new System.Drawing.Point(447, 474);
-            this.textBox12.Name = "textBox12";
-            this.textBox12.Size = new System.Drawing.Size(205, 31);
-            this.textBox12.TabIndex = 295;
-            this.textBox12.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay7FirstTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay7FirstTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay7FirstTurnInTabPageSchedule.Location = new System.Drawing.Point(463, 474);
+            this.TextBoxDay7FirstTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay7FirstTurnInTabPageSchedule.Name = "TextBoxDay7FirstTurnInTabPageSchedule";
+            this.TextBoxDay7FirstTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay7FirstTurnInTabPageSchedule.TabIndex = 295;
+            this.TextBoxDay7FirstTurnInTabPageSchedule.Tag = "day7FirstTurn";
+            this.TextBoxDay7FirstTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay7FirstTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay7FirstTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
             // LabelSeventhDayOfWeekInTabPageSchedule
             // 
@@ -1231,31 +1305,38 @@
             // LabelTotalHoursInSixthDayInTabPageSchedule
             // 
             this.LabelTotalHoursInSixthDayInTabPageSchedule.AutoSize = true;
-            this.LabelTotalHoursInSixthDayInTabPageSchedule.Location = new System.Drawing.Point(920, 425);
+            this.LabelTotalHoursInSixthDayInTabPageSchedule.Location = new System.Drawing.Point(936, 425);
             this.LabelTotalHoursInSixthDayInTabPageSchedule.Name = "LabelTotalHoursInSixthDayInTabPageSchedule";
-            this.LabelTotalHoursInSixthDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInSixthDayInTabPageSchedule.Size = new System.Drawing.Size(0, 25);
             this.LabelTotalHoursInSixthDayInTabPageSchedule.TabIndex = 293;
-            this.LabelTotalHoursInSixthDayInTabPageSchedule.Text = "horas";
             // 
-            // textBox9
+            // TextBoxDay6SecondTurnInTabPageSchedule
             // 
-            this.textBox9.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox9.ForeColor = System.Drawing.Color.Black;
-            this.textBox9.Location = new System.Drawing.Point(684, 422);
-            this.textBox9.Name = "textBox9";
-            this.textBox9.Size = new System.Drawing.Size(205, 31);
-            this.textBox9.TabIndex = 292;
-            this.textBox9.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay6SecondTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay6SecondTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay6SecondTurnInTabPageSchedule.Location = new System.Drawing.Point(700, 422);
+            this.TextBoxDay6SecondTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay6SecondTurnInTabPageSchedule.Name = "TextBoxDay6SecondTurnInTabPageSchedule";
+            this.TextBoxDay6SecondTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay6SecondTurnInTabPageSchedule.TabIndex = 292;
+            this.TextBoxDay6SecondTurnInTabPageSchedule.Tag = "day6SecondTurn";
+            this.TextBoxDay6SecondTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay6SecondTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay6SecondTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
-            // textBox10
+            // TextBoxDay6FirstTurnInTabPageSchedule
             // 
-            this.textBox10.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox10.ForeColor = System.Drawing.Color.Black;
-            this.textBox10.Location = new System.Drawing.Point(447, 422);
-            this.textBox10.Name = "textBox10";
-            this.textBox10.Size = new System.Drawing.Size(205, 31);
-            this.textBox10.TabIndex = 291;
-            this.textBox10.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay6FirstTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay6FirstTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay6FirstTurnInTabPageSchedule.Location = new System.Drawing.Point(463, 422);
+            this.TextBoxDay6FirstTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay6FirstTurnInTabPageSchedule.Name = "TextBoxDay6FirstTurnInTabPageSchedule";
+            this.TextBoxDay6FirstTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay6FirstTurnInTabPageSchedule.TabIndex = 291;
+            this.TextBoxDay6FirstTurnInTabPageSchedule.Tag = "day6FirstTurn";
+            this.TextBoxDay6FirstTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay6FirstTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay6FirstTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
             // LabelSixthDayOfWeekInTabPageSchedule
             // 
@@ -1269,31 +1350,38 @@
             // LabelTotalHoursInFifthDayInTabPageSchedule
             // 
             this.LabelTotalHoursInFifthDayInTabPageSchedule.AutoSize = true;
-            this.LabelTotalHoursInFifthDayInTabPageSchedule.Location = new System.Drawing.Point(920, 375);
+            this.LabelTotalHoursInFifthDayInTabPageSchedule.Location = new System.Drawing.Point(936, 375);
             this.LabelTotalHoursInFifthDayInTabPageSchedule.Name = "LabelTotalHoursInFifthDayInTabPageSchedule";
-            this.LabelTotalHoursInFifthDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInFifthDayInTabPageSchedule.Size = new System.Drawing.Size(0, 25);
             this.LabelTotalHoursInFifthDayInTabPageSchedule.TabIndex = 289;
-            this.LabelTotalHoursInFifthDayInTabPageSchedule.Text = "horas";
             // 
-            // textBox7
+            // TextBoxDay5SecondTurnInTabPageSchedule
             // 
-            this.textBox7.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox7.ForeColor = System.Drawing.Color.Black;
-            this.textBox7.Location = new System.Drawing.Point(684, 372);
-            this.textBox7.Name = "textBox7";
-            this.textBox7.Size = new System.Drawing.Size(205, 31);
-            this.textBox7.TabIndex = 288;
-            this.textBox7.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay5SecondTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay5SecondTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay5SecondTurnInTabPageSchedule.Location = new System.Drawing.Point(700, 372);
+            this.TextBoxDay5SecondTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay5SecondTurnInTabPageSchedule.Name = "TextBoxDay5SecondTurnInTabPageSchedule";
+            this.TextBoxDay5SecondTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay5SecondTurnInTabPageSchedule.TabIndex = 288;
+            this.TextBoxDay5SecondTurnInTabPageSchedule.Tag = "day5SecondTurn";
+            this.TextBoxDay5SecondTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay5SecondTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay5SecondTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
-            // textBox8
+            // TextBoxDay5FirstTurnInTabPageSchedule
             // 
-            this.textBox8.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox8.ForeColor = System.Drawing.Color.Black;
-            this.textBox8.Location = new System.Drawing.Point(447, 372);
-            this.textBox8.Name = "textBox8";
-            this.textBox8.Size = new System.Drawing.Size(205, 31);
-            this.textBox8.TabIndex = 287;
-            this.textBox8.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay5FirstTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay5FirstTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay5FirstTurnInTabPageSchedule.Location = new System.Drawing.Point(463, 372);
+            this.TextBoxDay5FirstTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay5FirstTurnInTabPageSchedule.Name = "TextBoxDay5FirstTurnInTabPageSchedule";
+            this.TextBoxDay5FirstTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay5FirstTurnInTabPageSchedule.TabIndex = 287;
+            this.TextBoxDay5FirstTurnInTabPageSchedule.Tag = "day5FirstTurn";
+            this.TextBoxDay5FirstTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay5FirstTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay5FirstTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
             // LabelFifthDayOfWeekInTabPageSchedule
             // 
@@ -1307,31 +1395,38 @@
             // LabelTotalHoursInFourthDayInTabPageSchedule
             // 
             this.LabelTotalHoursInFourthDayInTabPageSchedule.AutoSize = true;
-            this.LabelTotalHoursInFourthDayInTabPageSchedule.Location = new System.Drawing.Point(920, 324);
+            this.LabelTotalHoursInFourthDayInTabPageSchedule.Location = new System.Drawing.Point(936, 324);
             this.LabelTotalHoursInFourthDayInTabPageSchedule.Name = "LabelTotalHoursInFourthDayInTabPageSchedule";
-            this.LabelTotalHoursInFourthDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInFourthDayInTabPageSchedule.Size = new System.Drawing.Size(0, 25);
             this.LabelTotalHoursInFourthDayInTabPageSchedule.TabIndex = 285;
-            this.LabelTotalHoursInFourthDayInTabPageSchedule.Text = "horas";
             // 
-            // textBox5
+            // TextBoxDay4SecondTurnInTabPageSchedule
             // 
-            this.textBox5.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox5.ForeColor = System.Drawing.Color.Black;
-            this.textBox5.Location = new System.Drawing.Point(684, 321);
-            this.textBox5.Name = "textBox5";
-            this.textBox5.Size = new System.Drawing.Size(205, 31);
-            this.textBox5.TabIndex = 284;
-            this.textBox5.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay4SecondTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay4SecondTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay4SecondTurnInTabPageSchedule.Location = new System.Drawing.Point(700, 321);
+            this.TextBoxDay4SecondTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay4SecondTurnInTabPageSchedule.Name = "TextBoxDay4SecondTurnInTabPageSchedule";
+            this.TextBoxDay4SecondTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay4SecondTurnInTabPageSchedule.TabIndex = 284;
+            this.TextBoxDay4SecondTurnInTabPageSchedule.Tag = "day4SecondTurn";
+            this.TextBoxDay4SecondTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay4SecondTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay4SecondTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
-            // textBox6
+            // TextBoxDay4FirstTurnInTabPageSchedule
             // 
-            this.textBox6.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox6.ForeColor = System.Drawing.Color.Black;
-            this.textBox6.Location = new System.Drawing.Point(447, 321);
-            this.textBox6.Name = "textBox6";
-            this.textBox6.Size = new System.Drawing.Size(205, 31);
-            this.textBox6.TabIndex = 283;
-            this.textBox6.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay4FirstTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay4FirstTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay4FirstTurnInTabPageSchedule.Location = new System.Drawing.Point(463, 321);
+            this.TextBoxDay4FirstTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay4FirstTurnInTabPageSchedule.Name = "TextBoxDay4FirstTurnInTabPageSchedule";
+            this.TextBoxDay4FirstTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay4FirstTurnInTabPageSchedule.TabIndex = 283;
+            this.TextBoxDay4FirstTurnInTabPageSchedule.Tag = "day4FirstTurn";
+            this.TextBoxDay4FirstTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay4FirstTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay4FirstTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
             // LabelFourthDayOfWeekInTabPageSchedule
             // 
@@ -1345,31 +1440,38 @@
             // LabelTotalHoursInThirdDayInTabPageSchedule
             // 
             this.LabelTotalHoursInThirdDayInTabPageSchedule.AutoSize = true;
-            this.LabelTotalHoursInThirdDayInTabPageSchedule.Location = new System.Drawing.Point(920, 273);
+            this.LabelTotalHoursInThirdDayInTabPageSchedule.Location = new System.Drawing.Point(936, 273);
             this.LabelTotalHoursInThirdDayInTabPageSchedule.Name = "LabelTotalHoursInThirdDayInTabPageSchedule";
-            this.LabelTotalHoursInThirdDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInThirdDayInTabPageSchedule.Size = new System.Drawing.Size(0, 25);
             this.LabelTotalHoursInThirdDayInTabPageSchedule.TabIndex = 281;
-            this.LabelTotalHoursInThirdDayInTabPageSchedule.Text = "horas";
             // 
-            // textBox3
+            // TextBoxDay3SecondTurnInTabPageSchedule
             // 
-            this.textBox3.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox3.ForeColor = System.Drawing.Color.Black;
-            this.textBox3.Location = new System.Drawing.Point(684, 270);
-            this.textBox3.Name = "textBox3";
-            this.textBox3.Size = new System.Drawing.Size(205, 31);
-            this.textBox3.TabIndex = 280;
-            this.textBox3.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay3SecondTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay3SecondTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay3SecondTurnInTabPageSchedule.Location = new System.Drawing.Point(700, 270);
+            this.TextBoxDay3SecondTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay3SecondTurnInTabPageSchedule.Name = "TextBoxDay3SecondTurnInTabPageSchedule";
+            this.TextBoxDay3SecondTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay3SecondTurnInTabPageSchedule.TabIndex = 280;
+            this.TextBoxDay3SecondTurnInTabPageSchedule.Tag = "day3SecondTurn";
+            this.TextBoxDay3SecondTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay3SecondTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay3SecondTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
-            // textBox4
+            // TextBoxDay3FirstTurnInTabPageSchedule
             // 
-            this.textBox4.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox4.ForeColor = System.Drawing.Color.Black;
-            this.textBox4.Location = new System.Drawing.Point(447, 270);
-            this.textBox4.Name = "textBox4";
-            this.textBox4.Size = new System.Drawing.Size(205, 31);
-            this.textBox4.TabIndex = 279;
-            this.textBox4.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay3FirstTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay3FirstTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay3FirstTurnInTabPageSchedule.Location = new System.Drawing.Point(463, 270);
+            this.TextBoxDay3FirstTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay3FirstTurnInTabPageSchedule.Name = "TextBoxDay3FirstTurnInTabPageSchedule";
+            this.TextBoxDay3FirstTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay3FirstTurnInTabPageSchedule.TabIndex = 279;
+            this.TextBoxDay3FirstTurnInTabPageSchedule.Tag = "day3FirstTurn";
+            this.TextBoxDay3FirstTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay3FirstTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay3FirstTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
             // LabelThirdDayOfWeekInTabPageSchedule
             // 
@@ -1383,31 +1485,38 @@
             // LabelTotalHoursInSecondDayInTabPageSchedule
             // 
             this.LabelTotalHoursInSecondDayInTabPageSchedule.AutoSize = true;
-            this.LabelTotalHoursInSecondDayInTabPageSchedule.Location = new System.Drawing.Point(920, 223);
+            this.LabelTotalHoursInSecondDayInTabPageSchedule.Location = new System.Drawing.Point(936, 223);
             this.LabelTotalHoursInSecondDayInTabPageSchedule.Name = "LabelTotalHoursInSecondDayInTabPageSchedule";
-            this.LabelTotalHoursInSecondDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInSecondDayInTabPageSchedule.Size = new System.Drawing.Size(0, 25);
             this.LabelTotalHoursInSecondDayInTabPageSchedule.TabIndex = 277;
-            this.LabelTotalHoursInSecondDayInTabPageSchedule.Text = "horas";
             // 
-            // textBox1
+            // TextBoxDay2SecondTurnInTabPageSchedule
             // 
-            this.textBox1.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox1.ForeColor = System.Drawing.Color.Black;
-            this.textBox1.Location = new System.Drawing.Point(684, 220);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(205, 31);
-            this.textBox1.TabIndex = 276;
-            this.textBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay2SecondTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay2SecondTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay2SecondTurnInTabPageSchedule.Location = new System.Drawing.Point(700, 220);
+            this.TextBoxDay2SecondTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay2SecondTurnInTabPageSchedule.Name = "TextBoxDay2SecondTurnInTabPageSchedule";
+            this.TextBoxDay2SecondTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay2SecondTurnInTabPageSchedule.TabIndex = 276;
+            this.TextBoxDay2SecondTurnInTabPageSchedule.Tag = "day2SecondTurn";
+            this.TextBoxDay2SecondTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay2SecondTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay2SecondTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
-            // textBox2
+            // TextBoxDay2FirstTurnInTabPageSchedule
             // 
-            this.textBox2.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.textBox2.ForeColor = System.Drawing.Color.Black;
-            this.textBox2.Location = new System.Drawing.Point(447, 220);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(205, 31);
-            this.textBox2.TabIndex = 275;
-            this.textBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay2FirstTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay2FirstTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay2FirstTurnInTabPageSchedule.Location = new System.Drawing.Point(463, 220);
+            this.TextBoxDay2FirstTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay2FirstTurnInTabPageSchedule.Name = "TextBoxDay2FirstTurnInTabPageSchedule";
+            this.TextBoxDay2FirstTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay2FirstTurnInTabPageSchedule.TabIndex = 275;
+            this.TextBoxDay2FirstTurnInTabPageSchedule.Tag = "day2FirstTurn";
+            this.TextBoxDay2FirstTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay2FirstTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay2FirstTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
             // LabelSecondDayOfWeekInTabPageSchedule
             // 
@@ -1421,16 +1530,15 @@
             // LabelTotalHoursInFirstDayInTabPageSchedule
             // 
             this.LabelTotalHoursInFirstDayInTabPageSchedule.AutoSize = true;
-            this.LabelTotalHoursInFirstDayInTabPageSchedule.Location = new System.Drawing.Point(920, 173);
+            this.LabelTotalHoursInFirstDayInTabPageSchedule.Location = new System.Drawing.Point(936, 173);
             this.LabelTotalHoursInFirstDayInTabPageSchedule.Name = "LabelTotalHoursInFirstDayInTabPageSchedule";
-            this.LabelTotalHoursInFirstDayInTabPageSchedule.Size = new System.Drawing.Size(66, 25);
+            this.LabelTotalHoursInFirstDayInTabPageSchedule.Size = new System.Drawing.Size(0, 25);
             this.LabelTotalHoursInFirstDayInTabPageSchedule.TabIndex = 273;
-            this.LabelTotalHoursInFirstDayInTabPageSchedule.Text = "horas";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(712, 113);
+            this.label4.Location = new System.Drawing.Point(728, 113);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(153, 25);
             this.label4.TabIndex = 270;
@@ -1439,31 +1547,39 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(485, 113);
+            this.label7.Location = new System.Drawing.Point(501, 113);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(129, 25);
             this.label7.TabIndex = 269;
             this.label7.Text = "Primer turno";
             // 
-            // TextBoxSecondTurnDay1InTabPageSchedule
+            // TextBoxDay1SecondTurnInTabPageSchedule
             // 
-            this.TextBoxSecondTurnDay1InTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.TextBoxSecondTurnDay1InTabPageSchedule.ForeColor = System.Drawing.Color.Black;
-            this.TextBoxSecondTurnDay1InTabPageSchedule.Location = new System.Drawing.Point(684, 170);
-            this.TextBoxSecondTurnDay1InTabPageSchedule.Name = "TextBoxSecondTurnDay1InTabPageSchedule";
-            this.TextBoxSecondTurnDay1InTabPageSchedule.Size = new System.Drawing.Size(205, 31);
-            this.TextBoxSecondTurnDay1InTabPageSchedule.TabIndex = 268;
-            this.TextBoxSecondTurnDay1InTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay1SecondTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay1SecondTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay1SecondTurnInTabPageSchedule.Location = new System.Drawing.Point(700, 170);
+            this.TextBoxDay1SecondTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay1SecondTurnInTabPageSchedule.Name = "TextBoxDay1SecondTurnInTabPageSchedule";
+            this.TextBoxDay1SecondTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay1SecondTurnInTabPageSchedule.TabIndex = 268;
+            this.TextBoxDay1SecondTurnInTabPageSchedule.Tag = "day1SecondTurn";
+            this.TextBoxDay1SecondTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay1SecondTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay1SecondTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
-            // TextBoxFirstTurnDay1InTabPageSchedule
+            // TextBoxDay1FirstTurnInTabPageSchedule
             // 
-            this.TextBoxFirstTurnDay1InTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Upper;
-            this.TextBoxFirstTurnDay1InTabPageSchedule.ForeColor = System.Drawing.Color.Black;
-            this.TextBoxFirstTurnDay1InTabPageSchedule.Location = new System.Drawing.Point(447, 170);
-            this.TextBoxFirstTurnDay1InTabPageSchedule.Name = "TextBoxFirstTurnDay1InTabPageSchedule";
-            this.TextBoxFirstTurnDay1InTabPageSchedule.Size = new System.Drawing.Size(205, 31);
-            this.TextBoxFirstTurnDay1InTabPageSchedule.TabIndex = 267;
-            this.TextBoxFirstTurnDay1InTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay1FirstTurnInTabPageSchedule.CharacterCasing = System.Windows.Forms.CharacterCasing.Lower;
+            this.TextBoxDay1FirstTurnInTabPageSchedule.ForeColor = System.Drawing.Color.Black;
+            this.TextBoxDay1FirstTurnInTabPageSchedule.Location = new System.Drawing.Point(463, 170);
+            this.TextBoxDay1FirstTurnInTabPageSchedule.MaxLength = 17;
+            this.TextBoxDay1FirstTurnInTabPageSchedule.Name = "TextBoxDay1FirstTurnInTabPageSchedule";
+            this.TextBoxDay1FirstTurnInTabPageSchedule.Size = new System.Drawing.Size(205, 31);
+            this.TextBoxDay1FirstTurnInTabPageSchedule.TabIndex = 267;
+            this.TextBoxDay1FirstTurnInTabPageSchedule.Tag = "day1FirstTurn";
+            this.TextBoxDay1FirstTurnInTabPageSchedule.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.TextBoxDay1FirstTurnInTabPageSchedule.TextChanged += new System.EventHandler(this.ConvertShortHourFormatToLongWhenTextChanged);
+            this.TextBoxDay1FirstTurnInTabPageSchedule.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.InputCharacterIsValidOnKeyPress);
             // 
             // LabelFirstDayOfWeekInTabPageSchedule
             // 
@@ -1546,7 +1662,6 @@
 
         private System.Windows.Forms.MenuStrip MenuStripInFormMain;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemFile;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemView;
         private System.Windows.Forms.Label LabelMessageInFormMain;
         private System.Windows.Forms.TableLayoutPanel TableLayoutPanelInFormMain;
         private System.Windows.Forms.Button ButtonShowScheduleForm;
@@ -1603,47 +1718,46 @@
         private System.Windows.Forms.Label LabelTotalHoursInFirstDayInTabPageSchedule;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.TextBox TextBoxSecondTurnDay1InTabPageSchedule;
-        private System.Windows.Forms.TextBox TextBoxFirstTurnDay1InTabPageSchedule;
+        private System.Windows.Forms.TextBox TextBoxDay1SecondTurnInTabPageSchedule;
+        private System.Windows.Forms.TextBox TextBoxDay1FirstTurnInTabPageSchedule;
         private System.Windows.Forms.Label LabelFirstDayOfWeekInTabPageSchedule;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox ComboBoxSelectEmployeeInTabPageSchedule;
         private System.Windows.Forms.Label LabelTotalHoursInSeventhDayInTabPageSchedule;
-        private System.Windows.Forms.TextBox textBox11;
-        private System.Windows.Forms.TextBox textBox12;
+        private System.Windows.Forms.TextBox TextBoxDay7SecondTurnInTabPageSchedule;
+        private System.Windows.Forms.TextBox TextBoxDay7FirstTurnInTabPageSchedule;
         private System.Windows.Forms.Label LabelSeventhDayOfWeekInTabPageSchedule;
         private System.Windows.Forms.Label LabelTotalHoursInSixthDayInTabPageSchedule;
-        private System.Windows.Forms.TextBox textBox9;
-        private System.Windows.Forms.TextBox textBox10;
+        private System.Windows.Forms.TextBox TextBoxDay6SecondTurnInTabPageSchedule;
+        private System.Windows.Forms.TextBox TextBoxDay6FirstTurnInTabPageSchedule;
         private System.Windows.Forms.Label LabelSixthDayOfWeekInTabPageSchedule;
         private System.Windows.Forms.Label LabelTotalHoursInFifthDayInTabPageSchedule;
-        private System.Windows.Forms.TextBox textBox7;
-        private System.Windows.Forms.TextBox textBox8;
+        private System.Windows.Forms.TextBox TextBoxDay5SecondTurnInTabPageSchedule;
+        private System.Windows.Forms.TextBox TextBoxDay5FirstTurnInTabPageSchedule;
         private System.Windows.Forms.Label LabelFifthDayOfWeekInTabPageSchedule;
         private System.Windows.Forms.Label LabelTotalHoursInFourthDayInTabPageSchedule;
-        private System.Windows.Forms.TextBox textBox5;
-        private System.Windows.Forms.TextBox textBox6;
+        private System.Windows.Forms.TextBox TextBoxDay4SecondTurnInTabPageSchedule;
+        private System.Windows.Forms.TextBox TextBoxDay4FirstTurnInTabPageSchedule;
         private System.Windows.Forms.Label LabelFourthDayOfWeekInTabPageSchedule;
         private System.Windows.Forms.Label LabelTotalHoursInThirdDayInTabPageSchedule;
-        private System.Windows.Forms.TextBox textBox3;
-        private System.Windows.Forms.TextBox textBox4;
+        private System.Windows.Forms.TextBox TextBoxDay3SecondTurnInTabPageSchedule;
+        private System.Windows.Forms.TextBox TextBoxDay3FirstTurnInTabPageSchedule;
         private System.Windows.Forms.Label LabelThirdDayOfWeekInTabPageSchedule;
         private System.Windows.Forms.Label LabelTotalHoursInSecondDayInTabPageSchedule;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox TextBoxDay2SecondTurnInTabPageSchedule;
+        private System.Windows.Forms.TextBox TextBoxDay2FirstTurnInTabPageSchedule;
         private System.Windows.Forms.Label LabelSecondDayOfWeekInTabPageSchedule;
-        private System.Windows.Forms.LinkLabel linkLabel1;
-        private System.Windows.Forms.LinkLabel linkLabel7;
-        private System.Windows.Forms.LinkLabel linkLabel6;
-        private System.Windows.Forms.LinkLabel linkLabel5;
-        private System.Windows.Forms.LinkLabel linkLabel4;
-        private System.Windows.Forms.LinkLabel linkLabel3;
-        private System.Windows.Forms.LinkLabel linkLabel2;
+        private System.Windows.Forms.LinkLabel LabelNotAvailableDay1;
+        private System.Windows.Forms.LinkLabel LabelNotAvailableDay7;
+        private System.Windows.Forms.LinkLabel LabelNotAvailableDay6;
+        private System.Windows.Forms.LinkLabel LabelNotAvailableDay5;
+        private System.Windows.Forms.LinkLabel LabelNotAvailableDay4;
+        private System.Windows.Forms.LinkLabel LabelNotAvailableDay3;
+        private System.Windows.Forms.LinkLabel LabelNotAvailableDay2;
         private System.Windows.Forms.Button ButtonSaveInTabPageSchedule;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemAbout;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPrintSchedule;
         private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemExit;
-        private System.Windows.Forms.ToolStripMenuItem ToolStripMenuItemPetitions;
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.Label label12;
@@ -1657,6 +1771,14 @@
         private System.Windows.Forms.ColumnHeader PetitionDate;
         private System.Windows.Forms.ColumnHeader FreeDay;
         private System.Windows.Forms.ColumnHeader Availability;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Label label19;
+        private System.Windows.Forms.Label LabelVerfyingScheduleMessage;
     }
 }
 

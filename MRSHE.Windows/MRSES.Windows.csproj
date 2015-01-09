@@ -91,12 +91,6 @@
     <Compile Include="Forms\FormFeedBack.Designer.cs">
       <DependentUpon>FormFeedBack.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\FormPetitions.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\FormPetitions.Designer.cs">
-      <DependentUpon>FormPetitions.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="FormMain.resx">
@@ -107,9 +101,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\FormFeedBack.resx">
       <DependentUpon>FormFeedBack.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\FormPetitions.resx">
-      <DependentUpon>FormPetitions.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
