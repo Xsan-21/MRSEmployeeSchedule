@@ -62,8 +62,7 @@
     <Compile Include="Entities\ITurnRepository.cs" />
     <Compile Include="Entities\Petition.cs" />
     <Compile Include="Entities\Turn.cs" />
-    <Compile Include="Entities\Worker.cs" />
-    <Compile Include="Entities\WorkWeek.cs" />
+    <Compile Include="Entities\Schedule.cs" />
     <Compile Include="Persistence\AvailabilityRepository.cs" />
     <Compile Include="Persistence\EmployeeRepository.cs" />
     <Compile Include="Persistence\PetitionRepository.cs" />

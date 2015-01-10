@@ -1,40 +1,47 @@
 ﻿using System.Collections.Generic;
 using NodaTime;
+using MRSES.Core.Shared;
 
 namespace MRSES.Core.Entities
 {
-    public class Worker
+    public class Schedule
     {
         #region variables and properties
 
-        List<Turn> _schedule;
+        List<Turn> _turns;
 
         public string Name { get; set; }
-        private LocalDate _ofWeek;
-        public LocalDate OfWeek { get { return _ofWeek; } set { _ofWeek = value; } }
-        public List<Turn> Schedule
+        public LocalDate OfWeek { get; set; }
+        public List<Turn> Turns
         {
-            get { return _schedule; }
+            get { return _turns; }
             set
             {
                 if (value == null) return;
-                _schedule = value;
+                _turns = value;
             }
         }
+
         public byte AmountOfTurns { get { return TurnCounter(); } }
 
         #endregion variables and properties
 
         #region constructors
 
-        public Worker(LocalDate ofWeek, string name = "")
+        public Schedule() : this(DateFunctions.CurrentWeek(), string.Empty)
+        {
+            
+        }
+
+        public Schedule(LocalDate ofWeek, string name)
         {
             Name = name;
             OfWeek = ofWeek;
-            Schedule = new List<Turn>();
 
-            foreach (var currentDate in WorkWeek.GetWeekDays(OfWeek))
-                Schedule.Add(new Turn(OfWeek, currentDate));
+            Turns = new List<Turn>();
+
+            foreach (var currentDate in DateFunctions.GetWeekDays(OfWeek))
+                Turns.Add(new Turn(currentDate));
         }
 
         #endregion constructors
@@ -45,7 +52,7 @@ namespace MRSES.Core.Entities
         {
             byte result = 0;
 
-            foreach (var turn in Schedule)
+            foreach (var turn in Turns)
             {
                 if (turn.Hours != 0)
                 {

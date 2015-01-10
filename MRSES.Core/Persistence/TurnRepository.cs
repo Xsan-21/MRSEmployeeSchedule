@@ -8,5 +8,6 @@ namespace MRSES.Core.Persistence
 {
     public class TurnRepository
     {
+
     }
 }

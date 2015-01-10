@@ -6,12 +6,6 @@ namespace MRSES.Core.Shared
 {
     public struct TimeFunctions
     {
-        #region Variables
-
-        static System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo(Configuration.CultureInfo);
-
-        #endregion
-
         /// <summary>
         /// Verify if the turn format is correct. Input format should be like 8:00am - 5:00pm
         /// </summary>
@@ -90,7 +84,7 @@ namespace MRSES.Core.Shared
 
         static string ApplyCultureToLocalTime(LocalTime hour)
         {
-            return hour.ToString("h:mmtt", culture);
+            return hour.ToString("h:mmtt", Configuration.CultureInfo);
         }
 
         static bool HourIsInLongFormat(string turnHour)
@@ -142,7 +136,7 @@ namespace MRSES.Core.Shared
         /// <returns></returns>
         static string ConvertHourInShortFormatToLongWithSpecificPattern(string patternText, string shortHour)
         {
-            return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Value.ToString("h:mmtt", culture);
+            return LocalTimePattern.CreateWithInvariantCulture(patternText).Parse(shortHour).Value.ToString("h:mmtt", Configuration.CultureInfo);
         }
 
         static bool ContainsTermsToIgnore(string input, string otherTerm = "")

@@ -1,18 +1,12 @@
 ﻿using System;
 using NodaTime;
 using NodaTime.Text;
+using System.Collections.Generic;
 
 namespace MRSES.Core.Shared
 {
     public struct DateFunctions
     {
-        #region Variables
-
-        static System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo(Configuration.CultureInfo);
-        // .ToString("dd \\de MMMM \\de yyyy", new System.Globalization.CultureInfo("es-PR")
-
-        #endregion
-
         public static string ApplyCultureToLocalDate(LocalDate date, string culture)
         {
             throw new NotImplementedException();
@@ -51,6 +45,81 @@ namespace MRSES.Core.Shared
         static public DateTime FromLocalDateToDateTime(LocalDate date)
         {
             return new DateTime(date.Year, date.Month, date.Day);
+        }
+
+        public static IEnumerable<LocalDate> GetCurrentAndNextThreeWeeksFrom(LocalDate fromWeek)
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                yield return fromWeek.PlusWeeks(i);
+            }
+        }
+
+        public static IEnumerable<LocalDate> GetNextFourWeeksFromCurrentWeek()
+        {
+            for (int i = 0; i < 4; i++)
+            {
+                yield return CurrentWeek().PlusWeeks(i);
+            }
+        }
+
+        public static IEnumerable<LocalDate> GetWeekDays(LocalDate week)
+        {
+            for (int i = 0; i <= 6; i++)
+            {
+                yield return week.PlusDays(i);
+            }
+        }
+
+        public static LocalDate CurrentWeek()
+        {
+            IsoDayOfWeek firstWeekDay = GetStartWeek();
+            LocalDate currentDate = GetCurrentDate.Date;
+
+            if (currentDate.IsoDayOfWeek == firstWeekDay)
+                return currentDate;
+
+            return currentDate.Previous(firstWeekDay);
+        }
+
+        private static IsoDayOfWeek GetStartWeek()
+        {
+            IsoDayOfWeek dayOfWeek = IsoDayOfWeek.None;
+
+            switch (Configuration.FirstDayOfWeek)
+            {
+                case "wednesday":
+                    dayOfWeek = IsoDayOfWeek.Wednesday;
+                    break;
+                case "thursday":
+                    dayOfWeek = IsoDayOfWeek.Thursday;
+                    break;
+                case "friday":
+                    dayOfWeek = IsoDayOfWeek.Friday;
+                    break;
+                case "saturday":
+                    dayOfWeek = IsoDayOfWeek.Saturday;
+                    break;
+                case "sunday":
+                    dayOfWeek = IsoDayOfWeek.Sunday;
+                    break;
+                case "monday":
+                    dayOfWeek = IsoDayOfWeek.Monday;
+                    break;
+                case "tuesday":
+                    dayOfWeek = IsoDayOfWeek.Tuesday;
+                    break;
+                default:
+                    dayOfWeek = IsoDayOfWeek.Monday;
+                    break;
+            }
+
+            return dayOfWeek;
+        }
+
+        static ZonedDateTime GetCurrentDate
+        {
+            get { return new ZonedDateTime(SystemClock.Instance.Now, DateTimeZoneProviders.Tzdb["America/Puerto_Rico"]); }
         }
     }
 }

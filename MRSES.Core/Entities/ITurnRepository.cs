@@ -4,7 +4,7 @@ namespace MRSES.Core.Entities
 {
     public interface ITurnRepository : IDatabase
     {
-        Task<Worker[]> GetScheduleAsync(string position, NodaTime.LocalDate ofWeek);
-        Task<Worker> GetEmployeeScheduleAsync(IEmployee employee, NodaTime.LocalDate ofWeek);
+        Task<Schedule[]> GetScheduleAsync(string position, NodaTime.LocalDate ofWeek);
+        Task<Schedule> GetEmployeeScheduleAsync(IEmployee employee, NodaTime.LocalDate ofWeek);
     }
 }

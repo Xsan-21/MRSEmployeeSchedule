@@ -19,9 +19,9 @@
             set { Properties.Settings.Default.StoreLocation = value; Properties.Settings.Default.Save(); } 
         }
 
-        public static string CultureInfo
+        public static System.Globalization.CultureInfo CultureInfo
         {
-            get { return Properties.Settings.Default.CultureInfo; }
+            get { return new System.Globalization.CultureInfo(Properties.Settings.Default.CultureInfo); }
         }
     }
 }
