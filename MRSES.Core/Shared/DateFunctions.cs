@@ -27,10 +27,10 @@ namespace MRSES.Core.Shared
             return new LocalDate(dateTime.Year, dateTime.Month, dateTime.Day);
         }
 
-        //public static LocalDate FromShortDateTimeFormatToLocalDate(string shortDateTime)
-        //{
-        //    return LocalDatePattern.CreateWithInvariantCulture("M/d/yyyy").Parse(shortDateTime).Value;
-        //}
+        public static LocalDate FromShortDateTimeFormatToLocalDate(string shortDateTime)
+        {
+            return LocalDatePattern.CreateWithInvariantCulture("M/d/yyyy").Parse(shortDateTime).Value;
+        }
 
         public static LocalDate FromLocalDateStringToLocalDate(string localDate)
         {
