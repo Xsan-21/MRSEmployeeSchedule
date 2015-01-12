@@ -2,9 +2,9 @@
 
 namespace MRSES.Core.Entities
 {
-    public interface ITurnRepository : IDatabase
+    public interface ITurnRepository
     {
-        Task<Schedule[]> GetScheduleAsync(string position, NodaTime.LocalDate ofWeek);
+        Task<Schedule[]> GetScheduleByPositionAsync(string position, NodaTime.LocalDate ofWeek);
         Task<Schedule> GetEmployeeScheduleAsync(IEmployee employee, NodaTime.LocalDate ofWeek);
     }
 }
