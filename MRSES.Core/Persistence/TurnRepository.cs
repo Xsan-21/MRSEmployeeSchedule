@@ -10,16 +10,22 @@ using MRSES.Core.Shared;
 
 namespace MRSES.Core.Persistence
 {
-    public class TurnRepository : ITurnRepository, IDisposable
+    public interface ITurnRepository
     {
-        public Schedule Schedule { get; set; }
+        Task<Schedule[]> GetScheduleByPositionAsync(string position, NodaTime.LocalDate ofWeek);
+        Task<Schedule> GetEmployeeScheduleAsync(IEmployee employee, NodaTime.LocalDate ofWeek);
+    }
+
+    public class TurnRepository : ITurnRepository, IDatabase, IDisposable
+    {
+        public ISchedule Schedule { get; set; }
 
         public TurnRepository()
         {
 
         }
 
-        public TurnRepository(Schedule schedule)
+        public TurnRepository(ISchedule schedule)
         {
             Schedule = schedule;
         }

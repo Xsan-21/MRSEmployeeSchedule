@@ -4,7 +4,15 @@ using MRSES.Core.Shared;
 
 namespace MRSES.Core.Entities
 {
-    public class Schedule
+    public interface ISchedule
+    {
+        string Name { get; set; }
+        LocalDate OfWeek { get; set; }
+        List<Turn> Turns { get; set; }
+        byte AmountOfTurns { get; }
+    }
+
+    public class Schedule : ISchedule
     {
         #region variables and properties
 

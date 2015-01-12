@@ -10,7 +10,14 @@ using System.Threading.Tasks;
 
 namespace MRSES.Core.Persistence
 {
-    public class AvailabilityRepository : IAvailabilityRepository, IAvailable, System.IDisposable
+    public interface IAvailabilityRepository : IAvailable
+    {
+        System.Threading.Tasks.Task SaveAsync();
+        System.Threading.Tasks.Task<Availability> GetAvailabilityAsync();
+        System.Threading.Tasks.Task<string> GetAvailabilityOfADayAsync(NodaTime.IsoDayOfWeek dayOfWeek);
+    }
+
+    public class AvailabilityRepository : IAvailabilityRepository, IDatabase, IDisposable
     {
         #region Properties
 

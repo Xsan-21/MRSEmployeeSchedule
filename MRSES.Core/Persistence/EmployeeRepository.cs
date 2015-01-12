@@ -9,7 +9,14 @@ using NpgsqlTypes;
 
 namespace MRSES.Core.Persistence
 {
-    public class EmployeeRepository : IEmployeeRepository, System.IDisposable
+    public interface IEmployeeRepository
+    {
+        Task<Employee> GetEmployeeAsync(string name_or_id);
+        Task<List<string>> GetPositionsAsync();
+        Task<List<string>> GetEmployeeNamesByPositionAsync(string position);
+    }
+
+    public class EmployeeRepository : IEmployeeRepository, IDatabase, System.IDisposable
     {
         #region Fields
 
