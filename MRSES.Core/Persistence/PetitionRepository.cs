@@ -97,9 +97,9 @@ namespace MRSES.Core.Persistence
                                 new Petition
                                 {
                                     EmployeeName = employeeName,
-                                    Date = new NodaTime.LocalDate(date.Year, date.Month, date.Day),
-                                    AvailableFrom = new NodaTime.LocalTime(availableFrom.Hour, availableFrom.Minute, availableFrom.Second),
-                                    AvailableTo = new NodaTime.LocalTime(availableTo.Hour, availableTo.Minute, availableTo.Second)
+                                    Date = DateFunctions.FromDateTimeToLocalDate(date),
+                                    AvailableFrom = DateFunctions.FromDateTimeToLocalTime(availableFrom),
+                                    AvailableTo = DateFunctions.FromDateTimeToLocalTime(availableTo)
                                 }
                             );
                         }

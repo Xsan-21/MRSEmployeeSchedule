@@ -117,9 +117,14 @@ namespace MRSES.Core.Shared
             return dayOfWeek;
         }
 
-        static ZonedDateTime GetCurrentDate
+        static public ZonedDateTime GetCurrentDate
         {
             get { return new ZonedDateTime(SystemClock.Instance.Now, DateTimeZoneProviders.Tzdb["America/Puerto_Rico"]); }
+        }
+
+        static public LocalTime FromDateTimeToLocalTime(DateTime dateTime)
+        {
+            return new LocalTime(dateTime.Hour, dateTime.Minute, dateTime.Second);
         }
     }
 }
