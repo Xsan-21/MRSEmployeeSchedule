@@ -12,12 +12,7 @@ using System.Data;
 
 namespace MRSES.Core.Persistence
 {
-    public interface IPetitionRepository : IAvailable
-    {
-        //System.Threading.Tasks.Task<Petition[]> GetAllPetitions(NodaTime.LocalDate ofWeek, string position);
-    }
-
-    public class PetitionRepository : IPetitionRepository, IDatabase, System.IDisposable
+    public class PetitionRepository : IDatabase, System.IDisposable
     {
         public IPetition Petition { get; set; }
 

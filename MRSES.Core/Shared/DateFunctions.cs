@@ -55,11 +55,20 @@ namespace MRSES.Core.Shared
             }
         }
 
-        public static IEnumerable<LocalDate> GetNextFourWeeksFromCurrentWeek()
+        public static IEnumerable<LocalDate> GetCurrentAndNextThreeWeeks()
         {
             for (int i = 0; i < 4; i++)
             {
                 yield return CurrentWeek().PlusWeeks(i);
+            }
+        }
+
+        public static IEnumerable<LocalDate> GetPreviousAndNextThreeWeeks()
+        {
+            var previousWeek = CurrentWeek().PlusWeeks(-1);
+            for (int i = 0; i < 4; i++)
+            {
+                yield return previousWeek.PlusWeeks(i);
             }
         }
 

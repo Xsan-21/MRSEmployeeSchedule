@@ -10,13 +10,14 @@ using MRSES.Core.Shared;
 
 namespace MRSES.Core.Persistence
 {
-    public interface ITurnRepository
+    public interface ITurnRepository : IDatabase
     {
         Task<List<Schedule>> GetScheduleByPositionAsync(string position, NodaTime.LocalDate ofWeek);
         Task<Schedule> GetEmployeeScheduleAsync(string employeeName, NodaTime.LocalDate ofWeek);
+        ISchedule Schedule { get; set; }
     }
 
-    public class TurnRepository : ITurnRepository, IDatabase, IDisposable
+    public class TurnRepository : ITurnRepository, IDisposable
     {
         IEmployeeRepository _employeeRepository;
         public ISchedule Schedule { get; set; }
@@ -121,7 +122,7 @@ namespace MRSES.Core.Persistence
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (!(await reader.ReadAsync()))
-                            throw new Exception(string.Format("El empleado {0} no tiene horario de la semana del {1}.", employeeName, ofWeek.ToString("M/d/yyyy", Configuration.CultureInfo)));
+                            return emp_schedule;
 
                         do
                         {
