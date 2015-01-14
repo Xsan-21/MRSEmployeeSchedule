@@ -25,19 +25,19 @@ namespace MRSES.Windows.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        public string ParseApplicationID {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string EmailUserName {
             get {
-                return ((string)(this["ParseApplicationID"]));
+                return ((string)(this["EmailUserName"]));
             }
         }
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        public string ParseDotNetKey {
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string EmailPassword {
             get {
-                return ((string)(this["ParseDotNetKey"]));
+                return ((string)(this["EmailPassword"]));
             }
         }
     }

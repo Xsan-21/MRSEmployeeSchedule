@@ -104,10 +104,10 @@ namespace MRSES.Windows.Forms
                 Timeout = 10000,
                 DeliveryMethod = SmtpDeliveryMethod.Network,
                 UseDefaultCredentials = false,
-                Credentials = new System.Net.NetworkCredential("email", "password") // TODO use your email account here
+                Credentials = new System.Net.NetworkCredential(Configuration.EmailUserName, Configuration.EmailPassword)
             };
 
-            _message = new MailMessage("mrshe_feedBack@gmail.com", "email") // put your email
+            _message = new MailMessage("mrshe_feedBack@gmail.com", "xavier_san@outlook.com")
             {
                 Subject = string.Format("MRSHE FeedBack - {0}", subject),
                 Body = body

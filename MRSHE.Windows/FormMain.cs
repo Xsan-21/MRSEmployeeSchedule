@@ -20,10 +20,10 @@ namespace MRSES.Windows
         #region Variables
 
         string _idOfCurrentSelectedEmployeeInEmployeeTabPage;
-        System.Globalization.CultureInfo _culture = new System.Globalization.CultureInfo(Configuration.CultureInfo);
         EmployeeRepository employeeRepository;
         AvailabilityRepository _availabilityRepo;
         PetitionRepository _petitionRepo;
+        ITurnRepository _turnRepo;
    
         #endregion
 
@@ -38,16 +38,17 @@ namespace MRSES.Windows
             InitializeComponent();
             this.Width = 850; this.Height = 500;
             PetitionDatePicker.MinDate = DateTime.Now.AddDays(1);
+            FillWeekSelectorComboBox();
 
             employeeRepository = new EmployeeRepository();
             _availabilityRepo = new AvailabilityRepository();
             _petitionRepo = new PetitionRepository();
+            _turnRepo = new TurnRepository();
         }
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
             await FillPositionComboBoxAsync();
-            FillWeekSelectorComboBox();
         } 
 
         #endregion
@@ -70,8 +71,9 @@ namespace MRSES.Windows
 
         void FillWeekSelectorComboBox()
         {
-            var weeks = WorkWeek.GetNextFourWeeksFromCurrentWeek();
+            var weeks = DateFunctions.GetPreviousAndNextThreeWeeks();
             ComboBoxWeekSelectorInFormMain.DataSource = weeks.ToArray();
+            ComboBoxWeekSelectorInFormMain.SelectedIndex = 1; // here we select the current week
         }
 
         public async Task ShowMessageInLabelMessageOfFormMain(string message, string result)
@@ -130,9 +132,17 @@ namespace MRSES.Windows
             await FillComboBoxSelectEmployeeInAvailabilityTabPageAsync();
         }
 
-        private void ComboBoxWeekSelectorInFormMain_SelectedIndexChanged(object sender, EventArgs e)
+        private async void ComboBoxWeekSelectorInFormMain_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PutDayOfWeekInTheLabelsInScheduleTabPage();
+            try
+            {
+                PutDayOfWeekInTheLabelsInScheduleTabPage();
+                await PutEmployeeScheduleInTextBoxesAsync();
+            }
+            catch (Exception ex)
+            {
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+            }
         }
 
         #region Button clicks
@@ -460,13 +470,13 @@ namespace MRSES.Windows
             _availabilityRepo.EmployeeName = ComboBoxSelectEmployeeInTabPageAvailability.Text;
             var availability = await _availabilityRepo.GetAvailabilityAsync();
 
-            TextBoxWednesdayInTabPageAvailability.Text = availability.Wednesday == "available" ? "disponible" : availability.Wednesday;
-            TextBoxThursdayInTabPageAvailability.Text = availability.Thursday == "available" ? "disponible" : availability.Thursday;
-            TextBoxFridayInTabPageAvailability.Text = availability.Friday == "available" ? "disponible" : availability.Friday;
-            TextBoxSaturdayInTabPageAvailability.Text = availability.Saturday == "available" ? "disponible" : availability.Saturday;
-            TextBoxSundayInTabPageAvailability.Text = availability.Sunday == "available" ? "disponible" : availability.Sunday;
-            TextBoxMondayInTabPageAvailability.Text = availability.Monday == "available" ? "disponible" : availability.Monday;
-            TextBoxTuesdayInTabPageAvailability.Text = availability.Tuesday == "available" ? "disponible" : availability.Tuesday;
+            TextBoxWednesdayInTabPageAvailability.Text = availability.Wednesday == "available" ? "disponible" : availability.Wednesday == "not available" ? "no disponible" : availability.Wednesday;
+            TextBoxThursdayInTabPageAvailability.Text = availability.Thursday == "available" ? "disponible" : availability.Thursday == "not available" ? "no disponible" : availability.Thursday;
+            TextBoxFridayInTabPageAvailability.Text = availability.Friday == "available" ? "disponible" : availability.Friday == "not available" ? "no disponible" : availability.Friday;
+            TextBoxSaturdayInTabPageAvailability.Text = availability.Saturday == "available" ? "disponible" : availability.Saturday == "not available" ? "no disponible" : availability.Saturday;
+            TextBoxSundayInTabPageAvailability.Text = availability.Sunday == "available" ? "disponible" : availability.Sunday == "not available" ? "no disponible" : availability.Sunday;
+            TextBoxMondayInTabPageAvailability.Text = availability.Monday == "available" ? "disponible" : availability.Monday == "not available" ? "no disponible" : availability.Monday;
+            TextBoxTuesdayInTabPageAvailability.Text = availability.Tuesday == "available" ? "disponible" : availability.Tuesday == "not available" ? "no disponible" :  availability.Tuesday;
         }
 
         void ValidateAvailabilityHourFormatOfTextBoxes()
@@ -543,8 +553,8 @@ namespace MRSES.Windows
 
             for (int i = 0; i < employeePetitions.Count; i++)
             {
-                string availableFrom = employeePetitions[i].AvailableFrom.ToString("h:mmtt", _culture),
-                       availableTo = employeePetitions[i].AvailableTo.ToString("h:mmtt", _culture),
+                string availableFrom = employeePetitions[i].AvailableFrom.ToString("h:mmtt", Core.Configuration.CultureInfo),
+                       availableTo = employeePetitions[i].AvailableTo.ToString("h:mmtt", Core.Configuration.CultureInfo),
                        availableFromTo = availableFrom == availableTo ? "Pidió día libre" : string.Format("{0} - {1}", availableFrom, availableTo);
 
                 var availability = new ListViewItem(new string[] 
@@ -664,11 +674,11 @@ namespace MRSES.Windows
                                 LabelSeventhDayOfWeekInTabPageSchedule};
 
             var selectedWeek = CurrentSelectedWeekInComboBox();
-            var weekDays = WorkWeek.GetWeekDays(selectedWeek).ToArray();
+            var weekDays = DateFunctions.GetWeekDays(selectedWeek).ToArray();
 
             for (int i = 0; i < 7; i++)
             {
-                labelDays[i].Text = weekDays[i].ToString("dddd d", _culture);
+                labelDays[i].Text = weekDays[i].ToString("dddd d", Core.Configuration.CultureInfo);
             }
         }
 
@@ -738,102 +748,59 @@ namespace MRSES.Windows
             }
         }
 
-        Dictionary<NodaTime.LocalDate, List<NodaTime.LocalTime>> GetEmployeeWeekTurns()
+        Schedule GetEmployeeWeekSchedule()
         {
             var week = CurrentSelectedWeekInComboBox();
-            var weekTurns = new Dictionary<NodaTime.LocalDate, List<NodaTime.LocalTime>>();
+            var employeeName = ComboBoxSelectEmployeeInTabPageSchedule.Text;
+            var employeeSchedule = new Schedule(week, employeeName);
 
             var firstTurn = GetTurnInAndOut(TextBoxDay1FirstTurnInTabPageSchedule.Text);
             var secondTurn = GetTurnInAndOut(TextBoxDay1SecondTurnInTabPageSchedule.Text);
-            weekTurns.Add(week, new List<NodaTime.LocalTime> 
-            {   
-                firstTurn[0],
-                firstTurn[1],
-                secondTurn[0],
-                secondTurn[1]
-            });
+            employeeSchedule.Turns[0] = Turn.Create(week, firstTurn[0], firstTurn[1], secondTurn[0], secondTurn[1]);
 
             firstTurn = GetTurnInAndOut(TextBoxDay2FirstTurnInTabPageSchedule.Text);
             secondTurn = GetTurnInAndOut(TextBoxDay2SecondTurnInTabPageSchedule.Text);
-            weekTurns.Add(week.PlusDays(1), new List<NodaTime.LocalTime> 
-            {   
-                firstTurn[0],
-                firstTurn[1],
-                secondTurn[0],
-                secondTurn[1]
-            });
+            employeeSchedule.Turns[1] = Turn.Create(week.PlusDays(1), firstTurn[0], firstTurn[1], secondTurn[0], secondTurn[1]);
 
             firstTurn = GetTurnInAndOut(TextBoxDay3FirstTurnInTabPageSchedule.Text);
             secondTurn = GetTurnInAndOut(TextBoxDay3SecondTurnInTabPageSchedule.Text);
-            weekTurns.Add(week.PlusDays(2), new List<NodaTime.LocalTime> 
-            {   
-                firstTurn[0],
-                firstTurn[1],
-                secondTurn[0],
-                secondTurn[1]
-            });
+            employeeSchedule.Turns[2] = Turn.Create(week.PlusDays(2), firstTurn[0], firstTurn[1], secondTurn[0], secondTurn[1]);
 
             firstTurn = GetTurnInAndOut(TextBoxDay4FirstTurnInTabPageSchedule.Text);
             secondTurn = GetTurnInAndOut(TextBoxDay4SecondTurnInTabPageSchedule.Text);
-            weekTurns.Add(week.PlusDays(3), new List<NodaTime.LocalTime> 
-            {   
-                firstTurn[0],
-                firstTurn[1],
-                secondTurn[0],
-                secondTurn[1]
-            });
+            employeeSchedule.Turns[3] = Turn.Create(week.PlusDays(3), firstTurn[0], firstTurn[1], secondTurn[0], secondTurn[1]);
 
             firstTurn = GetTurnInAndOut(TextBoxDay5FirstTurnInTabPageSchedule.Text);
             secondTurn = GetTurnInAndOut(TextBoxDay5SecondTurnInTabPageSchedule.Text);
-            weekTurns.Add(week.PlusDays(4), new List<NodaTime.LocalTime> 
-            {   
-                firstTurn[0],
-                firstTurn[1],
-                secondTurn[0],
-                secondTurn[1]
-            });
+            employeeSchedule.Turns[4] = Turn.Create(week.PlusDays(4), firstTurn[0], firstTurn[1], secondTurn[0], secondTurn[1]);
 
             firstTurn = GetTurnInAndOut(TextBoxDay6FirstTurnInTabPageSchedule.Text);
             secondTurn = GetTurnInAndOut(TextBoxDay6SecondTurnInTabPageSchedule.Text);
-            weekTurns.Add(week.PlusDays(5), new List<NodaTime.LocalTime> 
-            {   
-                firstTurn[0],
-                firstTurn[1],
-                secondTurn[0],
-                secondTurn[1]
-            });
+            employeeSchedule.Turns[5] = Turn.Create(week.PlusDays(5), firstTurn[0], firstTurn[1], secondTurn[0], secondTurn[1]);
 
             firstTurn = GetTurnInAndOut(TextBoxDay7FirstTurnInTabPageSchedule.Text);
             secondTurn = GetTurnInAndOut(TextBoxDay7SecondTurnInTabPageSchedule.Text);
-            weekTurns.Add(week.PlusDays(6), new List<NodaTime.LocalTime> 
-            {   
-                firstTurn[0],
-                firstTurn[1],
-                secondTurn[0],
-                secondTurn[1]
-            });
+            employeeSchedule.Turns[6] = Turn.Create(week.PlusDays(6), firstTurn[0], firstTurn[1], secondTurn[0], secondTurn[1]);
 
-            return weekTurns;
+            return employeeSchedule;
         }
 
-        async Task<bool> VerifyIfTheEmployeeCanDoTheTurnAsync()
+        /// <summary>
+        /// Call VerifyIfTheEmployeeCanDoTheTurnAsync() instead
+        /// </summary>
+        /// <param name="employeeName"></param>
+        /// <param name="employeeTurns"></param>
+        /// <returns>False if any turn conflicts with employee petition or availability</returns>
+        async Task<bool> VerifyWithAvailabilityAndPetitions(string employeeName, List<Turn> employeeTurns)
         {
             bool result = true;
-            var employeeName = ComboBoxSelectEmployeeInTabPageSchedule.Text;
-            var employeeTurns = new List<Turn>();
-            var currentWeek = CurrentSelectedWeekInComboBox();
-            
-            foreach (var turns in GetEmployeeWeekTurns())
-	        {
-                employeeTurns.Add(Turn.Create(currentWeek, turns.Key, turns.Value[0], turns.Value[1], turns.Value[2], turns.Value[3]));
-	        }
 
             for (int i = 0; i < employeeTurns.Count; i++)
-			{
-                if (employeeTurns[i].Hours == 0.0)
+            {
+                if (employeeTurns[i].IsFreeDay)
                     continue;
 
-                var checkAvailability =  await _availabilityRepo.CanDoTheTurnAsync(employeeName, employeeTurns[i]);
+                var checkAvailability = await _availabilityRepo.CanDoTheTurnAsync(employeeName, employeeTurns[i]);
                 var checkPetition = await _petitionRepo.CanDoTheTurnAsync(employeeName, employeeTurns[i]);
 
                 if (!checkAvailability || !checkPetition)
@@ -845,8 +812,8 @@ namespace MRSES.Windows
                 {
                     ShowLabelNotAvailableForTheTurn(i, false);
                     ButtonSaveInTabPageSchedule.Enabled = false; // Enabling the button again is handled by SelectedTextChanged event.
-                }                    
-			}
+                }
+            }
 
             return result;
         }
@@ -899,9 +866,47 @@ namespace MRSES.Windows
             }
         }
 
-        async Task SaveEmployeeScheduleAsync()
+        async Task<bool> SaveEmployeeScheduleAsync(Schedule employeeSchedule)
         {
-            
+            var canDoTheTurn = await VerifyWithAvailabilityAndPetitions(employeeSchedule.Name, employeeSchedule.Turns);
+
+            if (canDoTheTurn)
+            {
+                _turnRepo.Schedule = employeeSchedule;
+                await _turnRepo.SaveAsync();
+                return true;
+            }
+
+            return false;
+        }
+
+        async Task PutEmployeeScheduleInTextBoxesAsync()
+        {
+            if (string.IsNullOrEmpty(ComboBoxWeekSelectorInFormMain.Text) || string.IsNullOrEmpty(ComboBoxSelectEmployeeInTabPageSchedule.Text))
+                return;
+
+            var empSchedule = await _turnRepo.GetEmployeeScheduleAsync(ComboBoxSelectEmployeeInTabPageSchedule.Text, CurrentSelectedWeekInComboBox());
+
+            TextBoxDay1FirstTurnInTabPageSchedule.Text = empSchedule.Turns[0].FirstTurn;
+            TextBoxDay1SecondTurnInTabPageSchedule.Text = empSchedule.Turns[0].SecondTurn;
+
+            TextBoxDay2FirstTurnInTabPageSchedule.Text = empSchedule.Turns[1].FirstTurn;
+            TextBoxDay2SecondTurnInTabPageSchedule.Text = empSchedule.Turns[1].SecondTurn;
+
+            TextBoxDay3FirstTurnInTabPageSchedule.Text = empSchedule.Turns[2].FirstTurn;
+            TextBoxDay3SecondTurnInTabPageSchedule.Text = empSchedule.Turns[2].SecondTurn;
+
+            TextBoxDay4FirstTurnInTabPageSchedule.Text = empSchedule.Turns[3].FirstTurn;
+            TextBoxDay4SecondTurnInTabPageSchedule.Text = empSchedule.Turns[3].SecondTurn;
+
+            TextBoxDay5FirstTurnInTabPageSchedule.Text = empSchedule.Turns[4].FirstTurn;
+            TextBoxDay5SecondTurnInTabPageSchedule.Text = empSchedule.Turns[4].SecondTurn;
+
+            TextBoxDay6FirstTurnInTabPageSchedule.Text = empSchedule.Turns[5].FirstTurn;
+            TextBoxDay6SecondTurnInTabPageSchedule.Text = empSchedule.Turns[5].SecondTurn;
+
+            TextBoxDay7FirstTurnInTabPageSchedule.Text = empSchedule.Turns[6].FirstTurn;
+            TextBoxDay7SecondTurnInTabPageSchedule.Text = empSchedule.Turns[6].SecondTurn;
         }
 
         #endregion
@@ -931,12 +936,18 @@ namespace MRSES.Windows
                 ButtonSaveInTabPageSchedule.Enabled = false;
                 DisableTurnTextBoxes(true);
                 LabelVerfyingScheduleMessage.Text = "Verificando horario...";
-
-                if (await VerifyIfTheEmployeeCanDoTheTurnAsync())
+                var result = await SaveEmployeeScheduleAsync(GetEmployeeWeekSchedule());
+                if (result)
                 {
-                    await SaveEmployeeScheduleAsync();
-                    await Task.Delay(2000);
+                    DisableTurnTextBoxes(false);
                     LabelVerfyingScheduleMessage.Text = "Horario guardado!";
+                    await Task.Delay(5000);
+                }
+                else
+                {
+                    DisableTurnTextBoxes(false);
+                    LabelVerfyingScheduleMessage.Text = "El horario no se guardó";
+                    await Task.Delay(5000);
                 }
             }
             catch (Exception ex)
@@ -946,11 +957,22 @@ namespace MRSES.Windows
             finally
             {
                 LabelVerfyingScheduleMessage.Text = "";
-                DisableTurnTextBoxes(false);
             }
         }
 
         #endregion
+
+        private async void ComboBoxSelectEmployeeInTabPageSchedule_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                await PutEmployeeScheduleInTextBoxesAsync();
+            }
+            catch (Exception ex)
+            {
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+            }
+        }
 
         #endregion
     }

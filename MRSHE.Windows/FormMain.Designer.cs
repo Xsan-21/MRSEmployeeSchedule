@@ -1608,6 +1608,7 @@
             this.ComboBoxSelectEmployeeInTabPageSchedule.Name = "ComboBoxSelectEmployeeInTabPageSchedule";
             this.ComboBoxSelectEmployeeInTabPageSchedule.Size = new System.Drawing.Size(368, 33);
             this.ComboBoxSelectEmployeeInTabPageSchedule.TabIndex = 29;
+            this.ComboBoxSelectEmployeeInTabPageSchedule.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSelectEmployeeInTabPageSchedule_SelectedIndexChanged);
             // 
             // label1
             // 
