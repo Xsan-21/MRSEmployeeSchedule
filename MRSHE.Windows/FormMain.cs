@@ -122,28 +122,71 @@ namespace MRSES.Windows
 
         #endregion        
 
-        #region Main Form Events
+        #region MainForm Events
 
         async void ComboBoxPositionSelectorInFormMainValueChanged(object sender, EventArgs e)
         {
-            await FillListBoxEmployeesInEmployeeTabPageAsync();
-            await FillComboBoxSelectEmployeeInScheduleTabPageAsync();
-            await FillComboBoxSelectEmployeeInPetitionsTabPageAsync();
-            await FillComboBoxSelectEmployeeInAvailabilityTabPageAsync();
-        }
-
-        private async void ComboBoxWeekSelectorInFormMain_SelectedIndexChanged(object sender, EventArgs e)
-        {
             try
             {
-                PutDayOfWeekInTheLabelsInScheduleTabPage();
-                await PutEmployeeScheduleInTextBoxesAsync();
+                await RunFunctionsWhenComboBoxPositionSelectorIndexChanges();
             }
             catch (Exception ex)
             {
                 new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
             }
         }
+
+        private async void ComboBoxWeekSelectorInFormMain_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                await RunFunctionsWhenComboBoxWeekSelectorIndexChanges();
+            }
+            catch (Exception ex)
+            {
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+            }
+        }
+
+        #region FunctionsToRunWhenComboBoxWeekSelectorOrPostionIndexChanges
+
+        async Task RunFunctionsWhenComboBoxWeekSelectorIndexChanges()
+        {
+            PutDaysOfWeekInComboBoxSelectWeekDayForTurnsOfADayInTabPageViewSchedule();
+            PutDayOfWeekInTheLabelsInScheduleTabPage();
+            PutDaysOfWeekInEmployeeScheduleListViewInTabPageViewSchedule();
+
+            var tasks = new Task[] 
+            { 
+                PutEmployeeScheduleInTextBoxesAsync(),
+                InsertEmployeeScheduleByPositionAndWeekAsync()
+            };
+
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                await tasks[i];
+            }
+        }
+
+        async Task RunFunctionsWhenComboBoxPositionSelectorIndexChanges()
+        {
+            var tasks = new Task[] 
+            { 
+                PutEmployeeScheduleInTextBoxesAsync(),
+                InsertEmployeeScheduleByPositionAndWeekAsync(),
+                FillListBoxEmployeesInEmployeeTabPageAsync(),
+                FillComboBoxSelectEmployeeInScheduleTabPageAsync(),
+                FillComboBoxSelectEmployeeInPetitionsTabPageAsync(),
+                FillComboBoxSelectEmployeeInAvailabilityTabPageAsync()
+            };
+
+            for (int i = 0; i < tasks.Length; i++)
+            {
+                await tasks[i];
+            }
+        }
+
+        #endregion
 
         #region Button clicks
 
@@ -171,10 +214,6 @@ namespace MRSES.Windows
             }
         }
 
-        #endregion
-
-        #region Mouse hover 
-        
         #endregion
 
         #region Textbox events
@@ -214,6 +253,78 @@ namespace MRSES.Windows
         }
         
         #endregion     
+
+        #endregion
+
+        #region ViewWeekTabPageInMainForm
+
+        #region Methods
+
+        void PutDaysOfWeekInComboBoxSelectWeekDayForTurnsOfADayInTabPageViewSchedule()
+        {
+            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox());
+            ComboBoxSelectWeekDayForTurnsOfADay.DataSource = weekDays;
+        }
+
+        void PutDaysOfWeekInEmployeeScheduleListViewInTabPageViewSchedule()
+        {
+            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox());
+            ColumnEmployeeName.Text = "Empleado";
+            ColumnDay1.Text = weekDays[0];
+            ColumnDay2.Text = weekDays[1];
+            ColumnDay3.Text = weekDays[2];
+            ColumnDay4.Text = weekDays[3];
+            ColumnDay5.Text = weekDays[4];
+            ColumnDay6.Text = weekDays[5];
+            ColumnDay7.Text = weekDays[6];
+            ColumnHours.Text = "Horas";
+            ColumnAmountOfTurns.Text = "Turnos";
+        }
+
+        async Task InsertEmployeeScheduleByPositionAndWeekAsync()
+        {
+            ListViewEmployeeScheduleOfWeek.Visible = false;
+            if (string.IsNullOrEmpty(CurrentSelectedPositionInComboBox()) || string.IsNullOrEmpty(ComboBoxWeekSelectorInFormMain.Text))
+                return;
+            
+            var position = CurrentSelectedPositionInComboBox();
+            var week = CurrentSelectedWeekInComboBox();
+
+            var scheduleByPosition = await _turnRepo.GetScheduleByPositionAsync(position, week);
+
+            
+            ListViewEmployeeScheduleOfWeek.Items.Clear();
+
+            foreach (var employee in scheduleByPosition)
+            {
+                var employeeSchedule = new ListViewItem(new string[] 
+                    { 
+                        employee.Name,
+                        employee.Turns[0].ToString(),
+                        employee.Turns[1].ToString(),
+                        employee.Turns[2].ToString(),
+                        employee.Turns[3].ToString(),
+                        employee.Turns[4].ToString(),
+                        employee.Turns[5].ToString(),
+                        employee.Turns[6].ToString(),
+                        employee.HoursOfWeek.ToString(),
+                        employee.AmountOfTurns.ToString()
+                    });
+
+                ListViewEmployeeScheduleOfWeek.Items.Add(employeeSchedule); 
+            }                      
+
+            AjustEmployeeScheduleOfWeekWidth();
+            ListViewEmployeeScheduleOfWeek.Visible = true;
+        }
+
+        void AjustEmployeeScheduleOfWeekWidth()
+        {
+            for (int i = 0; i <= 7; i++)
+                ListViewEmployeeScheduleOfWeek.Columns[i].Width = -2;
+        }
+        
+        #endregion
 
         #endregion
 
@@ -667,18 +778,19 @@ namespace MRSES.Windows
             ComboBoxSelectEmployeeInTabPageSchedule.DataSource = employeeNames;
         }
 
+        
+
         void PutDayOfWeekInTheLabelsInScheduleTabPage()
         {
             Label[] labelDays = { LabelFirstDayOfWeekInTabPageSchedule, LabelSecondDayOfWeekInTabPageSchedule, LabelThirdDayOfWeekInTabPageSchedule,
                                 LabelFourthDayOfWeekInTabPageSchedule, LabelFifthDayOfWeekInTabPageSchedule, LabelSixthDayOfWeekInTabPageSchedule,
                                 LabelSeventhDayOfWeekInTabPageSchedule};
 
-            var selectedWeek = CurrentSelectedWeekInComboBox();
-            var weekDays = DateFunctions.GetWeekDays(selectedWeek).ToArray();
+            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox());
 
             for (int i = 0; i < 7; i++)
             {
-                labelDays[i].Text = weekDays[i].ToString("dddd d", Core.Configuration.CultureInfo);
+                labelDays[i].Text = weekDays[i];
             }
         }
 
@@ -960,8 +1072,6 @@ namespace MRSES.Windows
             }
         }
 
-        #endregion
-
         private async void ComboBoxSelectEmployeeInTabPageSchedule_SelectedIndexChanged(object sender, EventArgs e)
         {
             try
@@ -973,6 +1083,8 @@ namespace MRSES.Windows
                 new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
             }
         }
+
+        #endregion     
 
         #endregion
     }
