@@ -114,6 +114,20 @@ namespace MRSES.Core.Entities
             return string.Format("{0} - {1}", turnIn.ToString("h:mmtt", Configuration.CultureInfo), turnOut.ToString("h:mmtt", Configuration.CultureInfo));
         }
 
+        public override string ToString()
+        {
+            string result = "";
+
+            if (FirstTurn != "" && SecondTurn != "")
+                result = FirstTurn + " | " + SecondTurn;
+            else if (FirstTurn != "")
+                result = FirstTurn;
+            else if (SecondTurn != "")
+                result = SecondTurn;
+
+            return result;
+        }
+
         #endregion METHODS
 
         #region HELPERS

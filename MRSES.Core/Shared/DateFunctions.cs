@@ -2,6 +2,7 @@
 using NodaTime;
 using NodaTime.Text;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace MRSES.Core.Shared
 {
@@ -27,11 +28,6 @@ namespace MRSES.Core.Shared
             return new LocalDate(dateTime.Year, dateTime.Month, dateTime.Day);
         }
 
-        //public static LocalDate FromShortDateTimeFormatToLocalDate(string shortDateTime)
-        //{
-        //    return LocalDatePattern.CreateWithInvariantCulture("M/d/yyyy").Parse(shortDateTime).Value;
-        //}
-
         public static LocalDate FromLocalDateStringToLocalDate(string localDate)
         {
             return LocalDatePattern.CreateWithInvariantCulture("dddd, MMMM d, yyyy").Parse(localDate).Value;
@@ -45,6 +41,13 @@ namespace MRSES.Core.Shared
         static public DateTime FromLocalDateToDateTime(LocalDate date)
         {
             return new DateTime(date.Year, date.Month, date.Day);
+        }
+
+        public static List<string> DaysOfWeekInString(NodaTime.LocalDate ofWeek)
+        {
+            return GetWeekDays(ofWeek)
+                .Select(day => day.ToString("dddd d", Core.Configuration.CultureInfo))
+                .ToList();
         }
 
         public static IEnumerable<LocalDate> GetCurrentAndNextThreeWeeksFrom(LocalDate fromWeek)

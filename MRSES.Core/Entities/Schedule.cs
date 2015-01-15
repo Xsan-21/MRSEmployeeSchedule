@@ -9,6 +9,7 @@ namespace MRSES.Core.Entities
         string Name { get; set; }
         LocalDate OfWeek { get; set; }
         List<Turn> Turns { get; set; }
+        double HoursOfWeek { get; }
         byte AmountOfTurns { get; }
     }
 
@@ -28,6 +29,16 @@ namespace MRSES.Core.Entities
                 if (value == null) return;
                 _turns = value;
             }
+        }
+
+        public double HoursOfWeek 
+        { 
+            get 
+            {
+                double totalHours = 0;
+                Turns.ForEach(turn => totalHours += turn.Hours);
+                return totalHours;
+            } 
         }
 
         public byte AmountOfTurns { get { return TurnCounter(); } }
