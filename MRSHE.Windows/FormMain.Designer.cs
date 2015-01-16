@@ -52,7 +52,7 @@
             this.TapControlInFormMain = new System.Windows.Forms.TabControl();
             this.TapPageViewWeekSchedule = new System.Windows.Forms.TabPage();
             this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.TabPageListViewWeekSchedule = new System.Windows.Forms.TabPage();
             this.ListViewEmployeeScheduleOfWeek = new System.Windows.Forms.ListView();
             this.ColumnEmployeeName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnDay1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -62,9 +62,15 @@
             this.ColumnDay5 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnDay6 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ColumnDay7 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.ComboBoxSelectWeekDayForTurnsOfADay = new System.Windows.Forms.ComboBox();
+            this.ColumnHours = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColumnAmountOfTurns = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.TabPageScheduleByDay = new System.Windows.Forms.TabPage();
             this.ListViewScheduleByDay = new System.Windows.Forms.ListView();
+            this.ColumnEmployeeNameInTurnByDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColumnFirstTurnInTurnByDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColumnSecondTurnInTurnByDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ColumnTurnHoursInTurnByDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ComboBoxSelectWeekDayForTurnsOfADay = new System.Windows.Forms.ComboBox();
             this.TabPageEmployeeInformation = new System.Windows.Forms.TabPage();
             this.ButtonClearTextBoxesInTabPageEmployeeInformation = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
@@ -162,8 +168,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.ComboBoxSelectEmployeeInTabPageSchedule = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ColumnHours = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.ColumnAmountOfTurns = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.MenuStripInFormMain.SuspendLayout();
             this.TableLayoutPanelInFormMain.SuspendLayout();
             this.PanelWithWeekAndPositionComboBoxes.SuspendLayout();
@@ -171,8 +175,8 @@
             this.TapControlInFormMain.SuspendLayout();
             this.TapPageViewWeekSchedule.SuspendLayout();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.tabPage2.SuspendLayout();
+            this.TabPageListViewWeekSchedule.SuspendLayout();
+            this.TabPageScheduleByDay.SuspendLayout();
             this.TabPageEmployeeInformation.SuspendLayout();
             this.TabPageEmployeeAvailability.SuspendLayout();
             this.TabPageEmployeePetition.SuspendLayout();
@@ -250,7 +254,7 @@
             this.LabelMessageInFormMain.Name = "LabelMessageInFormMain";
             this.LabelMessageInFormMain.Size = new System.Drawing.Size(1631, 41);
             this.LabelMessageInFormMain.TabIndex = 1;
-            this.LabelMessageInFormMain.Text = "Messages";
+            this.LabelMessageInFormMain.Text = "Mensajes";
             // 
             // TableLayoutPanelInFormMain
             // 
@@ -436,8 +440,8 @@
             // 
             // tabControl1
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.TabPageListViewWeekSchedule);
+            this.tabControl1.Controls.Add(this.TabPageScheduleByDay);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Location = new System.Drawing.Point(3, 3);
             this.tabControl1.Multiline = true;
@@ -449,22 +453,19 @@
             this.tabControl1.TabIndex = 33;
             this.tabControl1.TabStop = false;
             // 
-            // tabPage1
+            // TabPageListViewWeekSchedule
             // 
-            this.tabPage1.Controls.Add(this.ListViewEmployeeScheduleOfWeek);
-            this.tabPage1.Location = new System.Drawing.Point(4, 34);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1223, 577);
-            this.tabPage1.TabIndex = 0;
-            this.tabPage1.Text = "Horario de la Semana";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.TabPageListViewWeekSchedule.Controls.Add(this.ListViewEmployeeScheduleOfWeek);
+            this.TabPageListViewWeekSchedule.Location = new System.Drawing.Point(4, 34);
+            this.TabPageListViewWeekSchedule.Name = "TabPageListViewWeekSchedule";
+            this.TabPageListViewWeekSchedule.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPageListViewWeekSchedule.Size = new System.Drawing.Size(1223, 577);
+            this.TabPageListViewWeekSchedule.TabIndex = 0;
+            this.TabPageListViewWeekSchedule.Text = "Horario de la Semana";
+            this.TabPageListViewWeekSchedule.UseVisualStyleBackColor = true;
             // 
             // ListViewEmployeeScheduleOfWeek
             // 
-            this.ListViewEmployeeScheduleOfWeek.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
             this.ListViewEmployeeScheduleOfWeek.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.ColumnEmployeeName,
             this.ColumnDay1,
@@ -477,12 +478,13 @@
             this.ColumnHours,
             this.ColumnAmountOfTurns});
             this.ListViewEmployeeScheduleOfWeek.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ListViewEmployeeScheduleOfWeek.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ListViewEmployeeScheduleOfWeek.FullRowSelect = true;
             this.ListViewEmployeeScheduleOfWeek.GridLines = true;
             this.ListViewEmployeeScheduleOfWeek.HoverSelection = true;
-            this.ListViewEmployeeScheduleOfWeek.Location = new System.Drawing.Point(6, 13);
+            this.ListViewEmployeeScheduleOfWeek.Location = new System.Drawing.Point(3, 3);
             this.ListViewEmployeeScheduleOfWeek.Name = "ListViewEmployeeScheduleOfWeek";
-            this.ListViewEmployeeScheduleOfWeek.Size = new System.Drawing.Size(1211, 558);
+            this.ListViewEmployeeScheduleOfWeek.Size = new System.Drawing.Size(1217, 571);
             this.ListViewEmployeeScheduleOfWeek.TabIndex = 31;
             this.ListViewEmployeeScheduleOfWeek.TabStop = false;
             this.ListViewEmployeeScheduleOfWeek.UseCompatibleStateImageBehavior = false;
@@ -529,17 +531,68 @@
             this.ColumnDay7.Text = "";
             this.ColumnDay7.Width = 30;
             // 
-            // tabPage2
+            // ColumnHours
             // 
-            this.tabPage2.Controls.Add(this.ComboBoxSelectWeekDayForTurnsOfADay);
-            this.tabPage2.Controls.Add(this.ListViewScheduleByDay);
-            this.tabPage2.Location = new System.Drawing.Point(4, 34);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(1223, 577);
-            this.tabPage2.TabIndex = 1;
-            this.tabPage2.Text = "Turnos por día";
-            this.tabPage2.UseVisualStyleBackColor = true;
+            this.ColumnHours.Text = "";
+            // 
+            // ColumnAmountOfTurns
+            // 
+            this.ColumnAmountOfTurns.Text = "";
+            // 
+            // TabPageScheduleByDay
+            // 
+            this.TabPageScheduleByDay.Controls.Add(this.ListViewScheduleByDay);
+            this.TabPageScheduleByDay.Controls.Add(this.ComboBoxSelectWeekDayForTurnsOfADay);
+            this.TabPageScheduleByDay.Location = new System.Drawing.Point(4, 34);
+            this.TabPageScheduleByDay.Name = "TabPageScheduleByDay";
+            this.TabPageScheduleByDay.Padding = new System.Windows.Forms.Padding(3);
+            this.TabPageScheduleByDay.Size = new System.Drawing.Size(1223, 577);
+            this.TabPageScheduleByDay.TabIndex = 1;
+            this.TabPageScheduleByDay.Text = "Turnos por día";
+            this.TabPageScheduleByDay.UseVisualStyleBackColor = true;
+            // 
+            // ListViewScheduleByDay
+            // 
+            this.ListViewScheduleByDay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.ListViewScheduleByDay.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.ColumnEmployeeNameInTurnByDay,
+            this.ColumnFirstTurnInTurnByDay,
+            this.ColumnSecondTurnInTurnByDay,
+            this.ColumnTurnHoursInTurnByDay});
+            this.ListViewScheduleByDay.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.ListViewScheduleByDay.FullRowSelect = true;
+            this.ListViewScheduleByDay.GridLines = true;
+            this.ListViewScheduleByDay.HoverSelection = true;
+            this.ListViewScheduleByDay.Location = new System.Drawing.Point(13, 78);
+            this.ListViewScheduleByDay.Name = "ListViewScheduleByDay";
+            this.ListViewScheduleByDay.Size = new System.Drawing.Size(1193, 493);
+            this.ListViewScheduleByDay.TabIndex = 32;
+            this.ListViewScheduleByDay.TabStop = false;
+            this.ListViewScheduleByDay.UseCompatibleStateImageBehavior = false;
+            this.ListViewScheduleByDay.View = System.Windows.Forms.View.Details;
+            this.ListViewScheduleByDay.Visible = false;
+            // 
+            // ColumnEmployeeNameInTurnByDay
+            // 
+            this.ColumnEmployeeNameInTurnByDay.Text = "Empleado";
+            this.ColumnEmployeeNameInTurnByDay.Width = 30;
+            // 
+            // ColumnFirstTurnInTurnByDay
+            // 
+            this.ColumnFirstTurnInTurnByDay.Text = "Primer Turno";
+            this.ColumnFirstTurnInTurnByDay.Width = 30;
+            // 
+            // ColumnSecondTurnInTurnByDay
+            // 
+            this.ColumnSecondTurnInTurnByDay.Text = "Segundo Turno";
+            this.ColumnSecondTurnInTurnByDay.Width = 30;
+            // 
+            // ColumnTurnHoursInTurnByDay
+            // 
+            this.ColumnTurnHoursInTurnByDay.Text = "Horas";
+            this.ColumnTurnHoursInTurnByDay.Width = 30;
             // 
             // ComboBoxSelectWeekDayForTurnsOfADay
             // 
@@ -553,17 +606,7 @@
             this.ComboBoxSelectWeekDayForTurnsOfADay.Size = new System.Drawing.Size(310, 33);
             this.ComboBoxSelectWeekDayForTurnsOfADay.TabIndex = 4;
             this.ComboBoxSelectWeekDayForTurnsOfADay.TabStop = false;
-            // 
-            // ListViewScheduleByDay
-            // 
-            this.ListViewScheduleByDay.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.ListViewScheduleByDay.Location = new System.Drawing.Point(13, 78);
-            this.ListViewScheduleByDay.Name = "ListViewScheduleByDay";
-            this.ListViewScheduleByDay.Size = new System.Drawing.Size(1193, 493);
-            this.ListViewScheduleByDay.TabIndex = 33;
-            this.ListViewScheduleByDay.UseCompatibleStateImageBehavior = false;
+            this.ComboBoxSelectWeekDayForTurnsOfADay.SelectedIndexChanged += new System.EventHandler(this.ComboBoxSelectWeekDayForTurnsOfADay_SelectedIndexChanged);
             // 
             // TabPageEmployeeInformation
             // 
@@ -1771,14 +1814,6 @@
             this.label1.Size = new System.Drawing.Size(0, 25);
             this.label1.TabIndex = 5;
             // 
-            // ColumnHours
-            // 
-            this.ColumnHours.Text = "";
-            // 
-            // ColumnAmountOfTurns
-            // 
-            this.ColumnAmountOfTurns.Text = "";
-            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
@@ -1809,8 +1844,8 @@
             this.TapControlInFormMain.ResumeLayout(false);
             this.TapPageViewWeekSchedule.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage2.ResumeLayout(false);
+            this.TabPageListViewWeekSchedule.ResumeLayout(false);
+            this.TabPageScheduleByDay.ResumeLayout(false);
             this.TabPageEmployeeInformation.ResumeLayout(false);
             this.TabPageEmployeeInformation.PerformLayout();
             this.TabPageEmployeeAvailability.ResumeLayout(false);
@@ -1955,12 +1990,16 @@
         private System.Windows.Forms.ColumnHeader ColumnDay6;
         private System.Windows.Forms.ColumnHeader ColumnDay7;
         private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPage1;
-        private System.Windows.Forms.TabPage tabPage2;
-        private System.Windows.Forms.ListView ListViewScheduleByDay;
+        private System.Windows.Forms.TabPage TabPageListViewWeekSchedule;
+        private System.Windows.Forms.TabPage TabPageScheduleByDay;
         private System.Windows.Forms.ComboBox ComboBoxSelectWeekDayForTurnsOfADay;
         private System.Windows.Forms.ColumnHeader ColumnHours;
         private System.Windows.Forms.ColumnHeader ColumnAmountOfTurns;
+        private System.Windows.Forms.ListView ListViewScheduleByDay;
+        private System.Windows.Forms.ColumnHeader ColumnEmployeeNameInTurnByDay;
+        private System.Windows.Forms.ColumnHeader ColumnFirstTurnInTurnByDay;
+        private System.Windows.Forms.ColumnHeader ColumnSecondTurnInTurnByDay;
+        private System.Windows.Forms.ColumnHeader ColumnTurnHoursInTurnByDay;
     }
 }
 

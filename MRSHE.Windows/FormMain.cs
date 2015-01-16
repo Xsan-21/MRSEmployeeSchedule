@@ -20,7 +20,7 @@ namespace MRSES.Windows
         #region Variables
 
         string _idOfCurrentSelectedEmployeeInEmployeeTabPage;
-        EmployeeRepository employeeRepository;
+        EmployeeRepository _employeeRepo;
         AvailabilityRepository _availabilityRepo;
         PetitionRepository _petitionRepo;
         ITurnRepository _turnRepo;
@@ -40,7 +40,7 @@ namespace MRSES.Windows
             PetitionDatePicker.MinDate = DateTime.Now.AddDays(1);
             FillWeekSelectorComboBox();
 
-            employeeRepository = new EmployeeRepository();
+            _employeeRepo = new EmployeeRepository();
             _availabilityRepo = new AvailabilityRepository();
             _petitionRepo = new PetitionRepository();
             _turnRepo = new TurnRepository();
@@ -65,7 +65,7 @@ namespace MRSES.Windows
 
         async Task FillPositionComboBoxAsync()
         {
-            var positions = await employeeRepository.GetPositionsAsync();
+            var positions = await _employeeRepo.GetPositionsAsync();
             ComboBoxPositionSelectorInFormMain.DataSource = positions;
         }
 
@@ -102,7 +102,7 @@ namespace MRSES.Windows
 
         async Task<List<string>> GetAllEmployeeNamesByPositionAsync(string position)
         {
-            return await employeeRepository.GetEmployeeNamesByPositionAsync(position);
+            return await _employeeRepo.GetEmployeeNamesByPositionAsync(position);
         }
 
         bool ChangeShortHourFormatToLongIfPossible(TextBox textBox)
@@ -159,7 +159,7 @@ namespace MRSES.Windows
             var tasks = new Task[] 
             { 
                 PutEmployeeScheduleInTextBoxesAsync(),
-                InsertEmployeeScheduleByPositionAndWeekAsync()
+                UpdateListViewScheduleByPositionAndWeekAsync()
             };
 
             for (int i = 0; i < tasks.Length; i++)
@@ -173,7 +173,8 @@ namespace MRSES.Windows
             var tasks = new Task[] 
             { 
                 PutEmployeeScheduleInTextBoxesAsync(),
-                InsertEmployeeScheduleByPositionAndWeekAsync(),
+                UpdateListViewScheduleByPositionAndWeekAsync(),
+                UpdateListViewScheduleByDayAsync(),
                 FillListBoxEmployeesInEmployeeTabPageAsync(),
                 FillComboBoxSelectEmployeeInScheduleTabPageAsync(),
                 FillComboBoxSelectEmployeeInPetitionsTabPageAsync(),
@@ -281,21 +282,32 @@ namespace MRSES.Windows
             ColumnAmountOfTurns.Text = "Turnos";
         }
 
-        async Task InsertEmployeeScheduleByPositionAndWeekAsync()
+        async Task UpdateListViewScheduleByPositionAndWeekAsync()
         {
             ListViewEmployeeScheduleOfWeek.Visible = false;
+
             if (string.IsNullOrEmpty(CurrentSelectedPositionInComboBox()) || string.IsNullOrEmpty(ComboBoxWeekSelectorInFormMain.Text))
                 return;
             
             var position = CurrentSelectedPositionInComboBox();
             var week = CurrentSelectedWeekInComboBox();
 
-            var scheduleByPosition = await _turnRepo.GetScheduleByPositionAsync(position, week);
-
+            var scheduleByPosition = await _turnRepo.GetScheduleByPositionAsync(position, week);            
             
+            await InsertEmployeeScheduleInListView(scheduleByPosition);           
+        }
+
+        void AjustListViewScheduleOfWeekWidth()
+        {
+            for (int i = 0; i <= ListViewEmployeeScheduleOfWeek.Columns.Count - 1; i++)
+                ListViewEmployeeScheduleOfWeek.Columns[i].Width = -2;
+        }
+
+        async Task InsertEmployeeScheduleInListView(List<Schedule> schedule)
+        {
             ListViewEmployeeScheduleOfWeek.Items.Clear();
 
-            foreach (var employee in scheduleByPosition)
+            foreach (var employee in schedule)
             {
                 var employeeSchedule = new ListViewItem(new string[] 
                     { 
@@ -311,19 +323,80 @@ namespace MRSES.Windows
                         employee.AmountOfTurns.ToString()
                     });
 
-                ListViewEmployeeScheduleOfWeek.Items.Add(employeeSchedule); 
-            }                      
+                ListViewEmployeeScheduleOfWeek.Items.Add(employeeSchedule);
+            }
 
-            AjustEmployeeScheduleOfWeekWidth();
+            if (schedule.Single().HoursOfWeek == 0)
+                await ShowMessageInLabelMessageOfFormMain("No se ha creado horario para esta semana", "");
+
+            AjustListViewScheduleOfWeekWidth();
             ListViewEmployeeScheduleOfWeek.Visible = true;
         }
 
-        void AjustEmployeeScheduleOfWeekWidth()
+        async Task UpdateListViewScheduleByDayAsync()
         {
-            for (int i = 0; i <= 7; i++)
-                ListViewEmployeeScheduleOfWeek.Columns[i].Width = -2;
+            ListViewScheduleByDay.Visible = false;
+
+            if (string.IsNullOrEmpty(CurrentSelectedPositionInComboBox()) || string.IsNullOrEmpty(ComboBoxWeekSelectorInFormMain.Text))
+                return;
+
+            var dayIndex = ComboBoxSelectWeekDayForTurnsOfADay.SelectedIndex;
+            var date = CurrentSelectedWeekInComboBox().PlusDays(dayIndex);
+
+            var scheduleOfDay = await _turnRepo.GetScheduleByDayAsync(CurrentSelectedPositionInComboBox(), date);
+
+            if (scheduleOfDay.Count == 0)
+            {
+                await ShowMessageInLabelMessageOfFormMain("No existen turnos para este día","");
+                return;
+            }
+
+            InsertScheduleByDayInListView(scheduleOfDay);
+        }
+
+        void AjustListViewScheduleByDayWidth()
+        {
+            for (int i = 0; i <= ListViewScheduleByDay.Columns.Count - 1; i++)
+                ListViewScheduleByDay.Columns[i].Width = -2;
+        }
+
+        void InsertScheduleByDayInListView(Dictionary<string, Turn> scheduleDay)
+        {
+            ListViewScheduleByDay.Items.Clear();
+
+            foreach (var employee in scheduleDay)
+            {
+                var daySchedule = new ListViewItem(new string[] 
+                    { 
+                        employee.Key,
+                        employee.Value.FirstTurn,
+                        employee.Value.SecondTurn,
+                        employee.Value.Hours.ToString()
+                    });
+
+                ListViewScheduleByDay.Items.Add(daySchedule);
+            }
+
+            AjustListViewScheduleByDayWidth();
+            ListViewScheduleByDay.Visible = true;
         }
         
+        #endregion
+
+        #region Events
+
+        private async void ComboBoxSelectWeekDayForTurnsOfADay_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                await UpdateListViewScheduleByDayAsync();
+            }
+            catch (Exception ex)
+            {                
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+            }
+        }
+
         #endregion
 
         #endregion
@@ -465,7 +538,7 @@ namespace MRSES.Windows
         async Task SendInformationToTextboxesAsync()
         {
             string employeeName = ListBoxEmployeesInEmployeeTabPage.SelectedItem.ToString();
-            var employeeInfo = await employeeRepository.GetEmployeeAsync(employeeName);
+            var employeeInfo = await _employeeRepo.GetEmployeeAsync(employeeName);
 
             _idOfCurrentSelectedEmployeeInEmployeeTabPage = employeeInfo.ID;
 
@@ -493,15 +566,15 @@ namespace MRSES.Windows
                 OldID = _idOfCurrentSelectedEmployeeInEmployeeTabPage
             };
 
-            employeeRepository.Employee = employee;
-            await employeeRepository.SaveAsync();
+            _employeeRepo.Employee = employee;
+            await _employeeRepo.SaveAsync();
             _idOfCurrentSelectedEmployeeInEmployeeTabPage = string.Empty;
         }
 
         async Task DeleteEmployeeInformationInTabEmployeeAsync()
         {
-            employeeRepository.Employee = new Employee() { Name = TextBoxEmployeeNameInTabPageEmployeeInformation.Text,  ID = TextBoxEmployeeIDInTabPageEmployeeInformation.Text };
-            await employeeRepository.DeleteAsync();
+            _employeeRepo.Employee = new Employee() { Name = TextBoxEmployeeNameInTabPageEmployeeInformation.Text,  ID = TextBoxEmployeeIDInTabPageEmployeeInformation.Text };
+            await _employeeRepo.DeleteAsync();
             await FillPositionComboBoxAsync();
         }
 
@@ -1085,6 +1158,8 @@ namespace MRSES.Windows
         }
 
         #endregion     
+
+        
 
         #endregion
     }
