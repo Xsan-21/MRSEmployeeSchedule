@@ -14,6 +14,7 @@ namespace MRSES.Core.Persistence
     {
         Task<List<Schedule>> GetScheduleByPositionAsync(string position, NodaTime.LocalDate ofWeek);
         Task<Schedule> GetEmployeeScheduleAsync(string employeeName, NodaTime.LocalDate ofWeek);
+        Task<Dictionary<string, Turn>> GetScheduleByDayAsync(string position, NodaTime.LocalDate date);
         ISchedule Schedule { get; set; }
     }
 
@@ -75,6 +76,9 @@ namespace MRSES.Core.Persistence
                     break;
                 case "GetEmployeeSchedule":
                     query = "SELECT * FROM get_employee_schedule(:emp_name, :emp_store, :of_week)";
+                    break;
+                case "GetSingleDaySchedule":
+                    query = "SELECT * FROM get_schedule_by_day(:position, :store, :date)";
                     break;
                 default:
                     break;
@@ -142,6 +146,53 @@ namespace MRSES.Core.Persistence
             }
 
             return emp_schedule;
+        }
+
+        public async Task<Dictionary<string, Turn>> GetScheduleByDayAsync(string position, NodaTime.LocalDate date)
+        {
+            if (string.IsNullOrEmpty(position) || date == null)
+                throw new Exception("No se ha indicado posición o dia");
+
+            var singleDaySchedule = new Dictionary<string, Turn>();
+
+            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            {
+                using (var command = new NpgsqlCommand("", dbConnection))
+                {
+                    command.CommandText = GetQuery("GetSingleDaySchedule");
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.AddWithValue("position", NpgsqlDbType.Varchar, position);
+                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+                    command.Parameters.AddWithValue("date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(date));
+
+                    await command.Connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        if (!(await reader.ReadAsync()))
+                            return singleDaySchedule;
+
+                        do
+                        {
+                            var empName = await reader.GetFieldValueAsync<string>(0);
+                            var firstTurnIn = await reader.GetFieldValueAsync<DateTime>(1);
+                            var firstTurnOut = await reader.GetFieldValueAsync<DateTime>(2);
+                            var secondTurnIn = await reader.GetFieldValueAsync<DateTime>(3);
+                            var secondTurnOut = await reader.GetFieldValueAsync<DateTime>(4); 
+
+                            singleDaySchedule.Add(empName,
+                                new Turn(date, DateFunctions.FromDateTimeToLocalTime(firstTurnIn), 
+                                    DateFunctions.FromDateTimeToLocalTime(firstTurnOut),
+                                    DateFunctions.FromDateTimeToLocalTime(secondTurnIn),
+                                    DateFunctions.FromDateTimeToLocalTime(secondTurnOut)));
+                            
+
+                        } while (await reader.ReadAsync());
+                    }
+                }
+            }
+
+            return singleDaySchedule;
         }
     }
 }
