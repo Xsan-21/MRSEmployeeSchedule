@@ -33,12 +33,13 @@
             this.ButtonSaveConfiguration = new System.Windows.Forms.Button();
             this.label3 = new System.Windows.Forms.Label();
             this.TextBoxStoreLocation = new System.Windows.Forms.TextBox();
+            this.LabelCurrentStoreBeingUse = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(245, 55);
+            this.label1.Location = new System.Drawing.Point(251, 156);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(218, 25);
             this.label1.TabIndex = 0;
@@ -48,7 +49,7 @@
             // 
             this.ComboBoxSelectStore.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxSelectStore.FormattingEnabled = true;
-            this.ComboBoxSelectStore.Location = new System.Drawing.Point(222, 103);
+            this.ComboBoxSelectStore.Location = new System.Drawing.Point(228, 204);
             this.ComboBoxSelectStore.Name = "ComboBoxSelectStore";
             this.ComboBoxSelectStore.Size = new System.Drawing.Size(254, 33);
             this.ComboBoxSelectStore.TabIndex = 1;
@@ -61,7 +62,7 @@
             this.ButtonSaveConfiguration.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.ButtonSaveConfiguration.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.ButtonSaveConfiguration.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSaveConfiguration.Location = new System.Drawing.Point(222, 351);
+            this.ButtonSaveConfiguration.Location = new System.Drawing.Point(228, 452);
             this.ButtonSaveConfiguration.Name = "ButtonSaveConfiguration";
             this.ButtonSaveConfiguration.Size = new System.Drawing.Size(250, 75);
             this.ButtonSaveConfiguration.TabIndex = 10;
@@ -72,7 +73,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(119, 190);
+            this.label3.Location = new System.Drawing.Point(125, 291);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(471, 25);
             this.label3.TabIndex = 34;
@@ -80,11 +81,21 @@
             // 
             // TextBoxStoreLocation
             // 
-            this.TextBoxStoreLocation.Location = new System.Drawing.Point(222, 257);
+            this.TextBoxStoreLocation.Location = new System.Drawing.Point(228, 358);
             this.TextBoxStoreLocation.MaxLength = 100;
             this.TextBoxStoreLocation.Name = "TextBoxStoreLocation";
             this.TextBoxStoreLocation.Size = new System.Drawing.Size(254, 31);
             this.TextBoxStoreLocation.TabIndex = 35;
+            // 
+            // LabelCurrentStoreBeingUse
+            // 
+            this.LabelCurrentStoreBeingUse.AutoSize = true;
+            this.LabelCurrentStoreBeingUse.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.LabelCurrentStoreBeingUse.Location = new System.Drawing.Point(123, 36);
+            this.LabelCurrentStoreBeingUse.Name = "LabelCurrentStoreBeingUse";
+            this.LabelCurrentStoreBeingUse.Size = new System.Drawing.Size(233, 37);
+            this.LabelCurrentStoreBeingUse.TabIndex = 36;
+            this.LabelCurrentStoreBeingUse.Text = "Tienda actual:";
             // 
             // FormSelectStore
             // 
@@ -92,7 +103,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoSize = true;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(729, 453);
+            this.ClientSize = new System.Drawing.Size(729, 558);
+            this.Controls.Add(this.LabelCurrentStoreBeingUse);
             this.Controls.Add(this.TextBoxStoreLocation);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.ButtonSaveConfiguration);
@@ -117,5 +129,6 @@
         private System.Windows.Forms.Button ButtonSaveConfiguration;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox TextBoxStoreLocation;
+        private System.Windows.Forms.Label LabelCurrentStoreBeingUse;
     }
 }

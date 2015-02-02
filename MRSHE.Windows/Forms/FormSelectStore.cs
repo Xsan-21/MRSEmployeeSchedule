@@ -18,6 +18,7 @@ namespace MRSES.Windows.Forms
         public FormSelectStore()
         {
             InitializeComponent();
+            LabelCurrentStoreBeingUse.Text = "Tienda actual: " + Core.Configuration.StoreLocation;
             _employeeRepository = new EmployeeRepository();
         }
 
@@ -27,7 +28,30 @@ namespace MRSES.Windows.Forms
             ComboBoxSelectStore.DataSource = stores;
         }
 
+        void SetCurrentStoreInLabel(string store)
+        {
+            LabelCurrentStoreBeingUse.Text = "Tienda actual: " + store;
+        }
+
         private void ButtonSaveConfiguration_Click(object sender, EventArgs e)
+        {
+            while (true)
+            {
+                try
+                {
+                    SaveStore();
+                    break;
+                }
+                catch (Exception ex)
+                {
+                    var alert = MRSES.Core.Shared.AlertUser.Message("No se pudo cambiar de tienda!\n" + ex.Message, "Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
+                    if (alert == System.Windows.Forms.DialogResult.Abort)
+                        break;
+                } 
+            }
+        }
+
+        void SaveStore()
         {
             string store = "";
 
@@ -45,8 +69,24 @@ namespace MRSES.Windows.Forms
             if (result == DialogResult.OK)
             {
                 Core.Configuration.StoreLocation = store;
-                this.Close();
+                RestartProgram();
             }
+        }
+
+        void RestartProgram()
+        {
+            try
+            {
+                var question = Core.Shared.AlertUser.Message("Se debe reiniciar el programa para realizar el cambio de tienda. ¿Desea reiniciar ahora?", "Reinicio requerido", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+
+                if (question == DialogResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(Application.StartupPath + "\\MRSES.Windows.exe");
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+                }               
+            }
+            catch
+            { }
         }
     }
 }
