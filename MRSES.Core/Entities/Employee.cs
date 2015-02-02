@@ -9,6 +9,7 @@
         string JobType { get; set; }
         bool IsStudent { get; set; }
         string Department { get; set; }
+        string Store { get; set; }
         string OldID { get; set; }
     }
 
@@ -23,6 +24,7 @@
         public string JobType { get; set; }
         public bool IsStudent { get; set; }
         public string Department { get; set; }
+        public string Store { get; set; }
         public string OldID { get; set; }
 
         #endregion
@@ -30,7 +32,7 @@
         #region CONSTRUCTORS
 
         public Employee() { }
-        public Employee(string name, string id, string phone, string position, string jobType, string department, bool isStudent, string oldNameOrID)
+        public Employee(string name, string id, string phone, string position, string jobType, string department, string store, bool isStudent, string oldNameOrID)
         {
             Name = name;
             ID = id;
@@ -38,6 +40,7 @@
             Position = position;
             JobType = jobType;
             Department = department;
+            Store = store;
             IsStudent = isStudent;
             OldID = oldNameOrID;
         }

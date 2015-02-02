@@ -24,6 +24,8 @@ namespace MRSES.Windows
         AvailabilityRepository _availabilityRepo;
         PetitionRepository _petitionRepo;
         ITurnRepository _turnRepo;
+        FormSelectStore _formConfiguration;
+        FormGenerateSchedule _formGenerateSchedule;
    
         #endregion
 
@@ -36,9 +38,7 @@ namespace MRSES.Windows
         public FormMain()
         {
             InitializeComponent();
-            this.Width = 850; this.Height = 500;
-            PetitionDatePicker.MinDate = DateTime.Now.AddDays(1);
-            FillWeekSelectorComboBox();
+            this.Width = 850; this.Height = 500;         
 
             _employeeRepo = new EmployeeRepository();
             _availabilityRepo = new AvailabilityRepository();
@@ -48,7 +48,16 @@ namespace MRSES.Windows
 
         private async void FormMain_Load(object sender, EventArgs e)
         {
-            await FillPositionComboBoxAsync();
+            FillWeekSelectorComboBox();
+            PetitionDatePicker.MinDate = DateTime.Now.AddDays(1);
+            TextBoxStoreInTabPageEmployeeInformation.Text = Core.Configuration.StoreLocation;
+
+            var tasks = new[] { FillPositionComboBoxAsync(), CompleteCustomSourceOfTextBoxPositionInTabPageEmployeeInformationAsync(),
+                CompleteCustomSourceOfTextBoxStoreInTabPageEmployeeInformationAsync(), 
+                CompleteCustomSourceOfTextBoxDepartmentInTabPageEmployeeInformationAsync()
+            };
+
+            await Task.WhenAll(tasks);
         } 
 
         #endregion
@@ -76,7 +85,7 @@ namespace MRSES.Windows
             ComboBoxWeekSelectorInFormMain.SelectedIndex = 1; // here we select the current week
         }
 
-        public async Task ShowMessageInLabelMessageOfFormMain(string message, string result)
+        public async Task ShowMessageInLabelMessageOfFormMain(string message, string result, int delay)
         {
             LabelMessageInFormMain.Text = message;
             
@@ -84,9 +93,9 @@ namespace MRSES.Windows
                 LabelMessageInFormMain.BackColor = Color.Red;
             
 
-            await Task.Delay(5000);
+            await Task.Delay(delay);
             LabelMessageInFormMain.BackColor = Color.DarkKhaki;
-            LabelMessageInFormMain.Text = "";
+            LabelMessageInFormMain.Text = "Mensajes";
         }
 
         string CurrentSelectedPositionInComboBox()
@@ -124,15 +133,23 @@ namespace MRSES.Windows
 
         #region MainForm Events
 
+        private void opcionesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_formConfiguration == null)
+                _formConfiguration = new FormSelectStore();
+
+            _formConfiguration.ShowDialog();
+        }
+
         async void ComboBoxPositionSelectorInFormMainValueChanged(object sender, EventArgs e)
         {
             try
             {
-                await RunFunctionsWhenComboBoxPositionSelectorIndexChanges();
+              await RunFunctionsWhenComboBoxPositionSelectorIndexChanges();
             }
             catch (Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
         }
 
@@ -144,7 +161,7 @@ namespace MRSES.Windows
             }
             catch (Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
         }
 
@@ -158,14 +175,11 @@ namespace MRSES.Windows
 
             var tasks = new Task[] 
             { 
-                PutEmployeeScheduleInTextBoxesAsync(),
-                UpdateListViewScheduleByPositionAndWeekAsync()
+                UpdateListViewScheduleByPositionAndWeekAsync(),
+                PutEmployeeScheduleInTextBoxesAsync()                
             };
 
-            for (int i = 0; i < tasks.Length; i++)
-            {
-                await tasks[i];
-            }
+            await Task.WhenAll(tasks);
         }
 
         async Task RunFunctionsWhenComboBoxPositionSelectorIndexChanges()
@@ -173,18 +187,15 @@ namespace MRSES.Windows
             var tasks = new Task[] 
             { 
                 PutEmployeeScheduleInTextBoxesAsync(),
-                UpdateListViewScheduleByPositionAndWeekAsync(),
                 UpdateListViewScheduleByDayAsync(),
+                UpdateListViewScheduleByPositionAndWeekAsync(),
                 FillListBoxEmployeesInEmployeeTabPageAsync(),
                 FillComboBoxSelectEmployeeInScheduleTabPageAsync(),
                 FillComboBoxSelectEmployeeInPetitionsTabPageAsync(),
                 FillComboBoxSelectEmployeeInAvailabilityTabPageAsync()
             };
 
-            for (int i = 0; i < tasks.Length; i++)
-            {
-                await tasks[i];
-            }
+            await Task.WhenAll(tasks);
         }
 
         #endregion
@@ -263,13 +274,13 @@ namespace MRSES.Windows
 
         void PutDaysOfWeekInComboBoxSelectWeekDayForTurnsOfADayInTabPageViewSchedule()
         {
-            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox());
+            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox(), Core.Configuration.CultureInfo);
             ComboBoxSelectWeekDayForTurnsOfADay.DataSource = weekDays;
         }
 
         void PutDaysOfWeekInEmployeeScheduleListViewInTabPageViewSchedule()
         {
-            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox());
+            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox(), Core.Configuration.CultureInfo);
             ColumnEmployeeName.Text = "Empleado";
             ColumnDay1.Text = weekDays[0];
             ColumnDay2.Text = weekDays[1];
@@ -294,7 +305,7 @@ namespace MRSES.Windows
 
             var scheduleByPosition = await _turnRepo.GetScheduleByPositionAsync(position, week);            
             
-            await InsertEmployeeScheduleInListView(scheduleByPosition);           
+            InsertEmployeeScheduleInListView(scheduleByPosition);           
         }
 
         void AjustListViewScheduleOfWeekWidth()
@@ -303,7 +314,7 @@ namespace MRSES.Windows
                 ListViewEmployeeScheduleOfWeek.Columns[i].Width = -2;
         }
 
-        async Task InsertEmployeeScheduleInListView(List<Schedule> schedule)
+        void InsertEmployeeScheduleInListView(List<Schedule> schedule)
         {
             ListViewEmployeeScheduleOfWeek.Items.Clear();
 
@@ -326,9 +337,6 @@ namespace MRSES.Windows
                 ListViewEmployeeScheduleOfWeek.Items.Add(employeeSchedule);
             }
 
-            if (schedule.Single().HoursOfWeek == 0)
-                await ShowMessageInLabelMessageOfFormMain("No se ha creado horario para esta semana", "");
-
             AjustListViewScheduleOfWeekWidth();
             ListViewEmployeeScheduleOfWeek.Visible = true;
         }
@@ -347,7 +355,7 @@ namespace MRSES.Windows
 
             if (scheduleOfDay.Count == 0)
             {
-                await ShowMessageInLabelMessageOfFormMain("No existen turnos para este día","");
+                await ShowMessageInLabelMessageOfFormMain("No existen turnos para este día","", 3000);
                 return;
             }
 
@@ -393,7 +401,7 @@ namespace MRSES.Windows
             }
             catch (Exception ex)
             {                
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
         }
 
@@ -420,7 +428,7 @@ namespace MRSES.Windows
             }
             catch(Exception ex) 
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
             finally
             {
@@ -438,7 +446,7 @@ namespace MRSES.Windows
             }
             catch(Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
             finally
             {
@@ -451,10 +459,40 @@ namespace MRSES.Windows
         {
             ClearEmployeeInformationTextBoxes();
         }
+
+        private void CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation_CheckedChanged(object sender, EventArgs e)
+        {
+            var _checked = CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.Checked;
+            if (_checked)
+                TextBoxStoreInTabPageEmployeeInformation.ReadOnly = false;
+            else
+            {
+                TextBoxStoreInTabPageEmployeeInformation.ReadOnly = true;
+                TextBoxStoreInTabPageEmployeeInformation.Text = Core.Configuration.StoreLocation;
+            }
+        }
         
         #endregion
 
         #region Methods
+
+        async Task CompleteCustomSourceOfTextBoxPositionInTabPageEmployeeInformationAsync()
+        {
+            var positions = await _employeeRepo.GetPositionsAsync();
+            TextBoxEmployeePositionInTabPageEmployeeInformation.AutoCompleteCustomSource.AddRange(positions.ToArray());
+        }
+
+        async Task CompleteCustomSourceOfTextBoxStoreInTabPageEmployeeInformationAsync()
+        {
+            var stores = await _employeeRepo.GetStoresAsync();
+            TextBoxStoreInTabPageEmployeeInformation.AutoCompleteCustomSource.AddRange(stores.ToArray());
+        }
+
+        async Task CompleteCustomSourceOfTextBoxDepartmentInTabPageEmployeeInformationAsync()
+        {
+            var dapartments = await _employeeRepo.GetDepartmentsAsync();
+            TextBoxEmployeeDepartmentInTabPageEmployeeInformation.AutoCompleteCustomSource.AddRange(dapartments.ToArray());
+        }
 
         void EnableButtonsInTabPageEmployeeInformation()
         {
@@ -472,21 +510,40 @@ namespace MRSES.Windows
 
         bool ValidateEmployeeInformationInTextBoxesOfEmployeeTabPage()
         {
-            return
+            string position = TextBoxEmployeePositionInTabPageEmployeeInformation.Text;
+
+            bool result =
                 TextBoxEmployeeIDInTabPageEmployeeInformation.Text == TextBoxEmployeeIDInTabPageEmployeeInformation.Tag.ToString() ? false
-                : TextBoxEmployeePositionInTabPageEmployeeInformation.Text == TextBoxEmployeePositionInTabPageEmployeeInformation.Tag.ToString() ? false
+                : position == TextBoxEmployeePositionInTabPageEmployeeInformation.Tag.ToString() ? false
                 : TextBoxEmployeeNameInTabPageEmployeeInformation.Text == TextBoxEmployeeNameInTabPageEmployeeInformation.Tag.ToString() ? false
                 : StringFunctions.StringIsNullOrEmpty(TextBoxEmployeeIDInTabPageEmployeeInformation.Text) ? false
                 : StringFunctions.StringIsNullOrEmpty(TextBoxEmployeePositionInTabPageEmployeeInformation.Text) ? false
                 : StringFunctions.StringIsNullOrEmpty(TextBoxEmployeeNameInTabPageEmployeeInformation.Text) ? false
                 : true;
+
+            if (!result)
+                return result;
+            
+            var store = TextBoxStoreInTabPageEmployeeInformation.Text;
+
+            if (StringFunctions.StringIsNullOrEmpty(store))
+                return false;
+            else if (!TextBoxStoreInTabPageEmployeeInformation.AutoCompleteCustomSource.Contains(store))
+            {
+                TextBoxStoreInTabPageEmployeeInformation.Focus();
+                throw new Exception("No existe la tienda especificada para la transferencia.");
+            }
+
+            TextBoxEmployeePositionInTabPageEmployeeInformation.Text = char.ToUpper(position[0]) + position.Substring(1);
+
+            return result;
         }
 
         async Task DeleteEmployeeAfterUserConfirmationAsync()
         {
             if (ListBoxEmployeesInEmployeeTabPage.SelectedIndex < 0)
             {
-                await ShowMessageInLabelMessageOfFormMain("Seleccione un empleado de la lista para eliminarlo.", "error");
+                await ShowMessageInLabelMessageOfFormMain("Seleccione un empleado de la lista para eliminarlo.", "error", 5000);
                 return;
             }
 
@@ -495,7 +552,7 @@ namespace MRSES.Windows
             if (dialogResult == DialogResult.Yes)
             {
                 await DeleteEmployeeInformationInTabEmployeeAsync();
-                await  ShowMessageInLabelMessageOfFormMain("El empleado " + TextBoxEmployeeNameInTabPageEmployeeInformation.Text + " se eliminó.", "done");
+                await  ShowMessageInLabelMessageOfFormMain("El empleado " + TextBoxEmployeeNameInTabPageEmployeeInformation.Text + " se eliminó.", "done", 3000);
             } 
         }
 
@@ -509,6 +566,7 @@ namespace MRSES.Windows
             CheckBoxIsStudentInTabPageEmployeeInformation.Checked = false;
             CheckBoxIsPartTimeInTabPageEmployeeInformation.Checked = false;
             CheckBoxIsFulltimeInTabPageEmployeeInformation.Checked = false;
+            CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.Checked = false;
             _idOfCurrentSelectedEmployeeInEmployeeTabPage = string.Empty;
         }
 
@@ -519,12 +577,12 @@ namespace MRSES.Windows
             if (result)
             {
                 await SaveEmployeeInformationInTabEmployeeAsync();
-                await ShowMessageInLabelMessageOfFormMain("Nuevo empleado agregado o actualizado.", "");
+                await ShowMessageInLabelMessageOfFormMain("Nuevo empleado agregado o actualizado.", "", 3000);
                 await FillPositionComboBoxAsync();
             }
             else
             {
-                await ShowMessageInLabelMessageOfFormMain("No ha completado la información requerida del empleado.", "error");     
+                await ShowMessageInLabelMessageOfFormMain("No ha completado la información requerida del empleado.", "error", 5000);     
             }
         }
 
@@ -562,6 +620,7 @@ namespace MRSES.Windows
                 IsStudent = CheckBoxIsStudentInTabPageEmployeeInformation.Checked,
                 JobType = CheckBoxIsPartTimeInTabPageEmployeeInformation.Checked == true ? "Part-Time" : "Full-Time",
                 PhoneNumber = TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text,
+                Store = TextBoxStoreInTabPageEmployeeInformation.Text,
                 Position = TextBoxEmployeePositionInTabPageEmployeeInformation.Text,
                 OldID = _idOfCurrentSelectedEmployeeInEmployeeTabPage
             };
@@ -594,7 +653,7 @@ namespace MRSES.Windows
             }
             catch (Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
         }
 
@@ -603,11 +662,11 @@ namespace MRSES.Windows
             try
             {
                 await SaveEmployeeAvailabilityAsync();
-                await ShowMessageInLabelMessageOfFormMain("Se guardo la disponibilidad de " + ComboBoxSelectEmployeeInTabPageAvailability.Text, "");
+                await ShowMessageInLabelMessageOfFormMain("Se guardo la disponibilidad de " + ComboBoxSelectEmployeeInTabPageAvailability.Text, "", 3000);
             }
             catch (Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
         }
         
@@ -785,11 +844,11 @@ namespace MRSES.Windows
             {
                 ButtonDeletePetitionInTabPagePetition.Enabled = false;
                 await DeleteSelectedPetitionsOfAnEmployeeAsync();
-                await ShowMessageInLabelMessageOfFormMain("Las peticiones han sido eliminadas", "");
+                await ShowMessageInLabelMessageOfFormMain("Las peticiones han sido eliminadas", "", 3000);
             }
             catch (Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
             finally
             {
@@ -811,11 +870,11 @@ namespace MRSES.Windows
                 await SaveEmployeePetitionAsync();
                 await ShowAllPetitionsOfAnEmployeeAsync();
                 ResetPetitionSelectionFields();
-                await ShowMessageInLabelMessageOfFormMain("La petición para el " + PetitionDatePicker.Value.ToShortDateString() + " de " + ComboBoxSelectEmployeeInTabPagePetition .Text+ " se guardó.", "");
+                await ShowMessageInLabelMessageOfFormMain("La petición para el " + PetitionDatePicker.Value.ToShortDateString() + " de " + ComboBoxSelectEmployeeInTabPagePetition .Text+ " se guardó.", "", 3000);
             }
             catch (Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
         }
 
@@ -827,7 +886,7 @@ namespace MRSES.Windows
             }
             catch (Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
         }
 
@@ -849,9 +908,7 @@ namespace MRSES.Windows
             string position = CurrentSelectedPositionInComboBox();
             var employeeNames = await GetAllEmployeeNamesByPositionAsync(position);
             ComboBoxSelectEmployeeInTabPageSchedule.DataSource = employeeNames;
-        }
-
-        
+        }        
 
         void PutDayOfWeekInTheLabelsInScheduleTabPage()
         {
@@ -859,7 +916,7 @@ namespace MRSES.Windows
                                 LabelFourthDayOfWeekInTabPageSchedule, LabelFifthDayOfWeekInTabPageSchedule, LabelSixthDayOfWeekInTabPageSchedule,
                                 LabelSeventhDayOfWeekInTabPageSchedule};
 
-            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox());
+            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox(), Core.Configuration.CultureInfo);
 
             for (int i = 0; i < 7; i++)
             {
@@ -976,7 +1033,7 @@ namespace MRSES.Windows
         /// <param name="employeeName"></param>
         /// <param name="employeeTurns"></param>
         /// <returns>False if any turn conflicts with employee petition or availability</returns>
-        async Task<bool> VerifyWithAvailabilityAndPetitions(string employeeName, List<Turn> employeeTurns)
+        async Task<bool> VerifyWithAvailabilityAndPetitionsAsync(string employeeName, List<Turn> employeeTurns)
         {
             bool result = true;
 
@@ -985,8 +1042,8 @@ namespace MRSES.Windows
                 if (employeeTurns[i].IsFreeDay)
                     continue;
 
-                var checkAvailability = await _availabilityRepo.CanDoTheTurnAsync(employeeName, employeeTurns[i]);
-                var checkPetition = await _petitionRepo.CanDoTheTurnAsync(employeeName, employeeTurns[i]);
+                var checkAvailability = await AvailabilityRepository .CanDoTheTurnAsync(employeeName, employeeTurns[i]);
+                var checkPetition = await PetitionRepository.CanDoTheTurnAsync(employeeName, employeeTurns[i]);
 
                 if (!checkAvailability || !checkPetition)
                 {
@@ -1001,6 +1058,64 @@ namespace MRSES.Windows
             }
 
             return result;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="schedule"></param>
+        /// <returns>False if any turn conflicts with work's cycle of 24 hours</returns>
+        async Task<bool> VerifyScheduleWith24CycleHourAsync(ISchedule schedule)
+        {
+            foreach (var turn in schedule.Turns)
+            {
+                bool result = await TurnRepository.ViolateCycleOfTwentyFourHour(schedule.Name, turn);
+
+                if (result)
+                {
+                    await MarkTurnThatViolate24HourCycleAsync(turn.Date.IsoDayOfWeek);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        async Task MarkTurnThatViolate24HourCycleAsync(NodaTime.IsoDayOfWeek day)
+        {
+            switch (day)
+            {
+                case NodaTime.IsoDayOfWeek.Friday:
+                    TextBoxDay3FirstTurnInTabPageSchedule.Focus();
+                    await ShowMessageInLabelMessageOfFormMain("El dia viernes conflige con el ciclo de 24 horas.", "error", 5000);
+                    break;
+                case NodaTime.IsoDayOfWeek.Monday:
+                    TextBoxDay6FirstTurnInTabPageSchedule.Focus();
+                    await ShowMessageInLabelMessageOfFormMain("El dia lunes conflige con el ciclo de 24 horas.", "error", 5000);
+                    break;
+                case NodaTime.IsoDayOfWeek.Saturday:
+                    TextBoxDay4FirstTurnInTabPageSchedule.Focus();
+                    await ShowMessageInLabelMessageOfFormMain("El dia sábado conflige con el ciclo de 24 horas.", "error", 5000);
+                    break;
+                case NodaTime.IsoDayOfWeek.Sunday:
+                    TextBoxDay5FirstTurnInTabPageSchedule.Focus();
+                    await ShowMessageInLabelMessageOfFormMain("El dia domingo conflige con el ciclo de 24 horas.", "error", 5000);
+                    break;
+                case NodaTime.IsoDayOfWeek.Thursday:
+                    TextBoxDay2FirstTurnInTabPageSchedule.Focus();
+                    await ShowMessageInLabelMessageOfFormMain("El dia jueves conflige con el ciclo de 24 horas.", "error", 5000);
+                    break;
+                case NodaTime.IsoDayOfWeek.Tuesday:
+                    TextBoxDay7FirstTurnInTabPageSchedule.Focus();
+                    await ShowMessageInLabelMessageOfFormMain("El dia martes conflige con el ciclo de 24 horas.", "error", 5000);
+                    break;
+                case NodaTime.IsoDayOfWeek.Wednesday:
+                    TextBoxDay1FirstTurnInTabPageSchedule.Focus();
+                    await ShowMessageInLabelMessageOfFormMain("El dia miércoles conflige con el ciclo de 24 horas.", "error", 5000);
+                    break;
+                default:
+                    break;
+            }
         }
 
         void DisableTurnTextBoxes(bool on)
@@ -1053,9 +1168,15 @@ namespace MRSES.Windows
 
         async Task<bool> SaveEmployeeScheduleAsync(Schedule employeeSchedule)
         {
-            var canDoTheTurn = await VerifyWithAvailabilityAndPetitions(employeeSchedule.Name, employeeSchedule.Turns);
+            var tasks = new[] 
+            {   
+                VerifyWithAvailabilityAndPetitionsAsync(employeeSchedule.Name, employeeSchedule.Turns),
+                VerifyScheduleWith24CycleHourAsync(employeeSchedule)
+            };
 
-            if (canDoTheTurn)
+            var result = await Task.WhenAll(tasks);
+
+            if (result.All(a => a == true))
             {
                 _turnRepo.Schedule = employeeSchedule;
                 await _turnRepo.SaveAsync();
@@ -1114,34 +1235,44 @@ namespace MRSES.Windows
             SumTotalTurnHours(textBox.Tag.ToString());
         }
 
+        private void ButtonAutomaticSchedule_Click(object sender, EventArgs e)
+        {
+            if (_formGenerateSchedule == null)
+                _formGenerateSchedule = new FormGenerateSchedule();
+
+            _formGenerateSchedule.Show();
+        }
+
         async void ButtonSaveInTabPageSchedule_Click(object sender, EventArgs e)
         {
             try
             {
-                ButtonSaveInTabPageSchedule.Enabled = false;
-                DisableTurnTextBoxes(true);
-                LabelVerfyingScheduleMessage.Text = "Verificando horario...";
-                var result = await SaveEmployeeScheduleAsync(GetEmployeeWeekSchedule());
-                if (result)
-                {
-                    DisableTurnTextBoxes(false);
-                    LabelVerfyingScheduleMessage.Text = "Horario guardado!";
-                    await Task.Delay(5000);
-                }
-                else
-                {
-                    DisableTurnTextBoxes(false);
-                    LabelVerfyingScheduleMessage.Text = "El horario no se guardó";
-                    await Task.Delay(5000);
-                }
+                await TrySaveScheduleAsync();
             }
             catch (Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
-            finally
+        }
+
+        async Task TrySaveScheduleAsync()
+        {
+            ButtonSaveInTabPageSchedule.Enabled = false;
+            DisableTurnTextBoxes(true);
+
+            LabelMessageInFormMain.Text = "Verificando horario...";
+            await Task.Delay(2000);
+            var result = await SaveEmployeeScheduleAsync(GetEmployeeWeekSchedule());
+
+            if (result)
             {
-                LabelVerfyingScheduleMessage.Text = "";
+                DisableTurnTextBoxes(false);
+                await ShowMessageInLabelMessageOfFormMain("Horario guardado!", "", 3000);
+            }
+            else
+            {
+                DisableTurnTextBoxes(false);
+                await ShowMessageInLabelMessageOfFormMain("El horario no se guardó", "error", 3000);
             }
         }
 
@@ -1153,14 +1284,17 @@ namespace MRSES.Windows
             }
             catch (Exception ex)
             {
-                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error")).RunSynchronously();
+                new Task(async () => await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000)).RunSynchronously();
             }
         }
 
         #endregion     
 
+        private void ToolStripMenuItemPrintSchedule_Click(object sender, EventArgs e)
+        {
+            new FormPrintSchedule().Show();
+        }
         
-
         #endregion
     }
 }

@@ -43,10 +43,10 @@ namespace MRSES.Core.Shared
             return new DateTime(date.Year, date.Month, date.Day);
         }
 
-        public static List<string> DaysOfWeekInString(NodaTime.LocalDate ofWeek)
+        public static List<string> DaysOfWeekInString(NodaTime.LocalDate ofWeek, System.Globalization.CultureInfo culture)
         {
             return GetWeekDays(ofWeek)
-                .Select(day => day.ToString("dddd d", Core.Configuration.CultureInfo))
+                .Select(day => day.ToString("dddd d", culture))
                 .ToList();
         }
 

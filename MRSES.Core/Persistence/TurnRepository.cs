@@ -66,7 +66,7 @@ namespace MRSES.Core.Persistence
             }
         }
 
-        string GetQuery(string action)
+        static string GetQuery(string action)
         {
             string query = "";
             switch (action)
@@ -80,9 +80,13 @@ namespace MRSES.Core.Persistence
                 case "GetSingleDaySchedule":
                     query = "SELECT * FROM get_schedule_by_day(:position, :store, :date)";
                     break;
+                case "Verify24HourCycle":
+                    query = "SELECT violate_cycle_of_24_hours(:emp_name, :emp_store, :turn_date, :first_turn_in, :first_turn_out)";
+                    break;
                 default:
                     break;
             }
+
             return query;
         }
 
@@ -193,6 +197,34 @@ namespace MRSES.Core.Persistence
             }
 
             return singleDaySchedule;
+        }
+
+        public static async Task<bool> ViolateCycleOfTwentyFourHour(string emp_name, ITurn turn)
+        {
+            bool result = true;
+
+            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            {
+                using (var command = new NpgsqlCommand("", dbConnection))
+                {
+                    command.CommandText = GetQuery("Verify24HourCycle");
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.AddWithValue("emp_name", NpgsqlDbType.Varchar, emp_name);
+                    command.Parameters.AddWithValue("emp_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+                    command.Parameters.AddWithValue("turn_date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(turn.Date));
+                    command.Parameters.AddWithValue("first_turn_in", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnIn1));
+                    command.Parameters.AddWithValue("first_turn_out", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnOut1));
+
+                    await command.Connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                        if (await reader.ReadAsync())
+                            result = await reader.GetFieldValueAsync<bool>(0);
+         
+                }
+            }
+
+            return result;
         }
     }
 }

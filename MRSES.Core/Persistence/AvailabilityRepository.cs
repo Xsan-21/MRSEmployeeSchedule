@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace MRSES.Core.Persistence
 {
-    public interface IAvailabilityRepository : IAvailable
+    public interface IAvailabilityRepository
     {
         System.Threading.Tasks.Task SaveAsync();
         System.Threading.Tasks.Task<Availability> GetAvailabilityAsync();
@@ -148,7 +148,7 @@ namespace MRSES.Core.Persistence
             return result;
         }
 
-        public async Task<bool> CanDoTheTurnAsync(string employeeName, ITurn turn)
+        public static async Task<bool> CanDoTheTurnAsync(string employeeName, ITurn turn)
         {
             bool result = true;
             var employeeId = await EmployeeRepository.GetEmployeeIdAsync(employeeName);
@@ -161,10 +161,10 @@ namespace MRSES.Core.Persistence
                     command.CommandType = System.Data.CommandType.Text;
                     command.Parameters.AddWithValue("emp_id", NpgsqlDbType.Varchar, employeeId);
                     command.Parameters.AddWithValue("turn_date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(turn.Date));
-                    command.Parameters.AddWithValue("turn_in1", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnIn1));
-                    command.Parameters.AddWithValue("turn_out1", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnOut1));
-                    command.Parameters.AddWithValue("turn_in2", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnIn2));
-                    command.Parameters.AddWithValue("turn_out2", NpgsqlDbType.Time, FromLocalTimeToDateTime(turn.TurnOut2));
+                    command.Parameters.AddWithValue("turn_in1", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnIn1));
+                    command.Parameters.AddWithValue("turn_out1", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnOut1));
+                    command.Parameters.AddWithValue("turn_in2", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnIn2));
+                    command.Parameters.AddWithValue("turn_out2", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnOut2));
 
                     await command.Connection.OpenAsync();
 
@@ -179,11 +179,6 @@ namespace MRSES.Core.Persistence
             }
 
             return result;
-        }
-
-        DateTime FromLocalTimeToDateTime(NodaTime.LocalTime time)
-        {
-            return DateFunctions.FromLocalTimeToDateTime(time);
         }
 
         static string GetQuery(string action)

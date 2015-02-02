@@ -11,8 +11,6 @@ namespace MRSES.Windows
         [STAThread]
         static void Main()
         {
-            new Parse.ParseInstallation();
-            Parse.ParseClient.Initialize(Properties.Settings.Default.EmailUserName, Properties.Settings.Default.EmailPassword);
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormMain());

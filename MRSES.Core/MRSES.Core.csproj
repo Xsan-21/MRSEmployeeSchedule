@@ -30,6 +30,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="itextsharp">
+      <HintPath>..\packages\iTextSharp.5.5.4\lib\itextsharp.dll</HintPath>
+    </Reference>
     <Reference Include="Mono.Security">
       <HintPath>..\packages\Npgsql.2.2.3\lib\net45\Mono.Security.dll</HintPath>
     </Reference>
@@ -54,9 +57,9 @@
     <Compile Include="Configuration.cs" />
     <Compile Include="Entities\Availability.cs" />
     <Compile Include="Entities\Employee.cs" />
-    <Compile Include="Entities\IAvailable.cs" />
     <Compile Include="Entities\IDatabase.cs" />
     <Compile Include="Entities\Petition.cs" />
+    <Compile Include="Entities\PrintSchedule.cs" />
     <Compile Include="Entities\Turn.cs" />
     <Compile Include="Entities\Schedule.cs" />
     <Compile Include="Persistence\AvailabilityRepository.cs" />

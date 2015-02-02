@@ -117,34 +117,21 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <metadata name="MenuStripInFormMain.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
-    <value>17, 17</value>
-  </metadata>
-  <metadata name="TapPageViewWeekSchedule.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TabPageEmployeeInformation.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TabPageEmployeeAvailability.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TabPageEmployeePetition.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="TabPageEmployeeSchedule.Locked" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <data name="label6.Text" xml:space="preserve">
-    <value>Paso 2: Establezca un horario de acomodo por día que este empleado SI puede trabajar.
-                       
-                        Ejemplo: Si es estudiante que estudia de 8:00am a 3:00pm los lunes, 
-                                      escriba un horario que pueda realizar este día. Por ejemplo,
-                                      5:00pm - 9:30pm, puede usar la forma corta: 5p - 9.30p.
+  <data name="label3.Text" xml:space="preserve">
+    <value>Instrucciones: 
 
-                       Si el empleado no está disponible durante todo el día, escriba ND.
+1) Seleccione la semana para la cual se generará el horario.
 
-                       Los días en blanco se presume que puede laborar a cualquier hora.
+2) Seleccione la posición del empleado para el cual se generará el horario.
+
+3) En las cajas de texto debajo de Rango de horario, escriba la primera 
+hora de entrada y la últimia de salida 
+de esa posición, de acuerdo al día de la semana. Ejemplo: 5:55am - 9:30pm
+
+4) En las cajas de texto debajo de Horas a repartir, escriba el total 
+de horas a repartir de acuerdo al día de la semana..
+
+5) Presione el botón Generar Horario.
 </value>
   </data>
 </root>

@@ -14,6 +14,7 @@ namespace MRSES.Core.Persistence
         Task<Employee> GetEmployeeAsync(string name_or_id);
         Task<List<string>> GetPositionsAsync();
         Task<List<string>> GetEmployeeNamesByPositionAsync(string position);
+        Task<List<string>> GetStoresAsync();
     }
 
     public class EmployeeRepository : IEmployeeRepository, IDatabase, System.IDisposable
@@ -61,7 +62,7 @@ namespace MRSES.Core.Persistence
                 {
                     command.CommandText = GetQuery("Save");
                     command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+                    command.Parameters.AddWithValue("store", NpgsqlDbType.Varchar, Employee.Store);
                     command.Parameters.AddWithValue("employee_id", NpgsqlDbType.Varchar, Employee.ID);
                     command.Parameters.AddWithValue("department", NpgsqlDbType.Varchar, Employee.Department);
                     command.Parameters.AddWithValue("student", NpgsqlDbType.Boolean, Employee.IsStudent);
@@ -156,7 +157,7 @@ namespace MRSES.Core.Persistence
                 }
             }
 
-            return positions.OrderBy(name => name).ToList();
+            return positions;
         }
 
         async public Task<List<string>> GetEmployeeNamesByPositionAsync(string position)
@@ -187,6 +188,59 @@ namespace MRSES.Core.Persistence
             return names;
         }
 
+        async public Task<List<string>> GetStoresAsync()
+        {
+            var stores = new List<string>();
+            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            {
+                using (var command = new NpgsqlCommand("", dbConnection))
+                {
+                    command.CommandText = GetQuery("GetStores");
+                    command.CommandType = System.Data.CommandType.Text;
+
+                    await command.Connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            string store = await reader.GetFieldValueAsync<string>(0);
+                            stores.Add(store);
+                        }
+                    }
+                }
+            }
+
+            return stores;
+        }
+
+        async public Task<List<string>> GetDepartmentsAsync()
+        {
+            var departments = new List<string>();
+            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            {
+                using (var command = new NpgsqlCommand("", dbConnection))
+                {
+                    command.CommandText = GetQuery("GetDepartments");
+                    command.CommandType = System.Data.CommandType.Text;
+                    command.Parameters.AddWithValue(":store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+
+                    await command.Connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            string department = await reader.GetFieldValueAsync<string>(0);
+                            departments.Add(department);
+                        }
+                    }
+                }
+            }
+
+            return departments;
+        }
+
         string GetQuery(string action)
         {
             string query = string.Empty;
@@ -206,6 +260,12 @@ namespace MRSES.Core.Persistence
                     break;
                 case "GetNamesByPosition":
                     query = "SELECT get_names_by_position(:employeePosition, :store)";
+                    break;
+                case "GetStores":
+                    query = "SELECT get_stores()";
+                    break;
+                case "GetDepartments":
+                    query = "SELECT get_departments(:store)";
                     break;
                 default:
                     break;

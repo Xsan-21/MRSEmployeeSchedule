@@ -33,6 +33,7 @@
             this.ToolStripMenuItemFile = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemPrintSchedule = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemExit = new System.Windows.Forms.ToolStripMenuItem();
+            this.opcionesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemHelp = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemFeedBack = new System.Windows.Forms.ToolStripMenuItem();
             this.ToolStripMenuItemAbout = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,6 +73,8 @@
             this.ColumnTurnHoursInTurnByDay = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.ComboBoxSelectWeekDayForTurnsOfADay = new System.Windows.Forms.ComboBox();
             this.TabPageEmployeeInformation = new System.Windows.Forms.TabPage();
+            this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation = new System.Windows.Forms.CheckBox();
+            this.TextBoxStoreInTabPageEmployeeInformation = new System.Windows.Forms.TextBox();
             this.ButtonClearTextBoxesInTabPageEmployeeInformation = new System.Windows.Forms.Button();
             this.label18 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
@@ -126,7 +129,7 @@
             this.PetitionDatePicker = new System.Windows.Forms.DateTimePicker();
             this.TextBoxPetitionAvailabilityHours = new System.Windows.Forms.TextBox();
             this.TabPageEmployeeSchedule = new System.Windows.Forms.TabPage();
-            this.LabelVerfyingScheduleMessage = new System.Windows.Forms.Label();
+            this.ButtonAutomaticSchedule = new System.Windows.Forms.Button();
             this.ButtonSaveInTabPageSchedule = new System.Windows.Forms.Button();
             this.LabelNotAvailableDay7 = new System.Windows.Forms.LinkLabel();
             this.LabelNotAvailableDay6 = new System.Windows.Forms.LinkLabel();
@@ -188,6 +191,7 @@
             this.MenuStripInFormMain.BackColor = System.Drawing.Color.White;
             this.MenuStripInFormMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.ToolStripMenuItemFile,
+            this.opcionesToolStripMenuItem,
             this.ToolStripMenuItemHelp});
             this.MenuStripInFormMain.Location = new System.Drawing.Point(0, 0);
             this.MenuStripInFormMain.Name = "MenuStripInFormMain";
@@ -210,6 +214,7 @@
             this.ToolStripMenuItemPrintSchedule.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.I)));
             this.ToolStripMenuItemPrintSchedule.Size = new System.Drawing.Size(347, 36);
             this.ToolStripMenuItemPrintSchedule.Text = "&Imprimir horarios";
+            this.ToolStripMenuItemPrintSchedule.Click += new System.EventHandler(this.ToolStripMenuItemPrintSchedule_Click);
             // 
             // ToolStripMenuItemExit
             // 
@@ -218,6 +223,13 @@
             this.ToolStripMenuItemExit.Size = new System.Drawing.Size(347, 36);
             this.ToolStripMenuItemExit.Text = "&Salir";
             this.ToolStripMenuItemExit.Click += new System.EventHandler(this.ToolStripMenuItemExit_Click);
+            // 
+            // opcionesToolStripMenuItem
+            // 
+            this.opcionesToolStripMenuItem.Name = "opcionesToolStripMenuItem";
+            this.opcionesToolStripMenuItem.Size = new System.Drawing.Size(99, 36);
+            this.opcionesToolStripMenuItem.Text = "&Tienda";
+            this.opcionesToolStripMenuItem.Click += new System.EventHandler(this.opcionesToolStripMenuItem_Click);
             // 
             // ToolStripMenuItemHelp
             // 
@@ -598,7 +610,7 @@
             // 
             this.ComboBoxSelectWeekDayForTurnsOfADay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.ComboBoxSelectWeekDayForTurnsOfADay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ComboBoxSelectWeekDayForTurnsOfADay.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.ComboBoxSelectWeekDayForTurnsOfADay.FormattingEnabled = true;
             this.ComboBoxSelectWeekDayForTurnsOfADay.IntegralHeight = false;
             this.ComboBoxSelectWeekDayForTurnsOfADay.Location = new System.Drawing.Point(432, 24);
@@ -610,6 +622,8 @@
             // 
             // TabPageEmployeeInformation
             // 
+            this.TabPageEmployeeInformation.Controls.Add(this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation);
+            this.TabPageEmployeeInformation.Controls.Add(this.TextBoxStoreInTabPageEmployeeInformation);
             this.TabPageEmployeeInformation.Controls.Add(this.ButtonClearTextBoxesInTabPageEmployeeInformation);
             this.TabPageEmployeeInformation.Controls.Add(this.label18);
             this.TabPageEmployeeInformation.Controls.Add(this.label12);
@@ -633,8 +647,31 @@
             this.TabPageEmployeeInformation.TabIndex = 1;
             this.TabPageEmployeeInformation.UseVisualStyleBackColor = true;
             // 
+            // CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation
+            // 
+            this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.AutoSize = true;
+            this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.Location = new System.Drawing.Point(457, 369);
+            this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.Name = "CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation";
+            this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.Size = new System.Drawing.Size(262, 29);
+            this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.TabIndex = 18;
+            this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.Text = "Transferir a otra tienda";
+            this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.UseVisualStyleBackColor = true;
+            this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation.CheckedChanged += new System.EventHandler(this.CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation_CheckedChanged);
+            // 
+            // TextBoxStoreInTabPageEmployeeInformation
+            // 
+            this.TextBoxStoreInTabPageEmployeeInformation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.TextBoxStoreInTabPageEmployeeInformation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
+            this.TextBoxStoreInTabPageEmployeeInformation.Location = new System.Drawing.Point(457, 317);
+            this.TextBoxStoreInTabPageEmployeeInformation.MaxLength = 1000;
+            this.TextBoxStoreInTabPageEmployeeInformation.Name = "TextBoxStoreInTabPageEmployeeInformation";
+            this.TextBoxStoreInTabPageEmployeeInformation.ReadOnly = true;
+            this.TextBoxStoreInTabPageEmployeeInformation.Size = new System.Drawing.Size(231, 31);
+            this.TextBoxStoreInTabPageEmployeeInformation.TabIndex = 17;
+            // 
             // ButtonClearTextBoxesInTabPageEmployeeInformation
             // 
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.AutoSize = true;
             this.ButtonClearTextBoxesInTabPageEmployeeInformation.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
             this.ButtonClearTextBoxesInTabPageEmployeeInformation.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
             this.ButtonClearTextBoxesInTabPageEmployeeInformation.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
@@ -642,9 +679,9 @@
             this.ButtonClearTextBoxesInTabPageEmployeeInformation.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.ButtonClearTextBoxesInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 20);
             this.ButtonClearTextBoxesInTabPageEmployeeInformation.Name = "ButtonClearTextBoxesInTabPageEmployeeInformation";
-            this.ButtonClearTextBoxesInTabPageEmployeeInformation.Size = new System.Drawing.Size(250, 75);
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.Size = new System.Drawing.Size(251, 75);
             this.ButtonClearTextBoxesInTabPageEmployeeInformation.TabIndex = 16;
-            this.ButtonClearTextBoxesInTabPageEmployeeInformation.Text = "Añadir empleado";
+            this.ButtonClearTextBoxesInTabPageEmployeeInformation.Text = "Añadir nuevo empleado";
             this.ButtonClearTextBoxesInTabPageEmployeeInformation.UseVisualStyleBackColor = true;
             this.ButtonClearTextBoxesInTabPageEmployeeInformation.Click += new System.EventHandler(this.ButtonClearTextBoxesInTabPageEmployeeInformation_Click);
             // 
@@ -734,7 +771,7 @@
             // CheckBoxIsFulltimeInTabPageEmployeeInformation
             // 
             this.CheckBoxIsFulltimeInTabPageEmployeeInformation.AutoSize = true;
-            this.CheckBoxIsFulltimeInTabPageEmployeeInformation.Location = new System.Drawing.Point(457, 323);
+            this.CheckBoxIsFulltimeInTabPageEmployeeInformation.Location = new System.Drawing.Point(457, 267);
             this.CheckBoxIsFulltimeInTabPageEmployeeInformation.Name = "CheckBoxIsFulltimeInTabPageEmployeeInformation";
             this.CheckBoxIsFulltimeInTabPageEmployeeInformation.Size = new System.Drawing.Size(321, 29);
             this.CheckBoxIsFulltimeInTabPageEmployeeInformation.TabIndex = 8;
@@ -744,17 +781,17 @@
             // CheckBoxIsPartTimeInTabPageEmployeeInformation
             // 
             this.CheckBoxIsPartTimeInTabPageEmployeeInformation.AutoSize = true;
-            this.CheckBoxIsPartTimeInTabPageEmployeeInformation.Location = new System.Drawing.Point(457, 266);
+            this.CheckBoxIsPartTimeInTabPageEmployeeInformation.Location = new System.Drawing.Point(457, 210);
             this.CheckBoxIsPartTimeInTabPageEmployeeInformation.Name = "CheckBoxIsPartTimeInTabPageEmployeeInformation";
-            this.CheckBoxIsPartTimeInTabPageEmployeeInformation.Size = new System.Drawing.Size(309, 29);
+            this.CheckBoxIsPartTimeInTabPageEmployeeInformation.Size = new System.Drawing.Size(298, 29);
             this.CheckBoxIsPartTimeInTabPageEmployeeInformation.TabIndex = 7;
-            this.CheckBoxIsPartTimeInTabPageEmployeeInformation.Text = "Empleado a tiempo y medio";
+            this.CheckBoxIsPartTimeInTabPageEmployeeInformation.Text = "Empleado a tiempo parcial";
             this.CheckBoxIsPartTimeInTabPageEmployeeInformation.UseVisualStyleBackColor = true;
             // 
             // CheckBoxIsStudentInTabPageEmployeeInformation
             // 
             this.CheckBoxIsStudentInTabPageEmployeeInformation.AutoSize = true;
-            this.CheckBoxIsStudentInTabPageEmployeeInformation.Location = new System.Drawing.Point(457, 206);
+            this.CheckBoxIsStudentInTabPageEmployeeInformation.Location = new System.Drawing.Point(457, 150);
             this.CheckBoxIsStudentInTabPageEmployeeInformation.Name = "CheckBoxIsStudentInTabPageEmployeeInformation";
             this.CheckBoxIsStudentInTabPageEmployeeInformation.Size = new System.Drawing.Size(175, 29);
             this.CheckBoxIsStudentInTabPageEmployeeInformation.TabIndex = 6;
@@ -766,6 +803,8 @@
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.ForeColor = System.Drawing.Color.Gray;
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 315);
             this.TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Name = "TextBoxEmployeeDepartmentInTabPageEmployeeInformation";
@@ -784,6 +823,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.ForeColor = System.Drawing.Color.Gray;
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 369);
+            this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.MaxLength = 14;
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Name = "TextBoxEmployeePhoneNumberInTabPageEmployeeInformation";
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Size = new System.Drawing.Size(300, 31);
             this.TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.TabIndex = 5;
@@ -814,6 +854,8 @@
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.Suggest;
+            this.TextBoxEmployeePositionInTabPageEmployeeInformation.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.CustomSource;
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.ForeColor = System.Drawing.Color.Gray;
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.Location = new System.Drawing.Point(20, 257);
             this.TextBoxEmployeePositionInTabPageEmployeeInformation.Name = "TextBoxEmployeePositionInTabPageEmployeeInformation";
@@ -1279,7 +1321,7 @@
             // 
             // TabPageEmployeeSchedule
             // 
-            this.TabPageEmployeeSchedule.Controls.Add(this.LabelVerfyingScheduleMessage);
+            this.TabPageEmployeeSchedule.Controls.Add(this.ButtonAutomaticSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.ButtonSaveInTabPageSchedule);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelNotAvailableDay7);
             this.TabPageEmployeeSchedule.Controls.Add(this.LabelNotAvailableDay6);
@@ -1328,15 +1370,21 @@
             this.TabPageEmployeeSchedule.Tag = "";
             this.TabPageEmployeeSchedule.UseVisualStyleBackColor = true;
             // 
-            // LabelVerfyingScheduleMessage
+            // ButtonAutomaticSchedule
             // 
-            this.LabelVerfyingScheduleMessage.AutoSize = true;
-            this.LabelVerfyingScheduleMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Italic, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.LabelVerfyingScheduleMessage.ForeColor = System.Drawing.Color.ForestGreen;
-            this.LabelVerfyingScheduleMessage.Location = new System.Drawing.Point(697, 557);
-            this.LabelVerfyingScheduleMessage.Name = "LabelVerfyingScheduleMessage";
-            this.LabelVerfyingScheduleMessage.Size = new System.Drawing.Size(0, 29);
-            this.LabelVerfyingScheduleMessage.TabIndex = 305;
+            this.ButtonAutomaticSchedule.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonAutomaticSchedule.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
+            this.ButtonAutomaticSchedule.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+            this.ButtonAutomaticSchedule.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.ButtonAutomaticSchedule.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.ButtonAutomaticSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonAutomaticSchedule.Location = new System.Drawing.Point(971, 9);
+            this.ButtonAutomaticSchedule.Name = "ButtonAutomaticSchedule";
+            this.ButtonAutomaticSchedule.Size = new System.Drawing.Size(250, 75);
+            this.ButtonAutomaticSchedule.TabIndex = 306;
+            this.ButtonAutomaticSchedule.Text = "Generar Automáticamente";
+            this.ButtonAutomaticSchedule.UseVisualStyleBackColor = true;
+            this.ButtonAutomaticSchedule.Click += new System.EventHandler(this.ButtonAutomaticSchedule_Click);
             // 
             // ButtonSaveInTabPageSchedule
             // 
@@ -1347,7 +1395,7 @@
             this.ButtonSaveInTabPageSchedule.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
             this.ButtonSaveInTabPageSchedule.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
             this.ButtonSaveInTabPageSchedule.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSaveInTabPageSchedule.Location = new System.Drawing.Point(971, 532);
+            this.ButtonSaveInTabPageSchedule.Location = new System.Drawing.Point(971, 534);
             this.ButtonSaveInTabPageSchedule.Name = "ButtonSaveInTabPageSchedule";
             this.ButtonSaveInTabPageSchedule.Size = new System.Drawing.Size(250, 75);
             this.ButtonSaveInTabPageSchedule.TabIndex = 297;
@@ -1832,6 +1880,7 @@
             this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(850, 500);
             this.Name = "FormMain";
+            this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Manejo de Horario de Empleados";
             this.Load += new System.EventHandler(this.FormMain_Load);
@@ -1979,7 +2028,6 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label20;
         private System.Windows.Forms.Label label19;
-        private System.Windows.Forms.Label LabelVerfyingScheduleMessage;
         private System.Windows.Forms.ListView ListViewEmployeeScheduleOfWeek;
         private System.Windows.Forms.ColumnHeader ColumnEmployeeName;
         private System.Windows.Forms.ColumnHeader ColumnDay1;
@@ -2000,6 +2048,10 @@
         private System.Windows.Forms.ColumnHeader ColumnFirstTurnInTurnByDay;
         private System.Windows.Forms.ColumnHeader ColumnSecondTurnInTurnByDay;
         private System.Windows.Forms.ColumnHeader ColumnTurnHoursInTurnByDay;
+        private System.Windows.Forms.CheckBox CheckBoxEnableTextBoxStoreInTabPageEmployeeInformation;
+        private System.Windows.Forms.TextBox TextBoxStoreInTabPageEmployeeInformation;
+        private System.Windows.Forms.ToolStripMenuItem opcionesToolStripMenuItem;
+        private System.Windows.Forms.Button ButtonAutomaticSchedule;
     }
 }
 

@@ -19,6 +19,12 @@
             set { Properties.Settings.Default.StoreLocation = value; Properties.Settings.Default.Save(); } 
         }
 
+        public static string ReportFolderLocation
+        {
+            get { return Properties.Settings.Default.ReportLocation; }
+            internal set { Properties.Settings.Default.ReportLocation = value; Properties.Settings.Default.Save(); }
+        }
+
         public static System.Globalization.CultureInfo CultureInfo
         {
             get { return new System.Globalization.CultureInfo(Properties.Settings.Default.CultureInfo); }
