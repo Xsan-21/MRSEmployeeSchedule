@@ -17,5 +17,10 @@ namespace MRSES.Windows
         {
             get { return Properties.Settings.Default.EmailPassword; }
         }
+
+        public static string SendEmailTo
+        {
+            get { return Properties.Settings.Default.SendEmailTo; }
+        }
     }
 }

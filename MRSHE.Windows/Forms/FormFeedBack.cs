@@ -87,7 +87,7 @@ namespace MRSES.Windows.Forms
         public string Subject
         {
             get { return _subject; }
-            set { _subject = "MRSHE FeedBack - " + value; }
+            set { _subject = "MRSES FeedBack - " + value; }
         }
 
         public string Body
@@ -98,7 +98,7 @@ namespace MRSES.Windows.Forms
 
         public FeedBack(string subject, string body)
         {
-            _smtpClient = new SmtpClient("smtp.gmail.com", 587)
+            _smtpClient = new SmtpClient("smtp-mail.outlook.com", 587)
             {
                 EnableSsl = true,
                 Timeout = 10000,
@@ -107,7 +107,7 @@ namespace MRSES.Windows.Forms
                 Credentials = new System.Net.NetworkCredential(Configuration.EmailUserName, Configuration.EmailPassword)
             };
 
-            _message = new MailMessage("mrshe_feedBack@gmail.com", "xavier_san@outlook.com")
+            _message = new MailMessage(Configuration.EmailUserName, Configuration.SendEmailTo)
             {
                 Subject = string.Format("MRSHE FeedBack - {0}", subject),
                 Body = body
