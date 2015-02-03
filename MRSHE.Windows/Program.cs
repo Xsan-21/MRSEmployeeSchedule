@@ -11,6 +11,9 @@ namespace MRSES.Windows
         [STAThread]
         static void Main()
         {
+            if (string.IsNullOrEmpty(MRSES.Core.Configuration.StoreLocation))
+                new Forms.FormSelectStore().ShowDialog();
+
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormMain());

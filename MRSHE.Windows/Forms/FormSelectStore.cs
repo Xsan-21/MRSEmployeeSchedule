@@ -88,5 +88,18 @@ namespace MRSES.Windows.Forms
             catch
             { }
         }
+
+        private void FormSelectStore_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (string.IsNullOrEmpty(Core.Configuration.StoreLocation))
+            {
+                var alert = Core.Shared.AlertUser.Message("Para utilizar el programa debe seleccionar su tienda.","Seleccione tienda", MessageBoxButtons.RetryCancel, MessageBoxIcon.Exclamation, MessageBoxDefaultButton.Button1);
+                
+                if(alert == System.Windows.Forms.DialogResult.Retry)
+                    e.Cancel = true;
+                else
+                    System.Diagnostics.Process.GetCurrentProcess().Kill();
+            }
+        }
     }
 }

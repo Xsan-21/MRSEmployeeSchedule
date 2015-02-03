@@ -83,8 +83,8 @@ namespace MRSES.Windows.Forms
         {
             var scheduleToPrint = await GetScheduleAsync();
 
-            //if (ScheduleWeekHaveNoTurns(scheduleToPrint))
-            //    return;
+            if (ScheduleWeekHaveNoTurns(scheduleToPrint))
+                return;
             
             using(var _printer = new PrintSchedule())
             {
