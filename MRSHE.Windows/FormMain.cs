@@ -924,70 +924,62 @@ namespace MRSES.Windows
             }
         }
 
+        void ShowTotalHoursInCorrespondingLabelDay(string firstTurn, string secondTurn, Label totalHoursInDay)
+        {
+            totalHoursInDay.Text = TimeFunctions.TotalTurnHours(firstTurn, secondTurn).ToString();
+            SumTotalWeekHours();
+        }
+
         void SumTotalTurnHours(string textBoxTag)
         {
-            string firstTurn, secondTurn, totalHours, result;
             switch (textBoxTag)
             {
                 case "day1FirstTurn":
                 case "day1SecondTurn":
-                    firstTurn = TextBoxDay1FirstTurnInTabPageSchedule.Text;
-                    secondTurn = TextBoxDay1SecondTurnInTabPageSchedule.Text;
-                    totalHours = TimeFunctions.TotalTurnHours(firstTurn, secondTurn).ToString();
-                    result = totalHours == "0" ? "" : totalHours == "1" ? "1 hora" : totalHours + " horas";
-                    LabelTotalHoursInFirstDayInTabPageSchedule.Text = result;
+                    ShowTotalHoursInCorrespondingLabelDay(TextBoxDay1FirstTurnInTabPageSchedule.Text, TextBoxDay1SecondTurnInTabPageSchedule.Text, LabelTotalHoursDay1);
                     break;
                 case "day2FirstTurn":
                 case "day2SecondTurn":
-                    firstTurn = TextBoxDay2FirstTurnInTabPageSchedule.Text;
-                    secondTurn = TextBoxDay2SecondTurnInTabPageSchedule.Text;
-                    totalHours = TimeFunctions.TotalTurnHours(firstTurn, secondTurn).ToString();
-                    result = totalHours == "0" ? "" : totalHours == "1" ? "1 hora" : totalHours + " horas";
-                    LabelTotalHoursInSecondDayInTabPageSchedule.Text = result;
+                    ShowTotalHoursInCorrespondingLabelDay(TextBoxDay2FirstTurnInTabPageSchedule.Text, TextBoxDay2SecondTurnInTabPageSchedule.Text, LabelTotalHoursDay2);
                     break;
                 case "day3FirstTurn":
                 case "day3SecondTurn":
-                    firstTurn = TextBoxDay3FirstTurnInTabPageSchedule.Text;
-                    secondTurn = TextBoxDay3SecondTurnInTabPageSchedule.Text;
-                    totalHours = TimeFunctions.TotalTurnHours(firstTurn, secondTurn).ToString();
-                    result = totalHours == "0" ? "" : totalHours == "1" ? "1 hora" : totalHours + " horas";
-                    LabelTotalHoursInThirdDayInTabPageSchedule.Text = result;
+                    ShowTotalHoursInCorrespondingLabelDay(TextBoxDay3FirstTurnInTabPageSchedule.Text, TextBoxDay3SecondTurnInTabPageSchedule.Text, LabelTotalHoursDay3);
                     break;
                 case "day4FirstTurn":
                 case "day4SecondTurn":
-                    firstTurn = TextBoxDay4FirstTurnInTabPageSchedule.Text;
-                    secondTurn = TextBoxDay4SecondTurnInTabPageSchedule.Text;
-                    totalHours = TimeFunctions.TotalTurnHours(firstTurn, secondTurn).ToString();
-                    result = totalHours == "0" ? "" : totalHours == "1" ? "1 hora" : totalHours + " horas";
-                    LabelTotalHoursInFourthDayInTabPageSchedule.Text = result;
+                    ShowTotalHoursInCorrespondingLabelDay(TextBoxDay4FirstTurnInTabPageSchedule.Text, TextBoxDay4SecondTurnInTabPageSchedule.Text, LabelTotalHoursDay4);
                     break;
                 case "day5FirstTurn":
                 case "day5SecondTurn":
-                    firstTurn = TextBoxDay5FirstTurnInTabPageSchedule.Text;
-                    secondTurn = TextBoxDay5SecondTurnInTabPageSchedule.Text;
-                    totalHours = TimeFunctions.TotalTurnHours(firstTurn, secondTurn).ToString();
-                    result = totalHours == "0" ? "" : totalHours == "1" ? "1 hora" : totalHours + " horas";
-                    LabelTotalHoursInFifthDayInTabPageSchedule.Text = result;
+                    ShowTotalHoursInCorrespondingLabelDay(TextBoxDay5FirstTurnInTabPageSchedule.Text, TextBoxDay5SecondTurnInTabPageSchedule.Text, LabelTotalHoursDay5);
                     break;
                 case "day6FirstTurn":
                 case "day6SecondTurn":
-                    firstTurn = TextBoxDay6FirstTurnInTabPageSchedule.Text;
-                    secondTurn = TextBoxDay6SecondTurnInTabPageSchedule.Text;
-                    totalHours = TimeFunctions.TotalTurnHours(firstTurn, secondTurn).ToString();
-                    result = totalHours == "0" ? "" : totalHours == "1" ? "1 hora" : totalHours + " horas";
-                    LabelTotalHoursInSixthDayInTabPageSchedule.Text = result;
+                    ShowTotalHoursInCorrespondingLabelDay(TextBoxDay6FirstTurnInTabPageSchedule.Text, TextBoxDay6SecondTurnInTabPageSchedule.Text, LabelTotalHoursDay6);
                     break;
                 case "day7FirstTurn":
                 case "day7SecondTurn":
-                    firstTurn = TextBoxDay7FirstTurnInTabPageSchedule.Text;
-                    secondTurn = TextBoxDay7SecondTurnInTabPageSchedule.Text;
-                    totalHours = TimeFunctions.TotalTurnHours(firstTurn, secondTurn).ToString();
-                    result = totalHours == "0" ? "" : totalHours == "1" ? "1 hora" : totalHours + " horas";
-                    LabelTotalHoursInSeventhDayInTabPageSchedule.Text = result;
+                    ShowTotalHoursInCorrespondingLabelDay(TextBoxDay7FirstTurnInTabPageSchedule.Text, TextBoxDay7SecondTurnInTabPageSchedule.Text, LabelTotalHoursDay7);
                     break;
                 default:
                     break;
             }
+        }
+
+        void SumTotalWeekHours()
+        {
+            double totalHoursInWeek = 0;
+
+            totalHoursInWeek += double.Parse(LabelTotalHoursDay1.Text);
+            totalHoursInWeek += double.Parse(LabelTotalHoursDay2.Text);
+            totalHoursInWeek += double.Parse(LabelTotalHoursDay3.Text);
+            totalHoursInWeek += double.Parse(LabelTotalHoursDay4.Text);
+            totalHoursInWeek += double.Parse(LabelTotalHoursDay5.Text);
+            totalHoursInWeek += double.Parse(LabelTotalHoursDay6.Text);
+            totalHoursInWeek += double.Parse(LabelTotalHoursDay7.Text);
+
+            LabelTotalHoursInWeek.Text = totalHoursInWeek.ToString();
         }
 
         Schedule GetEmployeeWeekSchedule()
@@ -1081,37 +1073,36 @@ namespace MRSES.Windows
             return true;
         }
 
+        async Task ShowMessageOf24HourCycleViolation(TextBox textBox, string dayOfWeek)
+        {
+            textBox.Focus();
+            await ShowMessageInLabelMessageOfFormMain("El dia " + dayOfWeek +  " conflige con el ciclo de 24 horas.", "error", 5000);
+        }
+
         async Task MarkTurnThatViolate24HourCycleAsync(NodaTime.IsoDayOfWeek day)
         {
             switch (day)
             {
                 case NodaTime.IsoDayOfWeek.Friday:
-                    TextBoxDay3FirstTurnInTabPageSchedule.Focus();
-                    await ShowMessageInLabelMessageOfFormMain("El dia viernes conflige con el ciclo de 24 horas.", "error", 5000);
+                    await ShowMessageOf24HourCycleViolation(TextBoxDay3FirstTurnInTabPageSchedule, "viernes");
                     break;
                 case NodaTime.IsoDayOfWeek.Monday:
-                    TextBoxDay6FirstTurnInTabPageSchedule.Focus();
-                    await ShowMessageInLabelMessageOfFormMain("El dia lunes conflige con el ciclo de 24 horas.", "error", 5000);
+                    await ShowMessageOf24HourCycleViolation(TextBoxDay6FirstTurnInTabPageSchedule, "lunes");
                     break;
                 case NodaTime.IsoDayOfWeek.Saturday:
-                    TextBoxDay4FirstTurnInTabPageSchedule.Focus();
-                    await ShowMessageInLabelMessageOfFormMain("El dia sábado conflige con el ciclo de 24 horas.", "error", 5000);
+                    await ShowMessageOf24HourCycleViolation(TextBoxDay4FirstTurnInTabPageSchedule, "sábado");
                     break;
                 case NodaTime.IsoDayOfWeek.Sunday:
-                    TextBoxDay5FirstTurnInTabPageSchedule.Focus();
-                    await ShowMessageInLabelMessageOfFormMain("El dia domingo conflige con el ciclo de 24 horas.", "error", 5000);
+                    await ShowMessageOf24HourCycleViolation(TextBoxDay5FirstTurnInTabPageSchedule, "domingo");
                     break;
                 case NodaTime.IsoDayOfWeek.Thursday:
-                    TextBoxDay2FirstTurnInTabPageSchedule.Focus();
-                    await ShowMessageInLabelMessageOfFormMain("El dia jueves conflige con el ciclo de 24 horas.", "error", 5000);
+                    await ShowMessageOf24HourCycleViolation(TextBoxDay2FirstTurnInTabPageSchedule, "jueves");
                     break;
                 case NodaTime.IsoDayOfWeek.Tuesday:
-                    TextBoxDay7FirstTurnInTabPageSchedule.Focus();
-                    await ShowMessageInLabelMessageOfFormMain("El dia martes conflige con el ciclo de 24 horas.", "error", 5000);
+                    await ShowMessageOf24HourCycleViolation(TextBoxDay7FirstTurnInTabPageSchedule, "martes");
                     break;
                 case NodaTime.IsoDayOfWeek.Wednesday:
-                    TextBoxDay1FirstTurnInTabPageSchedule.Focus();
-                    await ShowMessageInLabelMessageOfFormMain("El dia miércoles conflige con el ciclo de 24 horas.", "error", 5000);
+                    await ShowMessageOf24HourCycleViolation(TextBoxDay1FirstTurnInTabPageSchedule, "miércoles");
                     break;
                 default:
                     break;
@@ -1288,13 +1279,12 @@ namespace MRSES.Windows
             }
         }
 
-        #endregion     
-
         private void ToolStripMenuItemPrintSchedule_Click(object sender, EventArgs e)
         {
             new FormPrintSchedule().Show();
         }
-        
+        #endregion
+
         #endregion
     }
 }

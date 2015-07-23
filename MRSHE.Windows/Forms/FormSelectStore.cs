@@ -24,8 +24,15 @@ namespace MRSES.Windows.Forms
 
         private async void FormConfiguration_Load(object sender, EventArgs e)
         {
-            var stores = await _employeeRepository.GetStoresAsync();
-            ComboBoxSelectStore.DataSource = stores;
+            try
+            {
+                var stores = await _employeeRepository.GetStoresAsync();
+                ComboBoxSelectStore.DataSource = stores;
+            }
+            catch (Exception ex)
+            {
+                Core.Shared.AlertUser.Message("No se pudo establecer conexion con la base de datos.\n" + ex.Message, "Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
+            }
         }
 
         void SetCurrentStoreInLabel(string store)
@@ -44,7 +51,7 @@ namespace MRSES.Windows.Forms
                 }
                 catch (Exception ex)
                 {
-                    var alert = MRSES.Core.Shared.AlertUser.Message("No se pudo cambiar de tienda!\n" + ex.Message, "Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
+                    var alert = Core.Shared.AlertUser.Message("No se pudo cambiar de tienda!\n" + ex.Message, "Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error, MessageBoxDefaultButton.Button2);
                     if (alert == System.Windows.Forms.DialogResult.Abort)
                         break;
                 } 
