@@ -4,11 +4,21 @@ using System.Windows.Forms;
 
 namespace MRSES.Core.Shared
 {
-    public static class StringFunctions
+    public struct StringFunctions
     {
         static public bool StringIsNullOrEmpty(string text)
         {
             return string.IsNullOrEmpty(text);
+        }
+
+        static public bool InputIsValidHourCharacter(char character)
+        {
+            var result = false;
+
+            if (System.Text.RegularExpressions.Regex.IsMatch(character.ToString(), "^[.0-9apm:\\-\\b]$"))
+                result = true;
+
+            return result;
         }
 
         /// <summary>
@@ -41,6 +51,26 @@ namespace MRSES.Core.Shared
                 sender.ForeColor = System.Drawing.Color.Gray;
             else
                 sender.ForeColor = System.Drawing.Color.Black;
+        }
+
+        static public string GenerateObjectId(int length, bool accessKey = false)
+        {
+            var chars = "AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz0123456789";
+            var objectId = string.Empty;
+            var random = new Random();
+
+            for (int i = 1; i <= length; i++)
+            {
+                char _char = chars[random.Next(chars.Length)];
+                objectId += accessKey == false ? _char : char.ToUpper(_char);
+
+                if (!accessKey) continue;
+
+                if (i % 5 == 0 && i != length)
+                    objectId += "-";
+            }
+
+            return objectId;
         }
     }
 }

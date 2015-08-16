@@ -6,13 +6,11 @@ namespace MRSES.Core.Entities
 {
     public interface ITurn
     {
+        string ObjectID { get; set; }
         LocalDate Date { get; set; } 
         string FirstTurn { get; }
         string SecondTurn { get; }
-        LocalTime TurnIn1 { get; set; }
-        LocalTime TurnOut1 { get; set; }
-        LocalTime TurnIn2 { get; set; }
-        LocalTime TurnOut2 { get; set; }
+        LocalTime[] TurnHours { get; set; }
         double Hours { get; }
         bool IsFreeDay { get; }
     }
@@ -21,19 +19,15 @@ namespace MRSES.Core.Entities
     {
         #region VARIABLES AND PROPERTIES
 
+        public string ObjectID { get; set; }
+
         public LocalDate Date { get; set; }
         
-        public LocalTime TurnIn1 { get; set; }
-
-        public LocalTime TurnOut1 { get; set; }
-
-        public LocalTime TurnIn2 { get; set; }
-
-        public LocalTime TurnOut2 { get; set; }
+        public LocalTime[] TurnHours { get; set; }
 
         public double Hours
         {
-            get { return GetTotalHoursForThisTurn(); }
+            get { return CalculateTurnHours(); }
         }
 
         public bool IsFreeDay
@@ -45,7 +39,8 @@ namespace MRSES.Core.Entities
         {
             get
             {
-                return ToString(TurnIn1, TurnOut1);
+                var result = string.Format("{0} - {1}", ApplyFormat(TurnHours[0]), ApplyFormat(TurnHours[1]));
+                return result == "12:00AM - 12:00AM" ? "" : result;
             }
         }
 
@@ -53,7 +48,8 @@ namespace MRSES.Core.Entities
         {
             get
             {
-                return ToString(TurnIn2, TurnOut2);
+                var result = string.Format("{0} - {1}", ApplyFormat(TurnHours[2]), ApplyFormat(TurnHours[3]));
+                return result == "12:00AM - 12:00AM" ? "" : result;
             }
         }
 
@@ -61,57 +57,55 @@ namespace MRSES.Core.Entities
 
         #region CONTRUCTORS
 
-        public Turn(LocalDate date, LocalTime turnIn1, LocalTime turnOut1, LocalTime turnIn2, LocalTime turnOut2)
+        public Turn(LocalDate date, LocalTime[] turn) : this(date)
         {
             Date = date;
-            TurnIn1 = turnIn1;
-            TurnOut1 = turnOut1;
-            TurnIn2 = turnIn2;
-            TurnOut2 = turnOut2;
-        }
 
-        public Turn(LocalDate date, LocalTime turnIn1, LocalTime turnOut1)
-        {
-            Date = date;
-            TurnIn1 = turnIn1;
-            TurnOut1 = turnOut1;
+            if (turn.Length > 4)
+                throw new Exception("La cantidad de turnos es incorrecta. El máximo es 2 por día.");
+
+            TurnHours = turn;
         }
 
         public Turn(LocalDate date)
         {
             Date = date;
-        }
-
-        public Turn() : this(Core.Shared.DateFunctions.CurrentWeek())
-        {
-            
+            TurnHours = new LocalTime[4];
         }
 
         #endregion
 
         #region METHODS
 
-        double GetTotalHoursForThisTurn()
+        /// <summary>
+        /// Only for facilitate the database insertion in ScheduleRepository.
+        /// </summary>
+        /// <returns>Turns to be saved in database</returns>
+        internal DateTime[] GetTurn()
         {
-            double result = CalculateHours(TurnIn1, TurnOut1) + CalculateHours(TurnIn2, TurnOut2);
+            var turns = new DateTime[4];
 
-            if (result < 0)
-                throw new Exception("Uno de los turnos asignados está incorrecto");
+            for (int i = 0; i < turns.Length; i++)
+            {
+                turns[i] = Shared.DateFunctions.FromLocalTimeToDateTime(TurnHours[i]);
+            }
 
-            return result;
+            return turns;
         }
 
-        double CalculateHours(LocalTime turnIn, LocalTime turnOut)
+        string ApplyFormat(LocalTime time)
         {
-            return Period.Between(turnIn, turnOut).ToDuration().ToTimeSpan().TotalHours;
+            return time.ToString("h:mmtt", Configuration.CultureInfo);
         }
 
-        string ToString(LocalTime turnIn, LocalTime turnOut)
+        double CalculateTurnHours()
         {
-            if (CalculateHours(turnIn, turnOut) == 0)
-                return string.Empty;
+            return SumTurnHours(TurnHours[0], TurnHours[1]) + SumTurnHours(TurnHours[2], TurnHours[3]);
+        }
 
-            return string.Format("{0} - {1}", turnIn.ToString("h:mmtt", Configuration.CultureInfo), turnOut.ToString("h:mmtt", Configuration.CultureInfo));
+        double SumTurnHours(LocalTime timeIn, LocalTime timeOut)
+        {
+            return Period.Between(timeIn, timeOut).ToDuration().ToTimeSpan().TotalHours;
         }
 
         public override string ToString()
@@ -137,14 +131,9 @@ namespace MRSES.Core.Entities
             return new Turn(date);
         }
 
-        public static Turn Create(LocalDate date, LocalTime turnIn1, LocalTime turnOut1)
+        public static Turn Create(LocalDate date, LocalTime[] turn)
         {
-            return new Turn(date, turnIn1, turnOut1);
-        }
-
-        public static Turn Create(LocalDate date, LocalTime turnIn1, LocalTime turnOut1, LocalTime turnIn2, LocalTime turnOut2)
-        {
-            return new Turn(date, turnIn1, turnOut1, turnIn2, turnOut2);
+            return new Turn(date, turn);
         }
 
         #endregion

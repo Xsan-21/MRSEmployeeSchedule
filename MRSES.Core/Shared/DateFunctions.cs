@@ -8,11 +8,6 @@ namespace MRSES.Core.Shared
 {
     public struct DateFunctions
     {
-        public static string ApplyCultureToLocalDate(LocalDate date, string culture)
-        {
-            throw new NotImplementedException();
-        }
-
         public static DateTime FromDateTimeStringToDateTime(string date)
         {
             return DateTime.Parse(date);
@@ -43,7 +38,7 @@ namespace MRSES.Core.Shared
             return new DateTime(date.Year, date.Month, date.Day);
         }
 
-        public static List<string> DaysOfWeekInString(NodaTime.LocalDate ofWeek, System.Globalization.CultureInfo culture)
+        public static List<string> DaysOfWeekInString(LocalDate ofWeek, System.Globalization.CultureInfo culture)
         {
             return GetWeekDays(ofWeek)
                 .Select(day => day.ToString("dddd d", culture))
@@ -85,7 +80,10 @@ namespace MRSES.Core.Shared
 
         public static LocalDate CurrentWeek()
         {
-            IsoDayOfWeek firstWeekDay = GetStartWeek();
+            if (StringFunctions.StringIsNullOrEmpty(Configuration.FirstDayOfWeek))
+                throw new Exception("No se ha establecido día en que comienza la jornada de trabajo");
+
+            IsoDayOfWeek firstWeekDay = FirstDayOfWeek(Configuration.FirstDayOfWeek);
             LocalDate currentDate = GetCurrentDate.Date;
 
             if (currentDate.IsoDayOfWeek == firstWeekDay)
@@ -94,35 +92,76 @@ namespace MRSES.Core.Shared
             return currentDate.Previous(firstWeekDay);
         }
 
-        private static IsoDayOfWeek GetStartWeek()
+        public static LocalDate GetWeekOf(LocalDate date)
+        {
+            if (StringFunctions.StringIsNullOrEmpty(Configuration.FirstDayOfWeek))
+                throw new Exception("No se ha establecido día en que comienza la jornada de trabajo");
+
+            var firstWeekDay = FirstDayOfWeek(Configuration.FirstDayOfWeek);
+            
+            if (date.IsoDayOfWeek != firstWeekDay)
+            {
+                for (int i = 1; i < 7; i++)
+                {
+                    if (date.PlusDays(-i).IsoDayOfWeek == firstWeekDay)
+                    {
+                        return date.PlusDays(-i);
+                    }
+                }
+            }
+
+            return date;
+        }
+
+        public static IsoDayOfWeek FirstDayOfWeek(string day)
         {
             IsoDayOfWeek dayOfWeek = IsoDayOfWeek.None;
 
-            switch (Configuration.FirstDayOfWeek)
+            switch (day)
             {
-                case "wednesday":
+                case "Wednesday":
                     dayOfWeek = IsoDayOfWeek.Wednesday;
                     break;
-                case "thursday":
+                case "Thursday":
                     dayOfWeek = IsoDayOfWeek.Thursday;
                     break;
-                case "friday":
+                case "Friday":
                     dayOfWeek = IsoDayOfWeek.Friday;
                     break;
-                case "saturday":
+                case "Saturday":
                     dayOfWeek = IsoDayOfWeek.Saturday;
                     break;
-                case "sunday":
+                case "Sunday":
                     dayOfWeek = IsoDayOfWeek.Sunday;
                     break;
-                case "monday":
+                case "Monday":
                     dayOfWeek = IsoDayOfWeek.Monday;
                     break;
-                case "tuesday":
+                case "Tuesday":
+                    dayOfWeek = IsoDayOfWeek.Tuesday;
+                    break;
+                case "miércoles":
+                    dayOfWeek = IsoDayOfWeek.Wednesday;
+                    break;
+                case "jueves":
+                    dayOfWeek = IsoDayOfWeek.Thursday;
+                    break;
+                case "viernes":
+                    dayOfWeek = IsoDayOfWeek.Friday;
+                    break;
+                case "sábado":
+                    dayOfWeek = IsoDayOfWeek.Saturday;
+                    break;
+                case "domingo":
+                    dayOfWeek = IsoDayOfWeek.Sunday;
+                    break;
+                case "lunes":
+                    dayOfWeek = IsoDayOfWeek.Monday;
+                    break;
+                    case "martes":
                     dayOfWeek = IsoDayOfWeek.Tuesday;
                     break;
                 default:
-                    dayOfWeek = IsoDayOfWeek.Monday;
                     break;
             }
 

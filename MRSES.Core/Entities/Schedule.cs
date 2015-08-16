@@ -8,7 +8,7 @@ namespace MRSES.Core.Entities
     {
         string Name { get; set; }
         LocalDate OfWeek { get; set; }
-        List<Turn> Turns { get; set; }
+        Turn[] WeekDays { get; set; }
         double HoursOfWeek { get; }
         byte AmountOfTurns { get; }
     }
@@ -17,61 +17,60 @@ namespace MRSES.Core.Entities
     {
         #region variables and properties
 
-        List<Turn> _turns;
-
         public string Name { get; set; }
         public LocalDate OfWeek { get; set; }
-        public List<Turn> Turns
-        {
-            get { return _turns; }
-            set
-            {
-                if (value == null) return;
-                _turns = value;
-            }
-        }
-
+        public Turn[] WeekDays { get; set; }
         public double HoursOfWeek 
         { 
             get 
             {
-                double totalHours = 0;
-                Turns.ForEach(turn => totalHours += turn.Hours);
-                return totalHours;
+                return TotalHoursInWeek();
             } 
         }
-
         public byte AmountOfTurns { get { return TurnCounter(); } }
 
         #endregion variables and properties
 
         #region constructors
 
-        public Schedule() : this(DateFunctions.CurrentWeek(), string.Empty)
+        public Schedule(string name) : this(name, DateFunctions.CurrentWeek())
         {
             
         }
 
-        public Schedule(LocalDate ofWeek, string name)
+        public Schedule(string name, LocalDate ofWeek)
         {
             Name = name;
             OfWeek = ofWeek;
+            WeekDays = new Turn[7];
 
-            Turns = new List<Turn>();
+            int index = 0;
 
             foreach (var currentDate in DateFunctions.GetWeekDays(OfWeek))
-                Turns.Add(new Turn(currentDate));
+                WeekDays[index++] = new Turn(currentDate);
         }
 
         #endregion constructors
 
         #region methods
 
+        double TotalHoursInWeek()
+        {
+            double totalHours = 0;
+
+            for (int i = 0; i < WeekDays.Length; i++)
+            {
+                totalHours += WeekDays[i].Hours;
+            }
+           
+            return totalHours;
+        }
+
         byte TurnCounter()
         {
             byte result = 0;
 
-            foreach (var turn in Turns)
+            foreach (var turn in WeekDays)
             {
                 if (turn.Hours != 0)
                 {

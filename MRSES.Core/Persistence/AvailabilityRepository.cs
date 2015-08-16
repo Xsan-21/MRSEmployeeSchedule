@@ -3,26 +3,24 @@ using MRSES.Core.Shared;
 using Npgsql;
 using NpgsqlTypes;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace MRSES.Core.Persistence
 {
-    public interface IAvailabilityRepository
+    public interface IAvailabilityRepository : IDatabase
     {
-        System.Threading.Tasks.Task SaveAsync();
-        System.Threading.Tasks.Task<Availability> GetAvailabilityAsync();
-        System.Threading.Tasks.Task<string> GetAvailabilityOfADayAsync(NodaTime.IsoDayOfWeek dayOfWeek);
+        IAvailability Availability { get; set; }
+        Task<Availability> GetAvailabilityAsync(string employeeName);
+        Task<string> GetAvailabilityAsync(string employeeName, NodaTime.IsoDayOfWeek dayOfWeek);
+        Task<bool> CanDoTheTurnAsync(string employeeName, Turn turn);
     }
 
-    public class AvailabilityRepository : IAvailabilityRepository, IDatabase, IDisposable
+    public class AvailabilityRepository : IAvailabilityRepository
     {
+        // TODO the method ValidateRequiredData(employeeName, Iturn turn) should be added, as is in PetitionRepository.
         #region Properties
 
         public IAvailability Availability { get; set; }
-        public string EmployeeName { get; set; }
 
         #endregion
 
@@ -30,10 +28,9 @@ namespace MRSES.Core.Persistence
 
         public AvailabilityRepository() { }
 
-        public AvailabilityRepository(string employeeName, IAvailability availability)
+        public AvailabilityRepository(IAvailability availability)
         {
             Availability = availability;
-            EmployeeName = employeeName;
         }
 
         #endregion
@@ -42,26 +39,23 @@ namespace MRSES.Core.Persistence
 
         async public Task SaveAsync()
         {
-            CheckIfEmployeeNameIsProvided();
+            ValidateRequiredData("");
 
-            if (Availability == null)
-                throw new Exception("No se ha indicado la disponibilidad del empleado.");
-
-            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
                 {
                     command.CommandText = GetQuery("SaveAvailability");
                     command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("emp_name", NpgsqlDbType.Varchar, EmployeeName);
-                    command.Parameters.AddWithValue("emp_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
-                    command.Parameters.AddWithValue("monday", NpgsqlDbType.Varchar, Availability.Monday);
-                    command.Parameters.AddWithValue("tuesday", NpgsqlDbType.Varchar, Availability.Tuesday);
-                    command.Parameters.AddWithValue("wednesday", NpgsqlDbType.Varchar, Availability.Wednesday);
-                    command.Parameters.AddWithValue("thursday", NpgsqlDbType.Varchar, Availability.Thursday);
-                    command.Parameters.AddWithValue("friday", NpgsqlDbType.Varchar, Availability.Friday);
-                    command.Parameters.AddWithValue("saturday", NpgsqlDbType.Varchar, Availability.Saturday);
-                    command.Parameters.AddWithValue("sunday", NpgsqlDbType.Varchar, Availability.Sunday);
+                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Availability.ObjectID);
+                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, Availability.EmployeeObjectID);
+                    command.Parameters.AddWithValue("monday", NpgsqlDbType.Text, Availability.Monday);
+                    command.Parameters.AddWithValue("tuesday", NpgsqlDbType.Text, Availability.Tuesday);
+                    command.Parameters.AddWithValue("wednesday", NpgsqlDbType.Text, Availability.Wednesday);
+                    command.Parameters.AddWithValue("thursday", NpgsqlDbType.Text, Availability.Thursday);
+                    command.Parameters.AddWithValue("friday", NpgsqlDbType.Text, Availability.Friday);
+                    command.Parameters.AddWithValue("saturday", NpgsqlDbType.Text, Availability.Saturday);
+                    command.Parameters.AddWithValue("sunday", NpgsqlDbType.Text, Availability.Sunday);
 
                     await command.Connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
@@ -71,25 +65,20 @@ namespace MRSES.Core.Persistence
             Dispose();
         }
 
-        void CheckIfEmployeeNameIsProvided()
+        async public Task<Availability> GetAvailabilityAsync(string employeeName)
         {
-            if (string.IsNullOrEmpty(EmployeeName))
-                throw new Exception("No se ha especificado el nombre del empleado");
-        }
-
-        async public Task<Availability> GetAvailabilityAsync()
-        {
-            CheckIfEmployeeNameIsProvided();
+            
             var employeeAvailability = new Availability();
 
-            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
                 {
                     command.CommandText = GetQuery("GetAvailability");
                     command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("employee_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
-                    command.Parameters.AddWithValue("employee_name", NpgsqlDbType.Varchar, EmployeeName);
+                 
+                    command.Parameters.AddWithValue("employee_name", NpgsqlDbType.Text, employeeName);
+                    command.Parameters.AddWithValue("access_key", NpgsqlDbType.Text, Configuration.AccessKey);
 
                     await command.Connection.OpenAsync();
 
@@ -97,74 +86,74 @@ namespace MRSES.Core.Persistence
                     {
                         while (await reader.ReadAsync())
                         {
-                            employeeAvailability.Monday = await reader.GetFieldValueAsync<string>(0);
-                            employeeAvailability.Tuesday = await reader.GetFieldValueAsync<string>(1);
-                            employeeAvailability.Wednesday = await reader.GetFieldValueAsync<string>(2);
-                            employeeAvailability.Thursday = await reader.GetFieldValueAsync<string>(3);
-                            employeeAvailability.Friday = await reader.GetFieldValueAsync<string>(4);
-                            employeeAvailability.Saturday = await reader.GetFieldValueAsync<string>(5);
-                            employeeAvailability.Sunday = await reader.GetFieldValueAsync<string>(6);
+                            employeeAvailability.ObjectID = await reader.GetFieldValueAsync<string>(0);
+                            employeeAvailability.EmployeeObjectID = await reader.GetFieldValueAsync<string>(1);
+                            employeeAvailability.Monday = await reader.GetFieldValueAsync<string>(2);
+                            employeeAvailability.Tuesday = await reader.GetFieldValueAsync<string>(3);
+                            employeeAvailability.Wednesday = await reader.GetFieldValueAsync<string>(4);
+                            employeeAvailability.Thursday = await reader.GetFieldValueAsync<string>(5);
+                            employeeAvailability.Friday = await reader.GetFieldValueAsync<string>(6);
+                            employeeAvailability.Saturday = await reader.GetFieldValueAsync<string>(7);
+                            employeeAvailability.Sunday = await reader.GetFieldValueAsync<string>(8);
                         }
                     }
                 }
             }
 
             return employeeAvailability;
-        }
+        }  
 
-        async public Task<string> GetAvailabilityOfADayAsync(NodaTime.IsoDayOfWeek dayOfWeek)
+        async public Task<string> GetAvailabilityAsync(string employeeName, NodaTime.IsoDayOfWeek dayOfWeek)
         {
-            string result = "";
+            var availability = "";
 
-            var employeeAvailability = await GetAvailabilityAsync();
+            var employeeAvailability = await GetAvailabilityAsync(employeeName);
 
             switch (dayOfWeek)
             {
                 case NodaTime.IsoDayOfWeek.Friday:
-                    result = employeeAvailability.Friday;
+                    availability = employeeAvailability.Friday;
                     break;
                 case NodaTime.IsoDayOfWeek.Monday:
-                    result = employeeAvailability.Monday;
+                    availability = employeeAvailability.Monday;
                     break;
                 case NodaTime.IsoDayOfWeek.Saturday:
-                    result = employeeAvailability.Saturday;
+                    availability = employeeAvailability.Saturday;
                     break;
                 case NodaTime.IsoDayOfWeek.Sunday:
-                    result = employeeAvailability.Sunday;
+                    availability = employeeAvailability.Sunday;
                     break;
                 case NodaTime.IsoDayOfWeek.Thursday:
-                    result = employeeAvailability.Thursday;
+                    availability = employeeAvailability.Thursday;
                     break;
                 case NodaTime.IsoDayOfWeek.Tuesday:
-                    result = employeeAvailability.Tuesday;
+                    availability = employeeAvailability.Tuesday;
                     break;
                 case NodaTime.IsoDayOfWeek.Wednesday:
-                    result = employeeAvailability.Wednesday;
+                    availability = employeeAvailability.Wednesday;
                     break;
                 default:
+                    availability = "available";
                     break;
             }
 
-            return result;
+            return availability;
         }
 
-        public static async Task<bool> CanDoTheTurnAsync(string employeeName, ITurn turn)
+        public async Task<bool> CanDoTheTurnAsync(string employeeName, Turn turn)
         {
-            bool result = true;
-            var employeeId = await EmployeeRepository.GetEmployeeIdAsync(employeeName);
+            bool availability = true;
+            var employeeObjectId = await new EmployeeRepository().GetEmployeeObjectIdAsync(employeeName);
 
-            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
                 {
                     command.CommandText = GetQuery("VerifyAvailability");
                     command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("emp_id", NpgsqlDbType.Varchar, employeeId);
+                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, employeeObjectId);
                     command.Parameters.AddWithValue("turn_date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(turn.Date));
-                    command.Parameters.AddWithValue("turn_in1", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnIn1));
-                    command.Parameters.AddWithValue("turn_out1", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnOut1));
-                    command.Parameters.AddWithValue("turn_in2", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnIn2));
-                    command.Parameters.AddWithValue("turn_out2", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnOut2));
+                    command.Parameters.AddWithValue("turn", NpgsqlDbType.Array | NpgsqlDbType.Time, turn.GetTurn());
 
                     await command.Connection.OpenAsync();
 
@@ -172,28 +161,28 @@ namespace MRSES.Core.Persistence
                     {
                         if (await reader.ReadAsync())
                         {
-                            result = await reader.GetFieldValueAsync<bool>(0);
+                            availability = await reader.GetFieldValueAsync<bool>(0);
                         }
                     }
                 }
             }
 
-            return result;
+            return availability;
         }
 
-        static string GetQuery(string action)
+        public string GetQuery(string action)
         {
             string query = string.Empty;
             switch (action)
             {
                 case "GetAvailability":
-                    query = "SELECT * FROM get_availability(:employee_name, :employee_store)";
+                    query = "SELECT * FROM get_availability(:employee_name, :access_key)";
                     break;
                 case "SaveAvailability":
-                    query = "SELECT add_availability(:emp_name, :emp_store, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday)";
+                    query = "SELECT add_availability(:object_id, :employee, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday)";
                     break;
                 case "VerifyAvailability":
-                    query = "SELECT availability_employee_can_do_the_turn(:emp_id, :turn_date, :turn_in1, :turn_out1, :turn_in2, :turn_out2)";
+                    query = "SELECT availability_employee_can_do_the_turn(:employee, :turn_date, :turn)";
                     break;
                 default:
                     break;
@@ -201,13 +190,21 @@ namespace MRSES.Core.Persistence
 
             return query;
         }
-
-        #endregion
       
         public void Dispose()
         {
-            EmployeeName = null;
             Availability = null;
         }
+
+        public void ValidateRequiredData(string dataToValidate)
+        {
+            if (Availability == null)
+                throw new Exception("No se ha indicado la disponibilidad del empleado.");
+
+            if (StringFunctions.StringIsNullOrEmpty(Availability.EmployeeObjectID))
+                throw new Exception("No se ha especificado el object id del empleado");
+        }
+
+        #endregion
     }
 }

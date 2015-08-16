@@ -63,6 +63,9 @@ namespace MRSES.Core.Shared
 
         static public LocalTime[] GetTurnInAndOut(string turn)
         {
+            if (StringFunctions.StringIsNullOrEmpty(turn))
+                return new LocalTime[] { new LocalTime(), new LocalTime() };
+
             if (!FormatOfTurnIsValid(turn))
                 throw new System.Exception("El formato del turno no es válido.");
 
@@ -109,11 +112,6 @@ namespace MRSES.Core.Shared
             
             return turn.Replace(" ", "").Split('-');
         }
-
-        //static public bool ValidateTotalHour(string hour)
-        //{
-        //    return System.Text.RegularExpressions.Regex.IsMatch(hour, @"^\d+(\.\d{2})?$");
-        //}
 
         static string ConvertHourInShortFormatToLong(string shortHour)
         {

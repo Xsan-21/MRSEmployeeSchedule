@@ -1,33 +1,47 @@
 ﻿namespace MRSES.Core
 {
-    public static class Configuration
+    public struct Configuration
     {
-        internal static string PostgresDbConnection
+        public static string Business
         {
-            get { return Properties.Settings.Default.PostgresDBConnection; }
+            internal get;
+            set;
         }
 
-        public static string FirstDayOfWeek 
-        { 
-            get { return Properties.Settings.Default.FirstDayOfWeek; }
-            set { Properties.Settings.Default.FirstDayOfWeek = value; Properties.Settings.Default.Save(); } 
+        public static string DbConnection
+        {
+            internal get;
+            set;            
         }
 
-        public static string StoreLocation
+        public static string AccessKey
         {
-            get { return Properties.Settings.Default.StoreLocation; }
-            set { Properties.Settings.Default.StoreLocation = value; Properties.Settings.Default.Save(); } 
+            internal get;
+            set;
         }
 
         public static string ReportFolderLocation
         {
-            get { return Properties.Settings.Default.ReportLocation; }
-            internal set { Properties.Settings.Default.ReportLocation = value; Properties.Settings.Default.Save(); }
+            internal get;
+            set;
+        }
+
+        public static string FirstDayOfWeek
+        {
+            internal get;
+            set;
         }
 
         public static System.Globalization.CultureInfo CultureInfo
         {
-            get { return new System.Globalization.CultureInfo(Properties.Settings.Default.CultureInfo); }
+            internal get;
+            set;
+        }
+
+        internal static System.DateTime LastSyncDate
+        {
+            get { return Properties.Settings.Default.LastSyncDate; }
+            set { Properties.Settings.Default.LastSyncDate = value; Properties.Settings.Default.Save(); }
         }
     }
 }

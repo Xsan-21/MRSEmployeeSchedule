@@ -7,13 +7,15 @@ using iTextSharp.text.pdf;
 
 namespace MRSES.Core.Entities
 {
+    // TODO verificar el location path para guardar el reporte. 
+    // Ya que puede que falle con los cambios realizados en FormConfigurationAppSettings.
     public class PrintSchedule : IDisposable
     {
         static System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo("es-PR");
-	    static string _documentFolder = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-	    static string _scheduleDirectory = _documentFolder + "\\Horarios de empleados";
 
 	    public string Position {get; set;}
+        public string StoreLocation { get; set; }
+        public string ReportLocationFolder { get; set; }
 	    public NodaTime.LocalDate Week {get; set;}
 	    public List<Schedule> Schedule {get; set;}
 	
@@ -36,14 +38,6 @@ namespace MRSES.Core.Entities
 			    _reportName = string.Format("\\{0}.pdf", value);
 		    }
 	    }
-
-        public string ReportFileLocation
-        {
-            get
-            {
-                return Core.Configuration.ReportFolderLocation + ReportName;
-            }
-        }
 	
 	    BaseFont _bfHelvetica;
 	    FileStream _fileStream;
@@ -52,13 +46,7 @@ namespace MRSES.Core.Entities
 	    PdfPTable _table;
 	
 	    public PrintSchedule()
-	    {
-            if (!Directory.Exists(_scheduleDirectory))
-            {
-                Directory.CreateDirectory(_scheduleDirectory);
-                Configuration.ReportFolderLocation = _scheduleDirectory;
-            }
-            
+	    {            
 		    _bfHelvetica = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);		
 		    _document = new Document(PageSize.LETTER.Rotate(), 36, 36, 2, 2); // 1 inch = 72 points	
 		    _table = new PdfPTable(9) {SpacingBefore = 20f, SpacingAfter = 20f};
@@ -75,7 +63,7 @@ namespace MRSES.Core.Entities
 	    public void Print()
 	    {
 		    ValidatePositionAndWeekSchedule();
-		    _fileStream = new FileStream(_scheduleDirectory + ReportName, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
+		    _fileStream = new FileStream(ReportLocationFolder + ReportName, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
 		    _pdfWriter = PdfWriter.GetInstance(_document, _fileStream);
 		    WriteDocumentInformationProperties();
 		    PrintEmployeesSchedule();
@@ -161,7 +149,7 @@ namespace MRSES.Core.Entities
 		
 		    valuesToPrint.Add(employee_name);
 		
-		    foreach (var turn in schedule.Turns)
+		    foreach (var turn in schedule.WeekDays)
 			    valuesToPrint.Add(turn.FirstTurn + "\n" + turn.SecondTurn);
 		
 		    valuesToPrint.Add(schedule.HoursOfWeek.ToString());
@@ -186,7 +174,7 @@ namespace MRSES.Core.Entities
 	
 	    IEnumerable<double> GetToTalHoursPerDay(int skip, int take)
 	    {
-		    return from turns in Schedule.Skip(skip).Take(take).Select(a => a.Turns)
+		    return from turns in Schedule.Skip(skip).Take(take).Select(a => a.WeekDays)
 					      from turn in turns
 					      group turn by turn.Date into groupedTurns
 					      select groupedTurns.Sum(a => a.Hours);
@@ -204,7 +192,7 @@ namespace MRSES.Core.Entities
 	    {
 		    var header = new Paragraph();
 		    header.Add(new Chunk("SUPERMERCADOS MR. SPECIAL, INC\n", new Font(_bfHelvetica, 14)));
-		    header.Add(new Chunk("TIENDA DE " + Configuration.StoreLocation.ToUpper() + "\n", new Font(_bfHelvetica, 12)));
+		    header.Add(new Chunk("TIENDA DE " + StoreLocation.ToUpper() + "\n", new Font(_bfHelvetica, 12)));
 		    header.Add(new Chunk("HORARIO DE ", new Font(_bfHelvetica, 14, Font.BOLD)));
 		    header.Add(new Chunk(Position.ToUpper() , new Font(_bfHelvetica, 14, Font.BOLDITALIC + Font.UNDERLINE)));
 		    header.Add(new Chunk(GetWeekTitle().ToUpper(), new Font(_bfHelvetica, 14, Font.BOLD)));

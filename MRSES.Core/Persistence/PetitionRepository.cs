@@ -1,38 +1,64 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Npgsql;
 using NpgsqlTypes;
 using MRSES.Core.Entities;
 using MRSES.Core.Shared;
 using System.Data;
+using System.Linq;
 
 namespace MRSES.Core.Persistence
 {
-    public class PetitionRepository : IDatabase, System.IDisposable
+    public interface IPetitionRepository: IDatabase
     {
+        string EmployeeName { get; set; }
+        IPetition Petition { get; set; }
+        Task DeleteAsync();
+        Task<List<Petition>> GetEmployeePetitionsAsync(string employeeName);
+        Task<bool> CanDoTheTurnAsync(string employeeName, Turn turn);
+    }
+
+    public class PetitionRepository : IPetitionRepository
+    {
+        public string EmployeeName { get; set; }
         public IPetition Petition { get; set; }
 
         public PetitionRepository() { }
 
-        public PetitionRepository(IPetition petition)
+        public PetitionRepository(string employeeName, IPetition petition)
         {
+            EmployeeName = employeeName;
             Petition = petition;
+        }
+
+        async Task<string> GetEmployeeObjectIdAsync(string employee)
+        {
+            string employeeObjectId = "";
+
+            using (var employeeRepo = new EmployeeRepository())
+            {
+                employeeObjectId = await employeeRepo.GetEmployeeObjectIdAsync(employee);
+            }
+
+            if (StringFunctions.StringIsNullOrEmpty(employeeObjectId))
+                throw new System.Exception("El empleado " + EmployeeName + " no existe.");
+
+            return employeeObjectId ;
         }
 
         public async Task SaveAsync()
         {
-            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            ValidateRequiredData("");
+            var employee = await GetEmployeeObjectIdAsync(EmployeeName);
+
+            using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
                 {
                     command.CommandText = GetQuery("SavePetition");
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("emp_name", NpgsqlDbType.Varchar, Petition.EmployeeName);
-                    command.Parameters.AddWithValue("emp_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Petition.ObjectID);
+                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, employee);
                     command.Parameters.AddWithValue("pet_date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(Petition.Date));
                     command.Parameters.AddWithValue("available_from", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(Petition.AvailableFrom));
                     command.Parameters.AddWithValue("available_to", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(Petition.AvailableTo));
@@ -41,42 +67,46 @@ namespace MRSES.Core.Persistence
                     await command.ExecuteNonQueryAsync();
                 }
             }
-
-            Dispose();
         }
 
         public async Task DeleteAsync()
         {
-            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            ValidateRequiredData("");
+            await GetExistingPetitionObjectIdAsync();
+            
+            using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
                 {
                     command.CommandText = GetQuery("DeletePetition");
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("emp_name", NpgsqlDbType.Varchar, Petition.EmployeeName);
-                    command.Parameters.AddWithValue("emp_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
-                    command.Parameters.AddWithValue("pet_date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(Petition.Date));
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Petition.ObjectID);
 
                     await command.Connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
                 }
             }
+        }
 
-            Dispose();
+        // TODO create a function to get the objectId of a petition.
+        async Task GetExistingPetitionObjectIdAsync()
+        {
+            var petitions = await GetEmployeePetitionsAsync(EmployeeName);
+            Petition.ObjectID = petitions.Where(p => p.Date == Petition.Date).Select(d => d.ObjectID).Single();
         }
 
         public async Task<List<Petition>> GetEmployeePetitionsAsync(string employeeName)
         {
             var petitions = new List<Petition>();
          
-            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
                 {
                     command.CommandText = GetQuery("GetEmployeePetitions");
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("emp_store", NpgsqlDbType.Varchar, Configuration.StoreLocation);
-                    command.Parameters.AddWithValue("emp_name", NpgsqlDbType.Varchar, employeeName);
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("employee_name", NpgsqlDbType.Text, employeeName);
+                    command.Parameters.AddWithValue("access_key", NpgsqlDbType.Text, Configuration.AccessKey);
 
                     await command.Connection.OpenAsync();
 
@@ -84,14 +114,15 @@ namespace MRSES.Core.Persistence
                     {
                         while (await reader.ReadAsync())
                         {
-                            var date = await reader.GetFieldValueAsync<DateTime>(0);
-                            var availableFrom = await reader.GetFieldValueAsync<DateTime>(2);
-                            var availableTo = await reader.GetFieldValueAsync<DateTime>(3);
+                            var objectId = await reader.GetFieldValueAsync<string>(0);
+                            var date = await reader.GetFieldValueAsync<System.DateTime>(1);
+                            var availableFrom = await reader.GetFieldValueAsync<System.DateTime>(3);
+                            var availableTo = await reader.GetFieldValueAsync<System.DateTime>(4);
 
                             petitions.Add(
                                 new Petition
                                 {
-                                    EmployeeName = employeeName,
+                                    ObjectID = objectId,
                                     Date = DateFunctions.FromDateTimeToLocalDate(date),
                                     AvailableFrom = DateFunctions.FromDateTimeToLocalTime(availableFrom),
                                     AvailableTo = DateFunctions.FromDateTimeToLocalTime(availableTo)
@@ -105,24 +136,24 @@ namespace MRSES.Core.Persistence
             return petitions;
         }
 
-        public static async Task<bool> CanDoTheTurnAsync(string employeeName, ITurn turn)
+        public async Task<bool> CanDoTheTurnAsync(string employeeName, Turn turn)
         {
             bool result = true;
-            var employeeId = await EmployeeRepository.GetEmployeeIdAsync(employeeName);
 
-            using (var dbConnection = new NpgsqlConnection(Configuration.PostgresDbConnection))
+            ValidateRequiredData(employeeName, turn);
+
+            var employeeObjectId = await GetEmployeeObjectIdAsync(employeeName);
+
+            using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
                 using (var command = new NpgsqlCommand("", dbConnection))
                 {
                     command.CommandText = GetQuery("VerifyAvailability");
-                    command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("emp_id", NpgsqlDbType.Varchar, employeeId);
+                    command.CommandType = CommandType.Text;
+                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, employeeObjectId);
                     command.Parameters.AddWithValue("turn_date", NpgsqlDbType.Date, DateFunctions.FromLocalDateToDateTime(turn.Date));
-                    command.Parameters.AddWithValue("turn_in1", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnIn1));
-                    command.Parameters.AddWithValue("turn_out1", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnOut1));
-                    command.Parameters.AddWithValue("turn_in2", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnIn2));
-                    command.Parameters.AddWithValue("turn_out2", NpgsqlDbType.Time, DateFunctions.FromLocalTimeToDateTime(turn.TurnOut2));
-
+                    command.Parameters.AddWithValue("turn", NpgsqlDbType.Array | NpgsqlDbType.Time, turn.GetTurn());
+                    
                     await command.Connection.OpenAsync();
 
                     using (var reader = await command.ExecuteReaderAsync())
@@ -134,22 +165,22 @@ namespace MRSES.Core.Persistence
             return result;
         }
 
-        static string GetQuery(string action)
+        public string GetQuery(string action)
         {
             string query = string.Empty;
             switch (action)
             {
                 case "GetEmployeePetitions":
-                    query = "SELECT * FROM get_employee_petitions(:emp_name, :emp_store)";
+                    query = "SELECT * FROM get_employee_petitions(:employee_name, :access_key)";
                     break;
                 case "SavePetition":
-                    query = "SELECT add_petition(:emp_name, :emp_store, :pet_date, :available_from, :available_to)";
+                    query = "SELECT add_petition(:object_id, :employee, :pet_date, :available_from, :available_to)";
                     break;
                 case "DeletePetition":
-                    query = "SELECT delete_petition(:emp_name, :emp_store, :pet_date)";
+                    query = "SELECT delete_petition(:object_id)";
                     break;
                 case "VerifyAvailability":
-                    query = "SELECT petition_employee_can_do_the_turn(:emp_id, :turn_date, :turn_in1, :turn_out1, :turn_in2, :turn_out2)";
+                    query = "SELECT petition_employee_can_do_the_turn(:employee, :turn_date, :turn)";
                     break;
                 default:
                     break;
@@ -160,7 +191,35 @@ namespace MRSES.Core.Persistence
 
         public void Dispose()
         {
+            EmployeeName = null;
             Petition = null;
+        }
+
+        public void ValidateRequiredData(string dataToValidate)
+        {
+            if (StringFunctions.StringIsNullOrEmpty(EmployeeName))
+                throw new System. Exception("No se ha indicado empleado");
+
+            if (Petition == null)
+                throw new System. NullReferenceException("No se ha indicado petiticion.");
+
+            if (Petition.Date == new NodaTime.LocalDate())
+                throw new System. Exception("No se ha indicado fecha en la petition");
+
+            if(StringFunctions.StringIsNullOrEmpty(Petition.ObjectID))
+                Petition.ObjectID = StringFunctions.GenerateObjectId(10);
+        }
+
+        void ValidateRequiredData(string employeeName, ITurn turn)
+        {
+            if (StringFunctions.StringIsNullOrEmpty(employeeName))
+                throw new System.ArgumentException("No existe el empleado " + employeeName);
+
+            if(turn == null)
+                throw new System.NullReferenceException ("No ha indicado turno para verificar disponibilidad.");
+
+            if (turn.Date == new NodaTime.LocalDate())
+                throw new System.ArgumentException("No ha indicado fecha para verificar disponibilidad.");
         }
     }
 }

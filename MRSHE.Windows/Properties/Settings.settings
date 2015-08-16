@@ -3,9 +3,57 @@
   <Profiles />
   <Settings>
     <Setting Name="EmailUserName" Type="System.String" Scope="Application">
-      <Value Profile="(Default)" />
+      <Value Profile="(Default)">mrses-app@outlook.com</Value>
     </Setting>
     <Setting Name="EmailPassword" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">dJZyCwBQb7uUNatt</Value>
+    </Setting>
+    <Setting Name="SendEmailTo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">xavier_san@outlook.com</Value>
+    </Setting>
+    <Setting Name="ParseApplicationID" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;9n19ZYnY73Md0Oq37sVjz9O9SabzAWiregc3GyjC&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">9n19ZYnY73Md0Oq37sVjz9O9SabzAWiregc3GyjC</Value>
+    </Setting>
+    <Setting Name="ParseDotNetKey" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;7gEBU3EsAE43BNA5jVaTD1hhPKtib0rmvxQUHU4m&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">7gEBU3EsAE43BNA5jVaTD1hhPKtib0rmvxQUHU4m</Value>
+    </Setting>
+    <Setting Name="FirstDayOfWeek" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="CultureInfo" Type="System.String" Scope="User">
+      <Value Profile="(Default)">en-US</Value>
+    </Setting>
+    <Setting Name="ReportLocation" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Business" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="City" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="IsNewInstallation" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="DBConnection" Type="(Connection string)" Scope="Application">
+      <DesignTimeValue Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;SerializableConnectionString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;ConnectionString&gt;Server=localhost; Port=8000; Database=mrses; User Id=postgres; Password=qqbShvV8BqbnvPhpWm3H&lt;/ConnectionString&gt;
+&lt;/SerializableConnectionString&gt;</DesignTimeValue>
+      <Value Profile="(Default)">Server=localhost; Port=8000; Database=mrses; User Id=postgres; Password=qqbShvV8BqbnvPhpWm3H</Value>
+    </Setting>
+    <Setting Name="AccessKey" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="PhoneNumber" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
   </Settings>

@@ -2,6 +2,8 @@
 {
     public class Availability : IAvailability
     {
+        public string ObjectID { get; set; }
+        public string EmployeeObjectID { get; set; }
         public string Monday { get; set; }
         public string Tuesday { get; set; }
         public string Wednesday { get; set; }
@@ -13,6 +15,8 @@
 
     public interface IAvailability
     {
+        string ObjectID { get; set; }
+        string EmployeeObjectID { get; set; }
         string Monday { get; set; }
         string Tuesday { get; set; }
         string Wednesday { get; set; }
