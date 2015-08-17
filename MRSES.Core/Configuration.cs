@@ -8,6 +8,12 @@
             set;
         }
 
+        public static string Location
+        {
+            internal get;
+            set;
+        }
+
         public static string DbConnection
         {
             internal get;

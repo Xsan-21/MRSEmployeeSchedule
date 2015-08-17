@@ -7,17 +7,15 @@ using iTextSharp.text.pdf;
 
 namespace MRSES.Core.Entities
 {
-    // TODO verificar el location path para guardar el reporte. 
-    // Ya que puede que falle con los cambios realizados en FormConfigurationAppSettings.
     public class PrintSchedule : IDisposable
     {
         static System.Globalization.CultureInfo culture = new System.Globalization.CultureInfo("es-PR");
 
 	    public string Position {get; set;}
-        public string StoreLocation { get; set; }
-        public string ReportLocationFolder { get; set; }
+        string StoreLocation { get { return Configuration.Location; } }
+        public string ReportFolderLocation { get { return @Configuration.ReportFolderLocation; } }
 	    public NodaTime.LocalDate Week {get; set;}
-	    public List<Schedule> Schedule {get; set;}
+	    public Schedule[] Schedule {get; set;}
 	
 	    string _reportName;
 	    public string ReportName 
@@ -50,11 +48,9 @@ namespace MRSES.Core.Entities
 		    _bfHelvetica = BaseFont.CreateFont(BaseFont.HELVETICA, BaseFont.CP1252, false);		
 		    _document = new Document(PageSize.LETTER.Rotate(), 36, 36, 2, 2); // 1 inch = 72 points	
 		    _table = new PdfPTable(9) {SpacingBefore = 20f, SpacingAfter = 20f};
-		
-		    if(Schedule == null) Schedule = new List<Schedule>();
 	    }
 	
-	    public PrintSchedule(string position, List<Schedule> schedule) : this()
+	    public PrintSchedule(string position, Schedule[] schedule) : this()
 	    {
 		    Position = position;
 		    Schedule = schedule;
@@ -63,7 +59,7 @@ namespace MRSES.Core.Entities
 	    public void Print()
 	    {
 		    ValidatePositionAndWeekSchedule();
-		    _fileStream = new FileStream(ReportLocationFolder + ReportName, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
+		    _fileStream = new FileStream(ReportFolderLocation + ReportName, FileMode.Create, FileAccess.ReadWrite, FileShare.None);
 		    _pdfWriter = PdfWriter.GetInstance(_document, _fileStream);
 		    WriteDocumentInformationProperties();
 		    PrintEmployeesSchedule();
@@ -90,7 +86,7 @@ namespace MRSES.Core.Entities
 	
 	    List<string> GetWeekDays()
 	    {
-		    return MRSES.Core.Shared.DateFunctions.DaysOfWeekInString(Week, culture)
+		    return Shared.DateFunctions.DaysOfWeekInString(Week, culture)
 		    .Select(u => u.ToUpper())
 		    .ToList();
 	    }
@@ -136,7 +132,7 @@ namespace MRSES.Core.Entities
 			    }
 		    }	
 		
-		    InsertTotalHoursPerDay(printedRecords, Schedule.Count - printedRecords);
+		    InsertTotalHoursPerDay(printedRecords, Schedule.Length - printedRecords);
 		    _document.Add(_table);
             _document.Add(InsertDocumentFooter());
             _document.Close();
