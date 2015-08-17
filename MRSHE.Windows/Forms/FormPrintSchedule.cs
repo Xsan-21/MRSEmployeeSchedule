@@ -15,8 +15,8 @@ namespace MRSES.Windows.Forms
 {
     public partial class FormPrintSchedule : Form
     {
-        EmployeeRepository _employeeRepo;
-        TurnRepository _turnRepo;
+        IEmployeeRepository _employeeRepo;
+        IScheduleRepository _scheduleRepo;
 
         NodaTime.LocalDate SelectedWeek
         {
@@ -32,8 +32,6 @@ namespace MRSES.Windows.Forms
         public FormPrintSchedule()
         {
             InitializeComponent();
-            _employeeRepo = new EmployeeRepository();
-            _turnRepo = new TurnRepository();
         }
 
         private async void FormPrintSchedule_Load(object sender, EventArgs e)
@@ -44,19 +42,22 @@ namespace MRSES.Windows.Forms
 
         void FillWeekSelectorComboBox()
         {
-            var weeks = MRSES.Core.Shared.DateFunctions.GetCurrentAndNextThreeWeeks();
+            var weeks = DateFunctions.GetCurrentAndNextThreeWeeks();
             ComboBoxWeekSelectorInFormPrintSchedule.DataSource = weeks.ToArray();
         }
 
         async Task FillPositionComboBoxAsync()
         {
-            var positions = await _employeeRepo.GetPositionsAsync();
-            ComboBoxPositionSelectorInFormPrintSchedule.DataSource = positions;
+            using (_employeeRepo = new EmployeeRepository())
+            {
+                var positions = await _employeeRepo.GetPositionsAsync();
+                ComboBoxPositionSelectorInFormPrintSchedule.DataSource = positions; 
+            }
         }
 
         void ComboBoxesInFormPrintScheduleSelectedValueChanged(object sender, EventArgs e)
         {
-            var week = SelectedWeek.ToString("yyyy-MM-dd", Core.Configuration.CultureInfo);
+            var week = SelectedWeek.ToString("yyyy-MM-dd", Configuration.CultureInfo);
             TextBoxReportNameInFormPrintSchedule.Clear();
             TextBoxReportNameInFormPrintSchedule.Text = string.Format("Horario-{0}-Semana-{1}", Position, week);
         }
@@ -85,8 +86,8 @@ namespace MRSES.Windows.Forms
 
             if (ScheduleWeekHaveNoTurns(scheduleToPrint))
                 return;
-            
-            using(var _printer = new PrintSchedule())
+
+            using (var _printer = new PrintSchedule())
             {
                 _printer.Position = ComboBoxPositionSelectorInFormPrintSchedule.Text;
                 _printer.ReportName = TextBoxReportNameInFormPrintSchedule.Text;
@@ -94,18 +95,18 @@ namespace MRSES.Windows.Forms
                 _printer.Schedule = scheduleToPrint;
                 _printer.Print();
 
-                ShowSuccessfulReportMessageToUser(_printer.ReportFileLocation);
+                ShowSuccessfulReportMessageToUser(_printer.ReportFolderLocation);
             }
         }
 
         void ShowSuccessfulReportMessageToUser(string fileName)
         {
-            var message = AlertUser.Message("Se creó el reporte satisfactoriamente. ¿Desea abrirlo?","Reporte terminado",MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
-            if (message == System.Windows.Forms.DialogResult.Yes)
+            var message = AlertUser.Message("Se creó el reporte satisfactoriamente. ¿Desea abrirlo?", "Reporte terminado", MessageBoxButtons.YesNo, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            if (message == DialogResult.Yes)
                 System.Diagnostics.Process.Start("explorer.exe", fileName);
         }
 
-        bool ScheduleWeekHaveNoTurns(List<Schedule> sch)
+        bool ScheduleWeekHaveNoTurns(Schedule[] sch)
         {
             if (sch.All(a => a.AmountOfTurns == 0))
             {
@@ -116,9 +117,12 @@ namespace MRSES.Windows.Forms
             return false;
         }
 
-        async Task<List<Schedule>> GetScheduleAsync()
+        async Task<Schedule[]> GetScheduleAsync()
         {
-            return await _turnRepo.GetScheduleByPositionAsync(Position, SelectedWeek);
+            using (_scheduleRepo = new ScheduleRepository())
+            {
+                return await _scheduleRepo.GetScheduleByPositionAsync(Position, SelectedWeek); 
+            }
         }
     }
 }

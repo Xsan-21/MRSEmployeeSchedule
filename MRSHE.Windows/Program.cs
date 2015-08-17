@@ -11,9 +11,15 @@ namespace MRSES.Windows
         [STAThread]
         static void Main()
         {
-            if (string.IsNullOrEmpty(MRSES.Core.Configuration.StoreLocation))
-                new Forms.FormSelectStore().ShowDialog();
-
+            Configuration.ValidateConfiguration();
+            Parse.ParseClient.Initialize(Configuration.ParseApplicationId, Configuration.ParseDotNetId);
+            Core.Configuration.DbConnection = Configuration.DBConnection;
+            Core.Configuration.Business = Configuration.Business;
+            Core.Configuration.Location = Configuration.Location;
+            Core.Configuration.FirstDayOfWeek = Configuration.FirstDayOfWeek;
+            Core.Configuration.ReportFolderLocation = Configuration.ReportFolderLocation;
+            Core.Configuration.AccessKey = Configuration.AccessKey;
+            Core.Configuration.CultureInfo = Configuration.CultureInfo;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormMain());

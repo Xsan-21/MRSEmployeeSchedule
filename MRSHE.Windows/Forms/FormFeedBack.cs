@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using MRSES.Core.Shared;
+//using MRSES.Core.Shared;
 using MRSES.Windows.Properties;
 using System.Net.Mail;
 
@@ -22,18 +22,18 @@ namespace MRSES.Windows.Forms
             InitializeComponent();
             TextBoxUserFeedbackInFormFeedBack.TextChanged += (sender, e) => 
             {
-                StringFunctions.ChangeTextColor(sender as TextBox);
+                //StringFunctions.ChangeTextColor(sender as TextBox);
                 DisableButtonSendFeedBackIfTextBoxFeedBackHasInvalidText();
             };
 
             TextBoxUserFeedbackInFormFeedBack.Enter += (sender, e) =>
             {
-                StringFunctions.RemoveDefaultTextIndicator(sender as TextBox);                
+                //StringFunctions.RemoveDefaultTextIndicator(sender as TextBox);                
             };
 
             TextBoxUserFeedbackInFormFeedBack.Leave += (sender, e) =>
             {
-                StringFunctions.SetDefaultTextIndicatorInTextBox(sender as TextBox);
+                //StringFunctions.SetDefaultTextIndicatorInTextBox(sender as TextBox);
             }; 
         }
 
@@ -48,7 +48,7 @@ namespace MRSES.Windows.Forms
             catch (Exception ex)
             {
                 LabelMessageInFormFeedBack.Text = "No se pudo enviar su comentario";
-                AlertUser.Message(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                //AlertUser.Message(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 ButtonSendFeedbackInFormFeedBack.Enabled = true; 
             }
         }
@@ -56,7 +56,7 @@ namespace MRSES.Windows.Forms
         async Task SendFeedBackAsync()
         {
             ButtonSendFeedbackInFormFeedBack.Enabled = false;
-            _feedBack = new FeedBack(Core.Configuration.StoreLocation, TextBoxUserFeedbackInFormFeedBack.Text);
+            //_feedBack = new FeedBack(Core.Configuration.StoreLocation, TextBoxUserFeedbackInFormFeedBack.Text);
             LabelMessageInFormFeedBack.Text = "Enviando mensaje...";
 
             await _feedBack.SendFeedBackAsync();

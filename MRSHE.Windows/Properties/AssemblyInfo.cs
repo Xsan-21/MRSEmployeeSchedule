@@ -7,7 +7,7 @@ using System.Resources;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("MRSES")]
-[assembly: AssemblyDescription("Este programa tiene como propósito mejorar el proceso \nde manejo de los horarios de los empleados de MR. Special. \nJunto con la aplicación móvil disponible para los sistemas \nAndroid, iOS, Windows Phone, espero poder eliminar \nel uso del papel y tinta que se utiliza para imprimir los \nhorarios en las tiendas. Este programa fue escrito por \nXavier Sánchez Martínez, Bagger en la tienda de \nHormigueros durante el 2010-2015. Fue creado como \nrequisíto de un proyecto para la clase de Implementación \nde Ciencias en Computadoras. Este programa está bajo la \nlicencia open source Apache 2.0.")]
+[assembly: AssemblyDescription("Este programa tiene como propósito mejorar el proceso \nde manejo de los horarios de los empleados de MR. Special. \nJunto con la aplicación móvil disponible para los sistemas \nAndroid, iOS, Windows Phone, espero poder eliminar \nel uso del papel y tinta que se utiliza para imprimir los \nhorarios en las tiendas. Este programa fue escrito por \nXavier Sánchez Martínez, Bagger en la tienda de \nHormigueros durante febrero 2011 - mayo 2015. Fue creado como \nrequisíto de un proyecto para la clase de Implementación \nde Ciencias en Computadoras. Este programa está bajo la \nlicencia open source Apache 2.0.")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("MR. Special Employee Schedule")]

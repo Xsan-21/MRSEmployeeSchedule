@@ -1,14 +1,9 @@
-﻿using MRSES.Core.Shared;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
+﻿using System;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MRSES.Core.Persistence;
+using MRSES.Core.Shared;
 
 namespace MRSES.Windows.Forms
 {
@@ -19,7 +14,6 @@ namespace MRSES.Windows.Forms
         public FormGenerateSchedule()
         {
             InitializeComponent();
-            _employeeRepo = new EmployeeRepository();
             FillWeekSelectorComboBox();
         }       
 
@@ -30,10 +24,7 @@ namespace MRSES.Windows.Forms
 
         void InputCharacterIsValidOnKeyPress(object sender, KeyPressEventArgs e)
         {
-            if (System.Text.RegularExpressions.Regex.IsMatch(e.KeyChar.ToString(), "^[.0-9apm:\\s\\-\\b]$"))
-                e.Handled = false;
-            else
-                e.Handled = true;
+            e.Handled = !StringFunctions.InputIsValidHourCharacter(e.KeyChar);
         }
 
         void InputCharacterIsNumber(object sender, KeyPressEventArgs e)
@@ -80,17 +71,21 @@ namespace MRSES.Windows.Forms
 
         async Task FillPositionComboBoxAsync()
         {
-            var positions = await _employeeRepo.GetPositionsAsync();
-            ComboBoxPositionSelectorInFormGenerateSchedule.DataSource = positions;
+            using (_employeeRepo = new EmployeeRepository())
+            {
+                var positions = await _employeeRepo.GetPositionsAsync();
+                ComboBoxPositionSelectorInFormGenerateSchedule.DataSource = positions; 
+            }
         }
 
         private void ComboBoxWeekSelectorInFormGenerateSchedule_SelectedValueChanged(object sender, EventArgs e)
         {
+            
             Label[] labelDays = { LabelFirstDay, LabelSecondDay, LabelThirdDay,
                                 LabelFourthDay, LabelFifthDay, LabelSixthDay,
                                 LabelSeventhDay};
 
-            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox(), Core.Configuration.CultureInfo);
+            var weekDays = DateFunctions.DaysOfWeekInString(CurrentSelectedWeekInComboBox(), Configuration.CultureInfo);
 
             for (int i = 0; i < 7; i++)
             {
