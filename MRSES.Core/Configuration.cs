@@ -43,11 +43,5 @@
             internal get;
             set;
         }
-
-        internal static System.DateTime LastSyncDate
-        {
-            get { return Properties.Settings.Default.LastSyncDate; }
-            set { Properties.Settings.Default.LastSyncDate = value; Properties.Settings.Default.Save(); }
-        }
     }
 }

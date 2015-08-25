@@ -22,16 +22,5 @@ namespace MRSES.Core.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        public global::System.DateTime LastSyncDate {
-            get {
-                return ((global::System.DateTime)(this["LastSyncDate"]));
-            }
-            set {
-                this["LastSyncDate"] = value;
-            }
-        }
     }
 }

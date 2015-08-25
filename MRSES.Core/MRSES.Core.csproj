@@ -66,6 +66,7 @@
     <Compile Include="Entities\Schedule.cs" />
     <Compile Include="Persistence\AvailabilityRepository.cs" />
     <Compile Include="Persistence\BusinessRepository.cs" />
+    <Compile Include="Persistence\ChangeObjectId.cs" />
     <Compile Include="Persistence\EmployeeRepository.cs" />
     <Compile Include="Persistence\PetitionRepository.cs" />
     <Compile Include="Persistence\ScheduleRepository.cs" />
@@ -80,7 +81,6 @@
     <Compile Include="Shared\StringFunctions.cs" />
     <Compile Include="Shared\TimeFunctions.cs" />
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
