@@ -12,7 +12,6 @@ namespace MRSES.Core.Persistence
         Task<Employee> GetEmployeeAsync(string name_or_id);
         Task<List<string>> GetPositionsAsync();
         Task<List<string>> GetEmployeeNamesByPositionAsync(string position);
-        Task<string> GetEmployeeObjectIdAsync(string employeeName);
         IEmployee Employee { get; set; }
         Task DeleteAsync();
     }
@@ -47,7 +46,7 @@ namespace MRSES.Core.Persistence
 
         async public Task SaveAsync()
         {
-            ValidateRequiredData("");
+            ValidateRequiredDataForAction("");
 
             using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
@@ -55,9 +54,9 @@ namespace MRSES.Core.Persistence
                 {
                     command.CommandText = GetQuery("Save");
                     command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Employee.ObjectID);
+                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Employee.ObjectId);
                     command.Parameters.AddWithValue("location_id", NpgsqlDbType.Text, Employee.Location);
-                    command.Parameters.AddWithValue("employee_id", NpgsqlDbType.Text, Employee.ID);
+                    command.Parameters.AddWithValue("employee_id", NpgsqlDbType.Text, Employee.Id);
                     command.Parameters.AddWithValue("department", NpgsqlDbType.Text, Employee.Department);
                     command.Parameters.AddWithValue("student", NpgsqlDbType.Boolean, Employee.IsStudent);
                     command.Parameters.AddWithValue("job_type", NpgsqlDbType.Text, Employee.JobType);
@@ -79,7 +78,8 @@ namespace MRSES.Core.Persistence
                 {
                     command.CommandText = GetQuery("Delete");
                     command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Employee.ObjectID);
+                    command.Parameters.AddWithValue("table_name", NpgsqlDbType.Text, "employees");
+                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Employee.ObjectId);
 
                     await command.Connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
@@ -89,9 +89,9 @@ namespace MRSES.Core.Persistence
             Dispose();
         }      
 
-        async public Task<Employee> GetEmployeeAsync(string name_or_id)
+        async public Task<Employee> GetEmployeeAsync(string employee)
         {
-            var employee = new Employee();
+            var _employee = new Employee();
 
             using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
@@ -100,7 +100,43 @@ namespace MRSES.Core.Persistence
                     command.CommandText = GetQuery("GetEmployee");
                     command.CommandType = System.Data.CommandType.Text;
                  
-                    command.Parameters.AddWithValue("employee_name_or_id", NpgsqlDbType.Text, name_or_id);
+                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, employee);
+
+                    await command.Connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            _employee.ObjectId = await reader.GetFieldValueAsync<string>(0);
+                            _employee.Name = await reader.GetFieldValueAsync<string>(1);
+                            _employee.Id = await reader.GetFieldValueAsync<string>(2);
+                            _employee.Location = await reader.GetFieldValueAsync<string>(3);
+                            _employee.Position = await reader.GetFieldValueAsync<string>(4);
+                            _employee.PhoneNumber = await reader.GetFieldValueAsync<string>(5);
+                            _employee.JobType = await reader.GetFieldValueAsync<string>(6);
+                            _employee.Department = await reader.GetFieldValueAsync<string>(7);
+                            _employee.IsStudent = await reader.GetFieldValueAsync<bool>(8);
+                        }
+                    }
+                }
+            }
+
+            return _employee;
+        }
+
+        async public Task<List<Employee>> SyncEmployeesDataAsync(DateTime lastSyncDate)
+        {
+            var employees = new List<Employee>();
+
+            using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
+            {
+                using (var command = new NpgsqlCommand("", dbConnection))
+                {
+                    command.CommandText = "SELECT * FROM sync_employees(:date, :access_key)";
+                    command.CommandType = System.Data.CommandType.Text;
+
+                    command.Parameters.AddWithValue("date", NpgsqlDbType.Timestamp, lastSyncDate);
                     command.Parameters.AddWithValue("access_key", NpgsqlDbType.Text, Configuration.AccessKey);
 
                     await command.Connection.OpenAsync();
@@ -109,20 +145,25 @@ namespace MRSES.Core.Persistence
                     {
                         while (await reader.ReadAsync())
                         {
-                            employee.ObjectID = await reader.GetFieldValueAsync<string>(0);
-                            employee.Name = await reader.GetFieldValueAsync<string>(1);
-                            employee.ID = await reader.GetFieldValueAsync<string>(2);
-                            employee.Position = await reader.GetFieldValueAsync<string>(3);
-                            employee.PhoneNumber = await reader.GetFieldValueAsync<string>(4);
-                            employee.JobType = await reader.GetFieldValueAsync<string>(5);
-                            employee.Department = await reader.GetFieldValueAsync<string>(6);
-                            employee.IsStudent = await reader.GetFieldValueAsync<bool>(7);
+                            var employee = new Employee();
+                            employee.ObjectId = await reader.GetFieldValueAsync<string>(0);
+                            employee.Location = await reader.GetFieldValueAsync<string>(1);
+                            employee.Name = await reader.GetFieldValueAsync<string>(2);
+                            employee.Id = await reader.GetFieldValueAsync<string>(3);
+                            employee.Position = await reader.GetFieldValueAsync<string>(4);
+                            employee.PhoneNumber = await reader.GetFieldValueAsync<string>(5);
+                            employee.JobType = await reader.GetFieldValueAsync<string>(6);
+                            employee.Department = await reader.GetFieldValueAsync<string>(7);
+                            employee.IsStudent = await reader.GetFieldValueAsync<bool>(8);
+
+                            employees.Add(employee);
                         }
                     }
                 }
             }
 
-            return employee;
+            return employees;
+
         }
 
         async public Task<List<string>> GetPositionsAsync()
@@ -180,7 +221,7 @@ namespace MRSES.Core.Persistence
             return names;
         }
 
-        public string GetQuery(string action)
+        string GetQuery(string action)
         {
             string query = string.Empty;
             switch (action)
@@ -189,10 +230,10 @@ namespace MRSES.Core.Persistence
                     query = @"SELECT add_employee(:object_id, :location_id, :employee_name, :employee_id, :employee_position, :phone_number, :job_type, :department, :student)";
                     break;
                 case "Delete":
-                    query = @"SELECT delete_employee(:object_id)";
+                    query = @"SELECT delete_record(:table_name, :object_id)";
                     break;
                 case "GetEmployee":
-                    query = @"SELECT * FROM get_employee_info(:employee_name_or_id, :access_key)";
+                    query = @"SELECT * FROM get_employee_info(:employee)";
                     break;
                 case "GetPositions":
                     query = "SELECT get_positions(:access_key)";
@@ -207,9 +248,9 @@ namespace MRSES.Core.Persistence
             return query;
         }
 
-        async public Task<string> GetEmployeeObjectIdAsync(string employeeName)
+        static public async Task<string> GetEmployeeObjectIdAsync(string employeeName)
         {
-            var employeeId = "";
+            var objectId = "";
 
             using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
@@ -217,7 +258,7 @@ namespace MRSES.Core.Persistence
                 {
                     command.CommandText = "SELECT get_employee_object_id(:emp_name, :access_key)";
                     command.CommandType = System.Data.CommandType.Text;
-                 
+
                     command.Parameters.AddWithValue("emp_name", NpgsqlDbType.Text, employeeName);
                     command.Parameters.AddWithValue("access_key", NpgsqlDbType.Text, Configuration.AccessKey);
 
@@ -226,21 +267,24 @@ namespace MRSES.Core.Persistence
                     using (var reader = await command.ExecuteReaderAsync())
                     {
                         if (await reader.ReadAsync())
-                            employeeId = await reader.GetFieldValueAsync<string>(0);
+                            objectId = await reader.GetFieldValueAsync<string>(0);
                     }
                 }
             }
 
-            return employeeId;
+            if (Shared.StringFunctions.StringIsNullOrEmpty(objectId))
+                throw new Exception("El empleado " + employeeName + " no existe.");
+
+            return objectId;
         }
 
-        public void ValidateRequiredData(string dataToValidate)
+        void ValidateRequiredDataForAction(string dataToValidate)
         {
-            if (Employee == null || Employee.ID == "" || Employee.Name == "" || Employee.Position == "")
+            if (Employee == null || Employee.Id == "" || Employee.Name == "" || Employee.Position == "" || Employee.Location == "")
                 throw new Exception("No se ha completado la información requerida.");
 
-            if (Shared.StringFunctions.StringIsNullOrEmpty(Employee.ObjectID))
-                Employee.ObjectID = Shared.StringFunctions.GenerateObjectId(10);
+            if (Shared.StringFunctions.StringIsNullOrEmpty(Employee.ObjectId))
+                Employee.ObjectId = Shared.StringFunctions.GenerateObjectId(10);
         }
 
         public void Dispose()

@@ -6,7 +6,7 @@ namespace MRSES.Core.Entities
 {
     public interface ISchedule
     {
-        string Name { get; set; }
+        string Employee { get; set; }
         LocalDate OfWeek { get; set; }
         Turn[] WeekDays { get; set; }
         double HoursOfWeek { get; }
@@ -17,7 +17,7 @@ namespace MRSES.Core.Entities
     {
         #region variables and properties
 
-        public string Name { get; set; }
+        public string Employee { get; set; }
         public LocalDate OfWeek { get; set; }
         public Turn[] WeekDays { get; set; }
         public double HoursOfWeek 
@@ -40,7 +40,7 @@ namespace MRSES.Core.Entities
 
         public Schedule(string name, LocalDate ofWeek)
         {
-            Name = name;
+            Employee = name;
             OfWeek = ofWeek;
             WeekDays = new Turn[7];
 

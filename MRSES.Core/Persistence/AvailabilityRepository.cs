@@ -39,7 +39,7 @@ namespace MRSES.Core.Persistence
 
         async public Task SaveAsync()
         {
-            ValidateRequiredData("");
+            ValidateRequiredDataForAction("");
 
             using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
@@ -47,8 +47,8 @@ namespace MRSES.Core.Persistence
                 {
                     command.CommandText = GetQuery("SaveAvailability");
                     command.CommandType = System.Data.CommandType.Text;
-                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Availability.ObjectID);
-                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, Availability.EmployeeObjectID);
+                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Availability.ObjectId);
+                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, Availability.Employee);
                     command.Parameters.AddWithValue("monday", NpgsqlDbType.Text, Availability.Monday);
                     command.Parameters.AddWithValue("tuesday", NpgsqlDbType.Text, Availability.Tuesday);
                     command.Parameters.AddWithValue("wednesday", NpgsqlDbType.Text, Availability.Wednesday);
@@ -65,9 +65,8 @@ namespace MRSES.Core.Persistence
             Dispose();
         }
 
-        async public Task<Availability> GetAvailabilityAsync(string employeeName)
+        async public Task<Availability> GetAvailabilityAsync(string employee)
         {
-            
             var employeeAvailability = new Availability();
 
             using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
@@ -77,8 +76,7 @@ namespace MRSES.Core.Persistence
                     command.CommandText = GetQuery("GetAvailability");
                     command.CommandType = System.Data.CommandType.Text;
                  
-                    command.Parameters.AddWithValue("employee_name", NpgsqlDbType.Text, employeeName);
-                    command.Parameters.AddWithValue("access_key", NpgsqlDbType.Text, Configuration.AccessKey);
+                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, employee);
 
                     await command.Connection.OpenAsync();
 
@@ -86,8 +84,8 @@ namespace MRSES.Core.Persistence
                     {
                         while (await reader.ReadAsync())
                         {
-                            employeeAvailability.ObjectID = await reader.GetFieldValueAsync<string>(0);
-                            employeeAvailability.EmployeeObjectID = await reader.GetFieldValueAsync<string>(1);
+                            employeeAvailability.ObjectId = await reader.GetFieldValueAsync<string>(0);
+                            employeeAvailability.Employee = await reader.GetFieldValueAsync<string>(1);
                             employeeAvailability.Monday = await reader.GetFieldValueAsync<string>(2);
                             employeeAvailability.Tuesday = await reader.GetFieldValueAsync<string>(3);
                             employeeAvailability.Wednesday = await reader.GetFieldValueAsync<string>(4);
@@ -101,7 +99,49 @@ namespace MRSES.Core.Persistence
             }
 
             return employeeAvailability;
-        }  
+        }
+
+        async public Task<System.Collections.Generic.List<Availability>> SyncAvailabilitiesDataAsync(DateTime sync_date)
+        {
+            var availabilities = new System.Collections.Generic.List<Availability>();
+
+            using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
+            {
+                using (var command = new NpgsqlCommand("", dbConnection))
+                {
+                    command.CommandText = "SELECT * FROM sync_availabilities(:sync_date, :access_key)";
+                    command.CommandType = System.Data.CommandType.Text;
+
+                    command.Parameters.AddWithValue("sync_date", NpgsqlDbType.Timestamp, sync_date);
+                    command.Parameters.AddWithValue("access_key", NpgsqlDbType.Text, Configuration.AccessKey);
+
+                    await command.Connection.OpenAsync();
+
+                    using (var reader = await command.ExecuteReaderAsync())
+                    {
+                        while (await reader.ReadAsync())
+                        {
+                            var employeeAvailability = new Availability()
+                            {
+                                ObjectId = await reader.GetFieldValueAsync<string>(0),
+                                Employee = await reader.GetFieldValueAsync<string>(1),
+                                Monday = await reader.GetFieldValueAsync<string>(2),
+                                Tuesday = await reader.GetFieldValueAsync<string>(3),
+                                Wednesday = await reader.GetFieldValueAsync<string>(4),
+                                Thursday = await reader.GetFieldValueAsync<string>(5),
+                                Friday = await reader.GetFieldValueAsync<string>(6),
+                                Saturday = await reader.GetFieldValueAsync<string>(7),
+                                Sunday = await reader.GetFieldValueAsync<string>(8)
+                            };
+
+                            availabilities.Add(employeeAvailability);
+                        }
+                    }
+                }
+            }
+
+            return availabilities;
+        }
 
         async public Task<string> GetAvailabilityAsync(string employeeName, NodaTime.IsoDayOfWeek dayOfWeek)
         {
@@ -143,7 +183,7 @@ namespace MRSES.Core.Persistence
         public async Task<bool> CanDoTheTurnAsync(string employeeName, Turn turn)
         {
             bool availability = true;
-            var employeeObjectId = await new EmployeeRepository().GetEmployeeObjectIdAsync(employeeName);
+            var employeeObjectId = await EmployeeRepository.GetEmployeeObjectIdAsync(employeeName);
 
             using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
@@ -170,13 +210,13 @@ namespace MRSES.Core.Persistence
             return availability;
         }
 
-        public string GetQuery(string action)
+        string GetQuery(string action)
         {
             string query = string.Empty;
             switch (action)
             {
                 case "GetAvailability":
-                    query = "SELECT * FROM get_availability(:employee_name, :access_key)";
+                    query = "SELECT * FROM get_availability(:employee)";
                     break;
                 case "SaveAvailability":
                     query = "SELECT add_availability(:object_id, :employee, :monday, :tuesday, :wednesday, :thursday, :friday, :saturday, :sunday)";
@@ -196,12 +236,12 @@ namespace MRSES.Core.Persistence
             Availability = null;
         }
 
-        public void ValidateRequiredData(string dataToValidate)
+        public void ValidateRequiredDataForAction(string dataToValidate)
         {
             if (Availability == null)
                 throw new Exception("No se ha indicado la disponibilidad del empleado.");
 
-            if (StringFunctions.StringIsNullOrEmpty(Availability.EmployeeObjectID))
+            if (StringFunctions.StringIsNullOrEmpty(Availability.Employee))
                 throw new Exception("No se ha especificado el object id del empleado");
         }
 

@@ -6,7 +6,7 @@ namespace MRSES.Core.Entities
 {
     public interface ITurn
     {
-        string ObjectID { get; set; }
+        string ObjectId { get; set; }
         LocalDate Date { get; set; } 
         string FirstTurn { get; }
         string SecondTurn { get; }
@@ -19,7 +19,7 @@ namespace MRSES.Core.Entities
     {
         #region VARIABLES AND PROPERTIES
 
-        public string ObjectID { get; set; }
+        public string ObjectId { get; set; }
 
         public LocalDate Date { get; set; }
         

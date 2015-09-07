@@ -2,10 +2,10 @@
 {
     public interface IEmployee
     {
-        string ObjectID { get; set; }
+        string ObjectId { get; set; }
         string Location { get; set; }
         string Name { get; set; }
-        string ID { get; set; }
+        string Id { get; set; }
         string PhoneNumber { get; set; }
         string Position { get; set; }
         string JobType { get; set; }
@@ -17,10 +17,10 @@
     {
         #region PROPERTIES
 
-        public string ObjectID { get; set; }
+        public string ObjectId { get; set; }
         public string Location { get; set; } 
         public string Name { get; set; }
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string PhoneNumber { get; set; }
         public string Position { get; set; }
         public string JobType { get; set; }
@@ -34,10 +34,10 @@
         public Employee() { }
         public Employee(string objectId, string location, string name, string id, string phone, string position, string jobType, string department, bool isStudent)
         {
-            ObjectID = objectId;
+            ObjectId = objectId;
             Location = location;
             Name = name;
-            ID = id;
+            Id = id;
             PhoneNumber = phone;
             Position = position;
             JobType = jobType;

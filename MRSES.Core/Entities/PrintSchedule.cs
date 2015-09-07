@@ -141,7 +141,7 @@ namespace MRSES.Core.Entities
 	    void WriteEmployeeScheduleToPDF(Schedule schedule)
 	    {
 		    var valuesToPrint = new List<string>();		
-		    var employee_name = schedule.Name.ToUpper().Split(' ').Take(2).Aggregate("", (first,last) => first + last + "\n");
+		    var employee_name = schedule.Employee.ToUpper().Split(' ').Take(2).Aggregate("", (first,last) => first + last + "\n");
 		
 		    valuesToPrint.Add(employee_name);
 		

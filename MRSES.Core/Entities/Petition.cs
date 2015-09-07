@@ -4,7 +4,8 @@ namespace MRSES.Core.Entities
 {
     public interface IPetition
     {
-        string ObjectID { get; set; }
+        string ObjectId { get; set; }
+        string Employee { get; set; }
         LocalDate Date { get; set; }
         bool FreeDay { get; }
         LocalTime AvailableFrom { get; set; }
@@ -13,7 +14,8 @@ namespace MRSES.Core.Entities
 
     public struct Petition : IPetition
     {
-        public string ObjectID { get; set; }
+        public string ObjectId { get; set; }
+        public string Employee { get; set; }
         public LocalDate Date { get; set; }
         public bool FreeDay
         {

@@ -64,9 +64,10 @@
     <Compile Include="Entities\PrintSchedule.cs" />
     <Compile Include="Entities\Turn.cs" />
     <Compile Include="Entities\Schedule.cs" />
+    <Compile Include="Entities\TurnToSync.cs" />
     <Compile Include="Persistence\AvailabilityRepository.cs" />
     <Compile Include="Persistence\BusinessRepository.cs" />
-    <Compile Include="Persistence\ChangeObjectId.cs" />
+    <Compile Include="Persistence\DeleteDataRepository.cs" />
     <Compile Include="Persistence\EmployeeRepository.cs" />
     <Compile Include="Persistence\PetitionRepository.cs" />
     <Compile Include="Persistence\ScheduleRepository.cs" />
