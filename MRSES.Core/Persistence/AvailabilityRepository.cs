@@ -39,7 +39,10 @@ namespace MRSES.Core.Persistence
 
         async public Task SaveAsync()
         {
-            ValidateRequiredDataForAction("");
+            var existingAvailability = await GetAvailabilityAsync(Availability.Employee);
+            Availability.ObjectId = existingAvailability.ObjectId;
+
+            ValidateRequiredDataForAction();
 
             using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
@@ -236,13 +239,16 @@ namespace MRSES.Core.Persistence
             Availability = null;
         }
 
-        public void ValidateRequiredDataForAction(string dataToValidate)
+        void ValidateRequiredDataForAction()
         {
             if (Availability == null)
                 throw new Exception("No se ha indicado la disponibilidad del empleado.");
 
             if (StringFunctions.StringIsNullOrEmpty(Availability.Employee))
-                throw new Exception("No se ha especificado el object id del empleado");
+                throw new Exception("No se ha especificado empleado");
+
+            if (StringFunctions.StringIsNullOrEmpty(Availability.ObjectId))
+                Availability.ObjectId = StringFunctions.GenerateObjectId(10);
         }
 
         #endregion

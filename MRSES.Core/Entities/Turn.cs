@@ -15,7 +15,7 @@ namespace MRSES.Core.Entities
         bool IsFreeDay { get; }
     }
 
-    public class Turn : ITurn
+    public struct Turn : ITurn
     {
         #region VARIABLES AND PROPERTIES
 
@@ -59,8 +59,6 @@ namespace MRSES.Core.Entities
 
         public Turn(LocalDate date, LocalTime[] turn) : this(date)
         {
-            Date = date;
-
             if (turn.Length > 4)
                 throw new Exception("La cantidad de turnos es incorrecta. El máximo es 2 por día.");
 
@@ -69,6 +67,7 @@ namespace MRSES.Core.Entities
 
         public Turn(LocalDate date)
         {
+            ObjectId = string.Empty;
             Date = date;
             TurnHours = new LocalTime[4];
         }

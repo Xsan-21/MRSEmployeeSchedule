@@ -13,7 +13,7 @@ namespace MRSES.Core.Entities
         byte AmountOfTurns { get; }
     }
 
-    public class Schedule : ISchedule
+    public struct Schedule : ISchedule
     {
         #region variables and properties
 

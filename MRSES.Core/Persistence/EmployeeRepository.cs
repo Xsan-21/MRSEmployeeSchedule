@@ -272,9 +272,6 @@ namespace MRSES.Core.Persistence
                 }
             }
 
-            if (Shared.StringFunctions.StringIsNullOrEmpty(objectId))
-                throw new Exception("El empleado " + employeeName + " no existe.");
-
             return objectId;
         }
 

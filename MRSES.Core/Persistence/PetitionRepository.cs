@@ -14,7 +14,7 @@ namespace MRSES.Core.Persistence
     {
         IPetition Petition { get; set; }
         Task DeleteAsync();
-        Task<List<Petition>> GetEmployeePetitionsAsync(string employee);
+        Task<List<Petition>> GetEmployeePetitionsAsync(string employeeName);
         Task<bool> CanDoTheTurnAsync(string employee, Turn turn);
     }
 
@@ -97,6 +97,8 @@ namespace MRSES.Core.Persistence
         public async Task DeleteAsync()
         {
             ValidateRequiredDataForAction("Delete");
+
+            var petitionObjectId = await GetPetitionObjectId();
             
             using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
@@ -105,7 +107,7 @@ namespace MRSES.Core.Persistence
                     command.CommandText = GetQuery("DeletePetition");
                     command.CommandType = CommandType.Text;
                     command.Parameters.AddWithValue("table_name", NpgsqlDbType.Text, "petitions");
-                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, Petition.ObjectId);
+                    command.Parameters.AddWithValue("object_id", NpgsqlDbType.Text, petitionObjectId);
 
                     await command.Connection.OpenAsync();
                     await command.ExecuteNonQueryAsync();
@@ -120,9 +122,10 @@ namespace MRSES.Core.Persistence
             return petitions.Where(p => p.Date == Petition.Date).Single().ObjectId;
         }
 
-        public async Task<List<Petition>> GetEmployeePetitionsAsync(string employee)
+        public async Task<List<Petition>> GetEmployeePetitionsAsync(string employeeName)
         {
             var petitions = new List<Petition>();
+            var employeeObjectId = await EmployeeRepository.GetEmployeeObjectIdAsync(employeeName);
          
             using (var dbConnection = new NpgsqlConnection(Configuration.DbConnection))
             {
@@ -130,7 +133,7 @@ namespace MRSES.Core.Persistence
                 {
                     command.CommandText = GetQuery("GetEmployeePetitions");
                     command.CommandType = CommandType.Text;
-                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, employee);
+                    command.Parameters.AddWithValue("employee", NpgsqlDbType.Text, employeeObjectId);
 
                     await command.Connection.OpenAsync();
 
@@ -139,7 +142,6 @@ namespace MRSES.Core.Persistence
                         while (await reader.ReadAsync())
                         {
                             var objectId = await reader.GetFieldValueAsync<string>(0);
-                            var _employee = await reader.GetFieldValueAsync<string>(1);
                             var date = await reader.GetFieldValueAsync<DateTime>(2);
                             var availableFrom = await reader.GetFieldValueAsync<DateTime>(4);
                             var availableTo = await reader.GetFieldValueAsync<DateTime>(5);
@@ -148,7 +150,7 @@ namespace MRSES.Core.Persistence
                                 new Petition
                                 {
                                     ObjectId = objectId,
-                                    Employee = _employee,
+                                    Employee = employeeName,
                                     Date = DateFunctions.FromDateTimeToLocalDate(date),
                                     AvailableFrom = DateFunctions.FromDateTimeToLocalTime(availableFrom),
                                     AvailableTo = DateFunctions.FromDateTimeToLocalTime(availableTo)
@@ -233,12 +235,7 @@ namespace MRSES.Core.Persistence
 
                 if (Petition.Date == new NodaTime.LocalDate())
                     throw new Exception("No se ha indicado fecha en la petition");
-            }
-            else if(actionToValidate == "Delete")
-            {
-                if (StringFunctions.StringIsNullOrEmpty(Petition.ObjectId))
-                    throw new Exception("Error finding petition: ObjectId has not been specified");
-            }   
+            } 
         }
 
         void ValidateRequiredData(string employee, ITurn turn)
