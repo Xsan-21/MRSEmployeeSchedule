@@ -14,9 +14,10 @@ namespace MRSES.Windows.Forms
         IBusinessRepository _businessRepo;
         List<Business> Businesses { get; set; }
         List<Location> Locations { get; set; }
+        bool Cancel { get; set; }
 
         string SelectedBusiness { get { return StringIsNullOrEmpty(TextBoxBusiness.Text) ? ComboBoxtBusinesses.Text : TextBoxBusiness.Text; } }
-        string SelectedCity { get { return StringIsNullOrEmpty(TextBoxCity.Text) ? ComboBoxCities.Text : TextBoxCity.Text; } }
+        string SelectedLocation { get { return StringIsNullOrEmpty(TextBoxCity.Text) ? ComboBoxCities.Text : TextBoxCity.Text; } }
         string SelectedFirstDayOfWeek { get { return Core.Shared.DateFunctions.FirstDayOfWeek(ComboBoxFirstDayOfWeek.Text).ToString(); } }
         string SelectedReportFolderLocation { get { return TextBoxReportLocationFolder.Text; } }
         string SelectedPhone { get { return TextBoxPhoneNumber.Text; } }
@@ -26,7 +27,7 @@ namespace MRSES.Windows.Forms
         {
             InitializeComponent();
             var _business = Configuration.Business + ", " + Configuration.Location;
-            LabelCurrentStoreBeingUse.Text = "Empresa actual: " + (_business.Length < 2 ? "Ninguno" : _business);
+            LabelCurrentStoreBeingUse.Text = "Empresa actual: " + (_business.Length == 2 ? "No asignada" : _business);
             ComboBoxFirstDayOfWeek.DataSource = new[] { "miércoles", "jueves", "viernes", "sábado", "domingo", "lunes", "martes" };
 
             ComboBoxtBusinesses.Text = Configuration.Business;
@@ -56,7 +57,7 @@ namespace MRSES.Windows.Forms
             {
                 if (Businesses == null)
                 {
-                    Businesses = await _businessRepo.GetBusinesses();
+                    Businesses = await _businessRepo.GetBusinessesAsync();
 
                     if (Businesses.Count > 0)
                         ComboBoxtBusinesses.DataSource = Businesses.Select(n => n.Name).ToList();
@@ -69,7 +70,7 @@ namespace MRSES.Windows.Forms
             using (_businessRepo = new BusinessRepository())
             {
                
-                Locations = await _businessRepo.GetBusinessLocations(SelectedBusiness);
+                Locations = await _businessRepo.GetBusinessLocationsAsync(SelectedBusiness);
 
                 if(Locations.Count > 0)
                 {
@@ -99,7 +100,7 @@ namespace MRSES.Windows.Forms
                 return;
             }
 
-            var result = MessageBox.Show("La empresa seleccionada es " + SelectedBusiness + " de " + SelectedCity + ", ¿Es correcto?", "Cambio de tienda", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
+            var result = MessageBox.Show("La empresa seleccionada es " + SelectedBusiness + " de " + SelectedLocation + ", ¿Es correcto?", "Cambio de tienda", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
 
             if (result == DialogResult.OK)
                 await SaveAsync();
@@ -166,19 +167,19 @@ namespace MRSES.Windows.Forms
         {
             var selectedBusiness = new Business(SelectedBusiness, SelectedFirstDayOfWeek);
             if(Businesses.Any(b => b.Name == SelectedBusiness))
-                selectedBusiness.ObjectID = Businesses.Where(b => b.Name == SelectedBusiness).Single().ObjectID;
+                selectedBusiness.ObjectId = Businesses.Where(b => b.Name == SelectedBusiness).Single().ObjectId;
 
             return selectedBusiness;
         }
 
         Location GetSelectedLocation()
         {
-            var selectedLocation = new Location(SelectedAccessKey, SelectedCity, SelectedPhone);
+            var selectedLocation = new Location(SelectedAccessKey, SelectedLocation, SelectedPhone);
 
             if(Locations.Any(l => l.AccessKey == SelectedAccessKey))
             {
-                var info = Locations.Where(l => l.AccessKey == SelectedAccessKey).Select(o => new { AccessKey = o.AccessKey, ObjectID = o.ObjectID }).Single();
-                selectedLocation.ObjectID = info.ObjectID;
+                var info = Locations.Where(l => l.AccessKey == SelectedAccessKey).Select(o => new { AccessKey = o.AccessKey, ObjectID = o.ObjectId }).Single();
+                selectedLocation.ObjectId = info.ObjectID;
                 selectedLocation.AccessKey = info.AccessKey;
             }
 
@@ -188,7 +189,7 @@ namespace MRSES.Windows.Forms
         void SetBusinessInConfiguration()
         {
             Configuration.Business = SelectedBusiness;
-            Configuration.Location = SelectedCity;
+            Configuration.Location = SelectedLocation;
             Configuration.FirstDayOfWeek = SelectedFirstDayOfWeek;
             Configuration.ReportFolderLocation = SelectedReportFolderLocation;
             Configuration.AccessKey = SelectedAccessKey;
@@ -201,7 +202,7 @@ namespace MRSES.Windows.Forms
             {
                 return false;
             }
-            else if (StringIsNullOrEmpty(SelectedCity))
+            else if (StringIsNullOrEmpty(SelectedLocation))
             {
                 return false;
             }
@@ -237,7 +238,7 @@ namespace MRSES.Windows.Forms
             
             if (!StringIsNullOrEmpty(TextBoxCity.Text))
             {
-                if (ComboBoxCities.Items.Contains(SelectedCity))
+                if (ComboBoxCities.Items.Contains(SelectedLocation))
                 {
                     MessageBox.Show("La localización que escribió ya existe, favor seleccionela de la segunda lista.", "Localización ya existe", MessageBoxButtons.OKCancel, MessageBoxIcon.Information, MessageBoxDefaultButton.Button1);
                     ComboBoxCities.Text = "";
@@ -290,8 +291,13 @@ namespace MRSES.Windows.Forms
             // TODO use one method for showing messages
             var alert = MessageBox.Show("Por favor complete los datos solicitados.", "Información incompleta", MessageBoxButtons.RetryCancel, MessageBoxIcon.Asterisk, MessageBoxDefaultButton.Button1);
 
-            if (alert == System.Windows.Forms.DialogResult.Cancel)
+            if (StringIsNullOrEmpty(SelectedAccessKey) || SelectedAccessKey.Length != 17 || SelectedAccessKey.Count(c => c == '-') != 2)
+                return;
+
+            if (alert == DialogResult.Cancel)
                 System.Diagnostics.Process.GetCurrentProcess().Kill();
+            else
+                Cancel = true; // means that user selected Retry and the program should not close.
         }
 
         private void ButtonSelectReportFolder_Click(object sender, EventArgs e)
@@ -312,7 +318,7 @@ namespace MRSES.Windows.Forms
 
         private void PutLocationInfoInTextBoxes(object sender, EventArgs e)
         {
-            var _locationInfo = Locations.Where(l => l.City == SelectedCity).Single();
+            var _locationInfo = Locations.Where(l => l.City == SelectedLocation).Single();
             TextBoxPhoneNumber.Text = _locationInfo.PhoneNumber;
         }
 
@@ -326,7 +332,10 @@ namespace MRSES.Windows.Forms
 
         private void FormConfigureBusiness_FormClosing(object sender, FormClosingEventArgs e)
         {
-            if (Configuration.SettingsAreNotAssigned()) ShowMessageToUser();
+            if (Configuration.SettingsAreNotAssigned())
+                ShowMessageToUser();
+
+            e.Cancel = Cancel; // if Cancel is true, that means that program closing event should be cancelled. And will continue running.
         }
     }
 }

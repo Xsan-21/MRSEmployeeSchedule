@@ -11,6 +11,10 @@ namespace MRSES.Windows
         [STAThread]
         static void Main()
         {
+            // TODO delete commented code before releasing to production.
+            //Configuration.Business = "";
+            //Configuration.AccessKey = "";
+            //Configuration.Location = "";
             Configuration.ValidateConfiguration();
             Parse.ParseClient.Initialize(Configuration.ParseApplicationId, Configuration.ParseDotNetId);
             Core.Configuration.DbConnection = Configuration.DBConnection;
@@ -20,6 +24,7 @@ namespace MRSES.Windows
             Core.Configuration.ReportFolderLocation = Configuration.ReportFolderLocation;
             Core.Configuration.AccessKey = Configuration.AccessKey;
             Core.Configuration.CultureInfo = Configuration.CultureInfo;
+            ExternalServices.Configuration.Business = Configuration.Business;
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new FormMain());

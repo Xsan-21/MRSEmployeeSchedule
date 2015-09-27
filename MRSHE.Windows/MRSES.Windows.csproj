@@ -180,6 +180,10 @@
       <Project>{62b32fe7-0d58-40e2-8a6d-517e4f17f0b6}</Project>
       <Name>MRSES.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MRSES.ExternalServices\MRSES.ExternalServices.csproj">
+      <Project>{5438e2aa-294e-43f7-8091-84bbfcca156f}</Project>
+      <Name>MRSES.ExternalServices</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

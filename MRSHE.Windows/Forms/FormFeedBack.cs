@@ -22,18 +22,18 @@ namespace MRSES.Windows.Forms
             InitializeComponent();
             TextBoxUserFeedbackInFormFeedBack.TextChanged += (sender, e) => 
             {
-                //StringFunctions.ChangeTextColor(sender as TextBox);
+                Core.Shared.StringFunctions.ChangeTextColor(sender as TextBox);
                 DisableButtonSendFeedBackIfTextBoxFeedBackHasInvalidText();
             };
 
             TextBoxUserFeedbackInFormFeedBack.Enter += (sender, e) =>
             {
-                //StringFunctions.RemoveDefaultTextIndicator(sender as TextBox);                
+                Core.Shared.StringFunctions.RemoveDefaultTextIndicator(sender as TextBox);                
             };
 
             TextBoxUserFeedbackInFormFeedBack.Leave += (sender, e) =>
             {
-                //StringFunctions.SetDefaultTextIndicatorInTextBox(sender as TextBox);
+                Core.Shared.StringFunctions.SetDefaultTextIndicatorInTextBox(sender as TextBox);
             }; 
         }
 
@@ -42,13 +42,13 @@ namespace MRSES.Windows.Forms
             try
             {
                 await SendFeedBackAsync();
-                await System.Threading.Tasks.Task.Delay(2000);  
-                this.Close();
+                await Task.Delay(2000);
+                Close();
             }
             catch (Exception ex)
             {
                 LabelMessageInFormFeedBack.Text = "No se pudo enviar su comentario";
-                //AlertUser.Message(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
+                Core.Shared.AlertUser.Message(ex.Message, "Error", MessageBoxButtons.RetryCancel, MessageBoxIcon.Error, MessageBoxDefaultButton.Button1);
                 ButtonSendFeedbackInFormFeedBack.Enabled = true; 
             }
         }
@@ -56,7 +56,7 @@ namespace MRSES.Windows.Forms
         async Task SendFeedBackAsync()
         {
             ButtonSendFeedbackInFormFeedBack.Enabled = false;
-            //_feedBack = new FeedBack(Core.Configuration.StoreLocation, TextBoxUserFeedbackInFormFeedBack.Text);
+            _feedBack = new FeedBack(Configuration.Location, TextBoxUserFeedbackInFormFeedBack.Text);
             LabelMessageInFormFeedBack.Text = "Enviando mensaje...";
 
             await _feedBack.SendFeedBackAsync();
@@ -82,7 +82,7 @@ namespace MRSES.Windows.Forms
     {
         SmtpClient _smtpClient;
         MailMessage _message;
-        String _subject, _body;
+        string _subject, _body;
 
         public string Subject
         {
@@ -109,7 +109,7 @@ namespace MRSES.Windows.Forms
 
             _message = new MailMessage(Configuration.EmailUserName, Configuration.SendEmailTo)
             {
-                Subject = string.Format("MRSHE FeedBack - {0}", subject),
+                Subject = string.Format("MRSES FeedBack - {0}", subject),
                 Body = body
             };
         }

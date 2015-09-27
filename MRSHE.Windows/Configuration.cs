@@ -47,8 +47,8 @@ namespace MRSES.Windows
         public static string Location
 
         {
-            get { return Properties.Settings.Default.City; }
-            set { Properties.Settings.Default.City = value; Properties.Settings.Default.Save(); }
+            get { return Properties.Settings.Default.Location; }
+            set { Properties.Settings.Default.Location = value; Properties.Settings.Default.Save(); }
         }
 
         internal static bool IsNewInstallation

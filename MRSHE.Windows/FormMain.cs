@@ -9,6 +9,8 @@ using MRSES.Core.Entities;
 using MRSES.Core.Persistence;
 using MRSES.Windows.Forms;
 using MRSES.Core.Shared;
+using MRSES.ExternalServices.CloudPersistence;
+using NodaTime;
 
 namespace MRSES.Windows
 {
@@ -310,7 +312,7 @@ namespace MRSES.Windows
             {
                 var employeeSchedule = new ListViewItem(new string[]
                     {
-                        employee.Name,
+                        employee.Employee,
                         employee.WeekDays[0].ToString(),
                         employee.WeekDays[1].ToString(),
                         employee.WeekDays[2].ToString(),
@@ -480,7 +482,7 @@ namespace MRSES.Windows
         {
             using (_businessRepo = new BusinessRepository())
             {
-                var _locations = await _businessRepo.GetBusinessLocations(Configuration.Business);
+                var _locations = await _businessRepo.GetBusinessLocationsAsync(Configuration.Business);
                 var _locationNames = _locations.Select(l => l.City).ToArray();
                 TextBoxLocationInTabPageEmployeeInformation.AutoCompleteCustomSource.AddRange(_locationNames); 
             }
@@ -593,7 +595,7 @@ namespace MRSES.Windows
             var employee = new Employee
             {
                 Name = TextBoxEmployeeNameInTabPageEmployeeInformation.Text,
-                ID = TextBoxEmployeeIDInTabPageEmployeeInformation.Text,
+                Id = TextBoxEmployeeIDInTabPageEmployeeInformation.Text,
                 Department = TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Text,
                 IsStudent = CheckBoxIsStudentInTabPageEmployeeInformation.Checked,
                 JobType = CheckBoxIsPartTimeInTabPageEmployeeInformation.Checked == true ? "Part-Time" : "Full-Time",
@@ -608,8 +610,7 @@ namespace MRSES.Windows
                 {
                     var _location_obj_id = await _businessRepo.GetLocationObjectIdAsync(employee.Location);
                     employee.Location = _location_obj_id;
-                    var _objectId = await _employeeRepo.GetEmployeeObjectIdAsync(employee.Name); // If exists, else a new objectID will be assigned later.
-                    employee.ObjectID = _objectId;
+                    employee.ObjectId = await EmployeeRepository.GetEmployeeObjectIdAsync(employee.Name); // If exists, else a new objectID will be assigned later.
                     await _employeeRepo.SaveAsync();
                 }
             }            
@@ -625,11 +626,12 @@ namespace MRSES.Windows
         async Task SendInformationToTextboxesAsync()
         {
             string employeeName = ListBoxEmployeesInEmployeeTabPage.SelectedItem.ToString();
-            var employeeInfo = await _employeeRepo.GetEmployeeAsync(employeeName);
+            var employeeObjectId = await EmployeeRepository.GetEmployeeObjectIdAsync(employeeName);
+            var employeeInfo = await _employeeRepo.GetEmployeeAsync(employeeObjectId);
 
             TextBoxEmployeeNameInTabPageEmployeeInformation.Text = employeeInfo.Name;
             TextBoxEmployeeDepartmentInTabPageEmployeeInformation.Text = employeeInfo.Department;
-            TextBoxEmployeeIDInTabPageEmployeeInformation.Text = employeeInfo.ID;
+            TextBoxEmployeeIDInTabPageEmployeeInformation.Text = employeeInfo.Id;
             TextBoxEmployeePhoneNumberInTabPageEmployeeInformation.Text = employeeInfo.PhoneNumber;
             TextBoxEmployeePositionInTabPageEmployeeInformation.Text = employeeInfo.Position;
             CheckBoxIsStudentInTabPageEmployeeInformation.Checked = employeeInfo.IsStudent;
@@ -687,7 +689,8 @@ namespace MRSES.Windows
         async Task<Availability> GetEmployeeAvailabilityFromTextBoxesAsync()
         {
             string
-                _employeeName = ComboBoxSelectEmployeeInTabPageAvailability.Text, 
+                _employeeName = ComboBoxSelectEmployeeInTabPageAvailability.Text,
+                _employeeObjectId = await EmployeeRepository.GetEmployeeObjectIdAsync(_employeeName), 
                 _wednesday = TextBoxWednesdayInTabPageAvailability.Text.Trim(),
                 _thursday = TextBoxThursdayInTabPageAvailability.Text.Trim(),
                 _friday = TextBoxFridayInTabPageAvailability.Text.Trim(),
@@ -697,18 +700,14 @@ namespace MRSES.Windows
                 _tuesday = TextBoxTuesdayInTabPageAvailability.Text.Trim();
 
             var _availability = new Availability();
-
-            using (_employeeRepo = new EmployeeRepository())
-            {
-                _availability.EmployeeObjectID = await _employeeRepo.GetEmployeeObjectIdAsync(_employeeName);
-                _availability.Wednesday = PossibleNotAvailableInputs(_wednesday);
-                _availability.Thursday = PossibleNotAvailableInputs(_thursday);
-                _availability.Friday = PossibleNotAvailableInputs(_friday);
-                _availability.Saturday = PossibleNotAvailableInputs(_saturday);
-                _availability.Sunday = PossibleNotAvailableInputs(_sunday);
-                _availability.Monday = PossibleNotAvailableInputs(_monday);
-                _availability.Tuesday = PossibleNotAvailableInputs(_tuesday);
-            }
+            _availability.Employee = _employeeObjectId;
+            _availability.Wednesday = PossibleNotAvailableInputs(_wednesday);
+            _availability.Thursday = PossibleNotAvailableInputs(_thursday);
+            _availability.Friday = PossibleNotAvailableInputs(_friday);
+            _availability.Saturday = PossibleNotAvailableInputs(_saturday);
+            _availability.Sunday = PossibleNotAvailableInputs(_sunday);
+            _availability.Monday = PossibleNotAvailableInputs(_monday);
+            _availability.Tuesday = PossibleNotAvailableInputs(_tuesday);
 
             return _availability;
         }
@@ -725,8 +724,8 @@ namespace MRSES.Windows
 
             using(_availabilityRepo = new AvailabilityRepository())
             {
-                var availability = GetEmployeeAvailabilityFromTextBoxesAsync();
-                _availabilityRepo.Availability = await availability;
+                var availability = await GetEmployeeAvailabilityFromTextBoxesAsync();
+                _availabilityRepo.Availability = availability;
                 await _availabilityRepo.SaveAsync();
             }
         }
@@ -735,7 +734,8 @@ namespace MRSES.Windows
         {
             using (_availabilityRepo = new AvailabilityRepository())
             {
-                var availability = await _availabilityRepo.GetAvailabilityAsync(ComboBoxSelectEmployeeInTabPageAvailability.Text);
+                var employeeObjectId = await EmployeeRepository.GetEmployeeObjectIdAsync(ComboBoxSelectEmployeeInTabPageAvailability.Text);
+                var availability = await _availabilityRepo.GetAvailabilityAsync(employeeObjectId);
                 TextBoxWednesdayInTabPageAvailability.Text = TranslateAvailabilityText(availability.Wednesday);
                 TextBoxThursdayInTabPageAvailability.Text = TranslateAvailabilityText(availability.Thursday);
                 TextBoxFridayInTabPageAvailability.Text =  TranslateAvailabilityText(availability.Friday);
@@ -783,14 +783,13 @@ namespace MRSES.Windows
 
             using (_petitionRepo = new PetitionRepository())
             {
-                _petitionRepo.EmployeeName = ComboBoxSelectEmployeeInTabPagePetition.Text;
-
                 while (countOfSelectedPetitions-- > 0)
                 {
                     var firstPetitionSelected = ListViewEmployeePetitionsInTabPagePetitions.CheckedItems[0];
 
                     _petitionRepo.Petition = new Petition()
                     {
+                        Employee = ComboBoxSelectEmployeeInTabPagePetition.Text,
                         Date = DateFunctions.FromDateTimeStringToLocalDate(firstPetitionSelected.Text)
                     };
 
@@ -805,6 +804,7 @@ namespace MRSES.Windows
             using (_petitionRepo = new PetitionRepository())
             {
                 var petition = new Petition();
+                petition.Employee = await EmployeeRepository.GetEmployeeObjectIdAsync(ComboBoxSelectEmployeeInTabPagePetition.Text);
                 petition.Date = DateFunctions.FromDateTimeToLocalDate(PetitionDatePicker.Value.Date);
                 
                 if (!IsFreeDayCheckBox.Checked)
@@ -815,7 +815,6 @@ namespace MRSES.Windows
                 }
 
                 _petitionRepo.Petition = petition;
-                _petitionRepo.EmployeeName = ComboBoxSelectEmployeeInTabPagePetition.Text;
                 await _petitionRepo.SaveAsync(); 
             }
         }
@@ -1130,7 +1129,7 @@ namespace MRSES.Windows
             {
                 foreach (var turn in schedule.WeekDays)
                 {
-                    bool result = await _scheduleRepo.ViolateCycleOfTwentyFourHour(schedule.Name, turn);
+                    bool result = await _scheduleRepo.ViolateCycleOfTwentyFourHour(schedule.Employee, turn);
 
                     if (result)
                     {
@@ -1232,16 +1231,19 @@ namespace MRSES.Windows
             var tasks = new[]
             {
                 VerifyScheduleWith24CycleHourAsync(employeeSchedule),
-                VerifyWithAvailabilityAndPetitionsAsync(employeeSchedule.Name, employeeSchedule.WeekDays)
+                VerifyWithAvailabilityAndPetitionsAsync(employeeSchedule.Employee, employeeSchedule.WeekDays)
             };
 
             var result = await Task.WhenAll(tasks);
 
             if (result.All(a => a == true))
             {
-                _scheduleRepo.Schedule = employeeSchedule;
-                await _scheduleRepo.SaveAsync();
-                return true;
+                using (_scheduleRepo = new ScheduleRepository())
+                {
+                    _scheduleRepo.Schedule.Add(employeeSchedule);
+                    await _scheduleRepo.SaveAsync();
+                    return true;
+                }
             }
 
             return false;
@@ -1249,7 +1251,7 @@ namespace MRSES.Windows
 
         async Task PutEmployeeScheduleInTextBoxesAsync()
         {
-            if (string.IsNullOrEmpty(ComboBoxWeekSelectorInFormMain.Text) || string.IsNullOrEmpty(ComboBoxSelectEmployeeInTabPageSchedule.Text))
+            if (StringFunctions.StringIsNullOrEmpty(ComboBoxWeekSelectorInFormMain.Text) || StringFunctions.StringIsNullOrEmpty(ComboBoxSelectEmployeeInTabPageSchedule.Text))
                 return;
 
             using (_scheduleRepo = new ScheduleRepository())
@@ -1277,6 +1279,13 @@ namespace MRSES.Windows
                 TextBoxDay7FirstTurnInTabPageSchedule.Text = empSchedule.WeekDays[6].FirstTurn;
                 TextBoxDay7SecondTurnInTabPageSchedule.Text = empSchedule.WeekDays[6].SecondTurn; 
             }
+        }
+
+        async Task SyncWithCloudDataAsync()
+        {
+            await Task.Run(async () => {
+               await  new ExternalServices.DataSynchronization().SyncDataAsync();
+            });
         }
 
         #endregion
@@ -1315,6 +1324,7 @@ namespace MRSES.Windows
             }
             catch (Exception ex)
             {
+                DisableTurnTextBoxes(false);
                 await ShowMessageInLabelMessageOfFormMain(ex.Message, "error", 5000);
             }
             finally
@@ -1362,5 +1372,15 @@ namespace MRSES.Windows
         #endregion
 
         #endregion
+
+        private async void ButtonSyncAllData_Click(object sender, EventArgs e)
+        {
+            ButtonSyncAllData.Enabled = false;
+            LabelMessageInFormMain.Text = "Sincronizando datos...";
+            await Task.Delay(2000);
+            await SyncWithCloudDataAsync();
+            await ShowMessageInLabelMessageOfFormMain("Sincronización completada", "", 3000);
+            ButtonSyncAllData.Enabled = true;
+        }
     }
 }
