@@ -1100,7 +1100,6 @@ namespace MRSES.Windows
             return result;
         }
 
-        // TODO refactor
         async Task<bool> CheckEmployeeAvailability(string employeeName, Turn turn)
         {
             using (_availabilityRepo = new AvailabilityRepository())
@@ -1110,10 +1109,7 @@ namespace MRSES.Windows
                     var checkAvailability = await _availabilityRepo.CanDoTheTurnAsync(employeeName, turn);
                     var checkPetition = await _petitionRepo.CanDoTheTurnAsync(employeeName, turn);
 
-                    if (checkAvailability && checkPetition)
-                        return true;
-                    else
-                        return false;
+                    return checkAvailability && checkPetition ? true : false;
                 }
             }
         }
@@ -1281,12 +1277,15 @@ namespace MRSES.Windows
             }
         }
 
-        async Task SyncWithCloudDataAsync()
-        {
-            await Task.Run(async () => {
-               await  new ExternalServices.DataSynchronization().SyncDataAsync();
-            });
-        }
+        /// <summary>
+        /// Code left for next iteration
+        /// </summary>
+        //async Task SyncWithCloudDataAsync()
+        //{
+        //    await Task.Run(async () => {
+        //       await  new ExternalServices.DataSynchronization().SyncDataAsync();
+        //    });
+        //}
 
         #endregion
 
@@ -1373,14 +1372,19 @@ namespace MRSES.Windows
 
         #endregion
 
-        private async void ButtonSyncAllData_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Code left for next iteration.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ButtonSyncAllData_Click(object sender, EventArgs e)
         {
-            ButtonSyncAllData.Enabled = false;
-            LabelMessageInFormMain.Text = "Sincronizando datos...";
-            await Task.Delay(2000);
-            await SyncWithCloudDataAsync();
-            await ShowMessageInLabelMessageOfFormMain("Sincronización completada", "", 3000);
-            ButtonSyncAllData.Enabled = true;
+            //ButtonSyncAllData.Enabled = false;
+            //LabelMessageInFormMain.Text = "Sincronizando datos...";
+            //await Task.Delay(2000);
+            //await SyncWithCloudDataAsync();
+            //await ShowMessageInLabelMessageOfFormMain("Sincronización completada", "", 3000);
+            //ButtonSyncAllData.Enabled = true;
         }
     }
 }

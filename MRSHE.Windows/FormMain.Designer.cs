@@ -45,6 +45,7 @@
             this.ButtonShowAddEmployeeTabPage = new System.Windows.Forms.Button();
             this.ButtonShowWeekScheduleTabPage = new System.Windows.Forms.Button();
             this.PanelWithWeekAndPositionComboBoxes = new System.Windows.Forms.Panel();
+            this.ButtonSyncAllData = new System.Windows.Forms.Button();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
             this.ComboBoxPositionSelectorInFormMain = new System.Windows.Forms.ComboBox();
@@ -173,7 +174,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.ComboBoxSelectEmployeeInTabPageSchedule = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.ButtonSyncAllData = new System.Windows.Forms.Button();
             this.MenuStripInFormMain.SuspendLayout();
             this.TableLayoutPanelInFormMain.SuspendLayout();
             this.PanelWithWeekAndPositionComboBoxes.SuspendLayout();
@@ -383,6 +383,24 @@
             this.PanelWithWeekAndPositionComboBoxes.Name = "PanelWithWeekAndPositionComboBoxes";
             this.PanelWithWeekAndPositionComboBoxes.Size = new System.Drawing.Size(1244, 101);
             this.PanelWithWeekAndPositionComboBoxes.TabIndex = 3;
+            // 
+            // ButtonSyncAllData
+            // 
+            this.ButtonSyncAllData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.ButtonSyncAllData.Enabled = false;
+            this.ButtonSyncAllData.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
+            this.ButtonSyncAllData.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
+            this.ButtonSyncAllData.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
+            this.ButtonSyncAllData.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
+            this.ButtonSyncAllData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.ButtonSyncAllData.Location = new System.Drawing.Point(524, 28);
+            this.ButtonSyncAllData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
+            this.ButtonSyncAllData.Name = "ButtonSyncAllData";
+            this.ButtonSyncAllData.Size = new System.Drawing.Size(234, 60);
+            this.ButtonSyncAllData.TabIndex = 298;
+            this.ButtonSyncAllData.Text = "Sincronizar datos";
+            this.ButtonSyncAllData.UseVisualStyleBackColor = true;
+            this.ButtonSyncAllData.Click += new System.EventHandler(this.ButtonSyncAllData_Click);
             // 
             // label9
             // 
@@ -1964,23 +1982,6 @@
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(0, 25);
             this.label1.TabIndex = 5;
-            // 
-            // ButtonSyncAllData
-            // 
-            this.ButtonSyncAllData.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.ButtonSyncAllData.FlatAppearance.BorderColor = System.Drawing.Color.DarkKhaki;
-            this.ButtonSyncAllData.FlatAppearance.CheckedBackColor = System.Drawing.Color.White;
-            this.ButtonSyncAllData.FlatAppearance.MouseDownBackColor = System.Drawing.Color.White;
-            this.ButtonSyncAllData.FlatAppearance.MouseOverBackColor = System.Drawing.Color.White;
-            this.ButtonSyncAllData.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ButtonSyncAllData.Location = new System.Drawing.Point(524, 28);
-            this.ButtonSyncAllData.Margin = new System.Windows.Forms.Padding(3, 2, 3, 2);
-            this.ButtonSyncAllData.Name = "ButtonSyncAllData";
-            this.ButtonSyncAllData.Size = new System.Drawing.Size(234, 60);
-            this.ButtonSyncAllData.TabIndex = 298;
-            this.ButtonSyncAllData.Text = "Sincronizar datos";
-            this.ButtonSyncAllData.UseVisualStyleBackColor = true;
-            this.ButtonSyncAllData.Click += new System.EventHandler(this.ButtonSyncAllData_Click);
             // 
             // FormMain
             // 

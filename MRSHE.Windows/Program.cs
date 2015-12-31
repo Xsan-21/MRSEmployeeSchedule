@@ -11,10 +11,6 @@ namespace MRSES.Windows
         [STAThread]
         static void Main()
         {
-            // TODO delete commented code before releasing to production.
-            //Configuration.Business = "";
-            //Configuration.AccessKey = "";
-            //Configuration.Location = "";
             Configuration.ValidateConfiguration();
             Parse.ParseClient.Initialize(Configuration.ParseApplicationId, Configuration.ParseDotNetId);
             Core.Configuration.DbConnection = Configuration.DBConnection;

@@ -115,7 +115,6 @@ namespace MRSES.Core.Persistence
             }
         }
 
-        // TODO implement a Postgres's Function for this
         async Task<string> GetPetitionObjectId()
         {
             var petitions = await GetEmployeePetitionsAsync(Petition.Employee);

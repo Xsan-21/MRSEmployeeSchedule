@@ -28,7 +28,7 @@ namespace MRSES.ExternalServices
             await SyncDeleteDataAsync();
 
             await Task.WhenAll(new Task[] {
-               new ParseBusiness().SyncAsync(),
+               //new ParseBusiness().SyncAsync(),
                new ParseLocation().SyncAsync(),
                new ParseEmployee().SyncAsync(),
                new ParsePetition().SyncAsync(),

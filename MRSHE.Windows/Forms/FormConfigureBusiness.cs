@@ -39,7 +39,6 @@ namespace MRSES.Windows.Forms
 
         private async void FormConfigureAppSettings_Load(object sender, EventArgs e)
         {
-            Core.Configuration.DbConnection = Configuration.DBConnection; // TODO delete when finish work with this form
             try
             {
                 await FillComboBoxBusinessesAsync();
@@ -336,6 +335,7 @@ namespace MRSES.Windows.Forms
                 ShowMessageToUser();
 
             e.Cancel = Cancel; // if Cancel is true, that means that program closing event should be cancelled. And will continue running.
+            Cancel = false;
         }
     }
 }
